@@ -12,13 +12,11 @@ st.markdown("Track your holdings in **real-time** and convert to THB 🇹🇭")
 # Replace this with your actual CSV export link from Google Sheets
 sheet_url = "https://docs.google.com/spreadsheets/d/1T8H0By9mCahSaG09NOvc4bXGE_cDtDdCMsFoIabDCnw/export?format=csv"
 
-# Load data
-df = pd.read_csv(sheet_url)
-
-# Validate columns
-required_cols = {"Symbol", "Shares", "Currency"}
-if not required_cols.issubset(df.columns):
-    st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
+# Load portfolio data
+try:
+    df = pd.read_csv(sheet_url)
+except Exception as e:
+    st.error("❌ Failed to load Google Sheet.")
     st.stop()
 
 # Fetch prices and FX rates
