@@ -2,11 +2,12 @@
 import yfinance as yf
 
 def get_price(symbol):
-    if "CASH" in symbol:
-        return 1.0    
+    symbol_clean = str(symbol).strip().upper()
+    if symbol_clean.startswith("CASH"):
+        return 1.0
     try:
-        price = yf.Ticker(symbol).history(period="1d")["Close"].iloc[-1]
-        return round(price, 2)
+        ticker = yf.Ticker(symbol_clean)
+        return ticker.info["regularMarketPrice"]
     except:
         return None
 
