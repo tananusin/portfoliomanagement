@@ -30,9 +30,10 @@ with st.spinner("Fetching live prices and FX rates..."):
     df["fx rate"] = df["currency"].apply(get_fx_to_thb)
     df["value (local)"] = df["shares"] * df["price"]
     df["value (thb)"] = df["value (local)"] * df["fx rate"]
-    total_thb = df["value (thb)"].sum()
-    df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
-    df["label"] = df["name"]
+
+# Total portfolio value in THB
+total_thb = df["value (thb)"].sum()
+df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
@@ -46,14 +47,32 @@ format_dict = {
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
-# Total
+# Show total portfolio value
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.2f}")
+
+# Prepare Pie Chart: Group all cash rows together
+cash_mask = df["symbol"].str.upper().str.startswith("CASH")
+cash_df = df[cash_mask]
+non_cash_df = df[~cash_mask]
+
+# Summarize cash as a single row
+if not cash_df.empty:
+    cash_value = cash_df["value (thb)"].sum()
+    cash_row = pd.DataFrame([{
+        "name": "Cash",
+        "value (thb)": cash_value
+    }])
+    chart_df = pd.concat([non_cash_df[["name", "value (thb)"]], cash_row], ignore_index=True)
+else:
+    chart_df = non_cash_df[["name", "value (thb)"]]
+
+# Compute weight for chart
+chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 
 # Pie Chart
 st.subheader("📈 Allocation Pie Chart")
 fig, ax = plt.subplots()
-df["label"] = df["name"]
-df.set_index("label")["weight (%)"].plot.pie(
+chart_df.set_index("name")["weight (%)"].plot.pie(
     autopct="%1.1f%%", figsize=(5, 5), ylabel="", ax=ax
 )
 st.pyplot(fig)
