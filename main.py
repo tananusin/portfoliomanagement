@@ -40,9 +40,9 @@ show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value 
 format_dict = {
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
-    "value (local)": "{:,.2f}",
-    "value (thb)": "{:,.2f}",
-    "weight (%)": "{:.2f}%"
+    "value (local)": "{:,.0f}",
+    "value (thb)": "{:,.0f}",
+    "weight (%)": "{:.0f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
