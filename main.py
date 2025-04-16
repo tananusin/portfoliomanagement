@@ -19,6 +19,12 @@ except Exception as e:
     st.error(f"❌ Failed to load Google Sheet. Error: {e}")
     st.stop()
 
+# Validate columns
+required_cols = {"Symbol", "Shares", "Currency"}
+if not required_cols.issubset(df.columns):
+    st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
+    st.stop()
+
 # Fetch prices and FX rates
 with st.spinner("Fetching prices and exchange rates..."):
     df["Price"] = df["Symbol"].apply(get_price)
