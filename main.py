@@ -36,12 +36,11 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value (local)", "value (thb)", "weight (%)"]
+show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value (thb)", "weight (%)"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
-    "value (local)": "{:,.0f}",
     "value (thb)": "{:,.0f}",
     "weight (%)": "{:.0f}%"
 }
