@@ -43,7 +43,7 @@ format_dict = {
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight (%)": "{:.1f}%"
+    "weight (%)": "{:.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
@@ -73,6 +73,6 @@ chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 st.subheader("📈 Allocation Pie Chart")
 fig, ax = plt.subplots()
 chart_df.set_index("name")["weight (%)"].plot.pie(
-    autopct="%1.1f%%", figsize=(5, 5), ylabel="", ax=ax
+    autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
 )
 st.pyplot(fig)
