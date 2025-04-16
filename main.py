@@ -1,4 +1,3 @@
-# main.py
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,8 +14,9 @@ sheet_url = "https://docs.google.com/spreadsheets/d/1T8H0By9mCahSaG09NOvc4bXGE_c
 # Load data
 try:
     df = pd.read_csv(sheet_url)
+    st.write(df.columns)  # Check column names
 except Exception as e:
-    st.error("❌ Failed to load Google Sheet.")
+    st.error(f"❌ Failed to load Google Sheet. Error: {e}")
     st.stop()
 
 # Validate columns
@@ -48,6 +48,3 @@ df.set_index("Symbol")["Weight (%)"].plot.pie(
     autopct='%1.1f%%', figsize=(5, 5), ylabel="", ax=ax
 )
 st.pyplot(fig)
-
-# Total value
-st.metric("💰 Total Portfolio Value", f"${total_value:,.2f}")
