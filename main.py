@@ -38,6 +38,7 @@ with st.spinner("Fetching live prices and FX rates..."):
 st.subheader("📄 Portfolio Breakdown")
 show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value (local)", "value (thb)", "weight (%)"]
 format_dict = {
+    "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (local)": "{:,.0f}",
