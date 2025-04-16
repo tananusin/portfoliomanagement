@@ -34,9 +34,6 @@ with st.spinner("Fetching live prices and FX rates..."):
     df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
     df["label"] = df["name"]
 
-# Sort by THB value
-df = df.sort_values("value (thb)", ascending=False)
-
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
 show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value (local)", "value (thb)", "weight (%)"]
