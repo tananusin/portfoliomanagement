@@ -1,6 +1,7 @@
 # main.py
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt  # Add at the top if not already
 from fetch import get_price
 
 st.set_page_config(page_title="Stock Portfolio", layout="centered")
@@ -30,7 +31,14 @@ st.dataframe(df)
 
 # Pie chart
 st.subheader("📈 Allocation Pie Chart")
-st.pyplot(df.set_index("Symbol")["Weight (%)"].plot.pie(autopct='%1.1f%%', figsize=(5, 5), ylabel=""))
+fig, ax = plt.subplots()
+df.set_index("Symbol")["Weight (%)"].plot.pie(
+    autopct='%1.1f%%',
+    figsize=(5, 5),
+    ylabel='',
+    ax=ax
+)
+st.pyplot(fig)
 
 # Total value
 st.metric("💰 Total Portfolio Value", f"${total_value:,.2f}")
