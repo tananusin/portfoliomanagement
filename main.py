@@ -34,10 +34,17 @@ with st.spinner("Fetching live prices and FX rates..."):
     df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
     df["label"] = df["name"]
 
-# Portfolio Table
+# Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
 show_cols = ["name", "symbol", "shares", "currency", "price", "fx rate", "value (local)", "value (thb)", "weight (%)"]
-st.dataframe(df[show_cols])
+format_dict = {
+    "price": "{:,.2f}",
+    "fx rate": "{:,.2f}",
+    "value (local)": "{:,.2f}",
+    "value (thb)": "{:,.2f}",
+    "weight (%)": "{:.2f}%"
+}
+st.dataframe(df[show_cols].style.format(format_dict))
 
 # Total
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.2f}")
@@ -45,7 +52,7 @@ st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.2f}")
 # Pie Chart
 st.subheader("📈 Allocation Pie Chart")
 fig, ax = plt.subplots()
-df["label"] = df["name"]  # 👈 use only name
+df["label"] = df["name"]
 df.set_index("label")["weight (%)"].plot.pie(
     autopct="%1.1f%%", figsize=(5, 5), ylabel="", ax=ax
 )
