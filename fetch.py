@@ -3,7 +3,7 @@ import yfinance as yf
 
 def get_price(symbol):
     symbol_clean = str(symbol).strip().upper()
-    if symbol_clean.startswith("CASH"):
+    if symbol_clean.startswith(("CASH", "BOND")):
         return 1.0
     try:
         ticker = yf.Ticker(symbol_clean)
