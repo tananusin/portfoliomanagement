@@ -1,45 +1,46 @@
 # main.py
 import streamlit as st
 import pandas as pd
-from fetch import get_price
+import matplotlib.pyplot as plt
+from fetch import get_price, get_fx_to_thb
 
-st.set_page_config(page_title="Stock Portfolio", layout="centered")
+st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 
-st.title("📊 Live Stock Portfolio")
+st.title("📊 Portfolio Rebalancer")
+st.markdown("Track your holdings in **real-time** and convert to THB 🇹🇭")
 
-# Google Sheet CSV link (from your shared sheet)
+# Replace this with your actual CSV export link from Google Sheets
 sheet_url = "https://docs.google.com/spreadsheets/d/1T8H0By9mCahSaG09NOvc4bXGE_cDtDdCMsFoIabDCnw/export?format=csv"
 
-# Load portfolio data
-try:
-    df = pd.read_csv(sheet_url)
-except Exception as e:
-    st.error("❌ Failed to load Google Sheet.")
+# Load data
+df = pd.read_csv(sheet_url)
+
+# Validate columns
+required_cols = {"Symbol", "Shares", "Currency"}
+if not required_cols.issubset(df.columns):
+    st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.stop()
 
-# Fetch prices and compute values
-with st.spinner("Fetching live prices..."):
+# Fetch prices and FX rates
+with st.spinner("Fetching prices and exchange rates..."):
     df["Price"] = df["Symbol"].apply(get_price)
-    df["Value"] = df["Shares"] * df["Price"]
-    total_value = df["Value"].sum()
-    df["Weight (%)"] = (df["Value"] / total_value * 100).round(2)
+    df["FX Rate"] = df["Currency"].apply(get_fx_to_thb)
+    df["Value (Local)"] = df["Shares"] * df["Price"]
+    df["Value (THB)"] = df["Value (Local)"] * df["FX Rate"]
+    total_thb = df["Value (THB)"].sum()
+    df["Weight (%)"] = (df["Value (THB)"] / total_thb * 100).round(2)
 
-# Show table
-st.subheader("📋 Portfolio Breakdown")
-st.dataframe(df)
+# Display portfolio breakdown
+st.subheader("📄 Portfolio Breakdown")
+st.dataframe(df[["Symbol", "Shares", "Currency", "Price", "Value (Local)", "FX Rate", "Value (THB)", "Weight (%)"]])
 
-import matplotlib.pyplot as plt  # Add at the top if not already
+# Show total value in THB
+st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.2f}")
 
-# Pie chart
-st.subheader("📈 Allocation Pie Chart")
+# Pie chart by THB allocation
+st.subheader("📈 Allocation Pie Chart (THB)")
 fig, ax = plt.subplots()
 df.set_index("Symbol")["Weight (%)"].plot.pie(
-    autopct='%1.1f%%',
-    figsize=(5, 5),
-    ylabel='',
-    ax=ax
+    autopct='%1.1f%%', figsize=(5, 5), ylabel="", ax=ax
 )
 st.pyplot(fig)
-
-# Total value
-st.metric("💰 Total Portfolio Value", f"${total_value:,.2f}")
