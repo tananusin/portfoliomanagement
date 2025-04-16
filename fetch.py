@@ -2,6 +2,8 @@
 import yfinance as yf
 
 def get_price(symbol):
+    if "CASH" in symbol:
+        return 1.0    
     try:
         price = yf.Ticker(symbol).history(period="1d")["Close"].iloc[-1]
         return round(price, 2)
