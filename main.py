@@ -43,7 +43,7 @@ format_dict = {
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight (%)": "{:.0f}%"
+    "weight (%)": "{:.1f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
