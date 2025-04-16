@@ -6,8 +6,8 @@ from fetch import get_price, get_fx_to_thb
 st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 st.title("📊 Portfolio Rebalancer")
 
-# Google Sheet CSV link
-sheet_url = "https://docs.google.com/spreadsheets/d/1T8H0By9mCahSaG09NOvc4bXGE_cDtDdCMsFoIabDCnw/export?format=csv"
+# Access the Google Sheets URL from Streamlit secrets
+sheet_url = st.secrets["google_sheet"]["url"]
 
 # Load and clean data
 try:
