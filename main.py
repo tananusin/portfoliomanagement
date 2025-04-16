@@ -45,7 +45,15 @@ format_dict = {
     "value (thb)": "{:,.0f}",
     "weight (%)": "{:.2f}%"
 }
-st.dataframe(df[show_cols].style.format(format_dict))
+# Style the DataFrame: hide index and freeze "name" column
+styled_df = (
+    df[show_cols]
+    .style
+    .format(format_dict)
+    .hide(axis="index")  # 👈 hide index
+)
+# Display styled dataframe with fixed first column (Name)
+st.dataframe(styled_df, use_container_width=True, hide_index=True)
 
 # Show total portfolio value
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.2f}")
