@@ -95,10 +95,13 @@ else:
 # Compute weight for chart
 chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 
+# Filter out rows where weight (%) is less than 1%
+chart_df_filtered = chart_df[chart_df["weight (%)"] >= 1]
+
 # Pie Chart
 st.subheader("📈 Allocation Pie Chart")
 fig, ax = plt.subplots()
-chart_df.set_index("name")["weight (%)"].plot.pie(
+chart_df_filtered.set_index("name")["weight (%)"].plot.pie(
     autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
 )
 st.pyplot(fig)
