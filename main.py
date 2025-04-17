@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from fetch import get_price, get_fx_to_thb
+from positionsize import classify_position  # Import the new function
 
 st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 st.title("📊 Portfolio Rebalancer")
@@ -35,16 +36,23 @@ with st.spinner("Fetching live prices and FX rates..."):
 total_thb = df["value (thb)"].sum()
 df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
+# Classify each position (oversized, undersized, aligned) based on target and weight
+df[["position status", "drift (%)"]] = df.apply(
+    lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
+    axis=1
+)
+
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position status", "drift (%)"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
     "weight (%)": "{:.2f}%",
-    "target (%)": "{:.2f}%"
+    "target": "{:.2f}%",
+    "drift (%)": "{:.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
