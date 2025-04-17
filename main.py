@@ -71,7 +71,6 @@ styled_df = (
     .format(format_dict)
     .applymap(highlight_position, subset=["position"])
 )
-
 st.dataframe(styled_df)
 
 # Show total portfolio value
