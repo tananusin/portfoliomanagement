@@ -50,7 +50,7 @@ df[["position", "drift"]] = df.apply(
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "position"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "position", "drift"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
