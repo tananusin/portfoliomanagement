@@ -58,7 +58,21 @@ format_dict = {
     "value (thb)": "{:,.0f}",
     "weight": lambda x: f"{x * 100:.0f}%",
 }
-st.dataframe(df[show_cols].style.format(format_dict))
+# Portfolio Table with color text
+def highlight_position(val):
+    if val == "oversize":
+        return "color: red"
+    elif val == "undersize":
+        return "color: green"
+    return ""
+styled_df = (
+    df[show_cols]
+    .style
+    .format(format_dict)
+    .applymap(highlight_position, subset=["position"])
+)
+
+st.dataframe(styled_df)
 
 # Show total portfolio value
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
