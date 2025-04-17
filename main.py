@@ -57,7 +57,7 @@ format_dict = {
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
     "weight (%)": "{:.2f}%",
-    "target": lambda x: f"{x * 100:.0f}%"
+    "target": lambda x: f"{x * 100:.0f}%",
     "drift (%)": "{:.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
