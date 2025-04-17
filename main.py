@@ -33,7 +33,7 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Total portfolio value in THB
 total_thb = df["value (thb)"].sum()
-df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
+df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(0)
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
