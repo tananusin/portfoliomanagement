@@ -43,7 +43,7 @@ df["target"] = pd.to_numeric(
 ) / 100
 
 # Classify each position (oversized, undersized, aligned) based on target and weight
-df["position"] = df.apply(
+df[["position", "drift"]] = df.apply(
     lambda row: pd.Series(classify_position(row["weight"], row["target"])),
     axis=1
 )
