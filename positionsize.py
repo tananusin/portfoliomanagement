@@ -8,7 +8,7 @@ def classify_position(weight_pct, target_pct, threshold=0.50): # Defaul %drift t
         return "unknown", 0
     
     # Calculate the drift    
-    drift = ((weight_pct - target_pct) / target_pct)
+    drift = (weight_pct - target_pct)
 
     # Check if the position is oversized, undersized, or aligned
     if drift > threshold:
