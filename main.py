@@ -43,14 +43,14 @@ df["target"] = pd.to_numeric(
 ) / 100
 
 # Classify each position (oversized, undersized, aligned) based on target and weight
-df[["position status", "drift (%)"]] = df.apply(
+df[["position", "drift (%)"]] = df.apply(
     lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
     axis=1
 )
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position size", "drift (%)"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position", "drift (%)"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
