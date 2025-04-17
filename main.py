@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from fetch import get_price, get_fx_to_thb
-from positionsize import classify_position
 
 st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 st.title("📊 Portfolio Rebalancer")
