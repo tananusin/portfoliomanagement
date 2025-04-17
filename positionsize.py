@@ -5,7 +5,8 @@ import pandas as pd
 def classify_position(weight_pct, target_pct, threshold=0.50): # Defaul %drift threshold 50%
     # Check if target is set
     if pd.isna(weight_pct) or pd.isna(target_pct) or target_pct == 0:
-        return "unknown", 0
+        drift = 0
+        return "-", drift
     
     # Calculate the drift    
     drift = (weight_pct - target_pct) / target_pct
