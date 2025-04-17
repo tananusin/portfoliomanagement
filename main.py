@@ -40,17 +40,11 @@ with st.spinner("Fetching live prices and FX rates..."):
 total_thb = df["value (thb)"].sum()
 df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
-# Classify position and calculate drift
-df[["position status", "drift (%)"]] = df.apply(
-    lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
-    axis=1
-)
-
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
 show_cols = [
     "name", "currency", "shares", "price", "fx rate",
-    "value (thb)", "weight (%)", "target", "drift (%)", "position status"
+    "value (thb)", "weight (%)", "target"
 ]
 format_dict = {
     "shares": "{:,.2f}",
@@ -59,7 +53,6 @@ format_dict = {
     "value (thb)": "฿{:,.0f}",
     "weight (%)": "{:.2f}%",
     "target": "{:.2f}%",
-    "drift (%)": "{:+.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
