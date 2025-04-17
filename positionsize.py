@@ -15,7 +15,7 @@ def classify_position(weight_pct, target_pct, drift_threshold=0.05, drift_pct_th
     # Check if the position is oversized, undersized, or aligned
     if drift > drift_threshold or drift_pct > drift_pct_threshold:
         return "oversize"
-    elif drift < -drift_threshold or drift_pct < drift_pct_threshold:
+    elif drift < -drift_threshold or drift_pct < -drift_pct_threshold:
         return "undersize"
     else:
         return "-"
