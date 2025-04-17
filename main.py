@@ -37,7 +37,7 @@ df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
