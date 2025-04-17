@@ -18,7 +18,7 @@ except Exception as e:
     st.stop()
 
 # Validate columns
-required_cols = {"name", "symbol", "currency", "shares"}
+required_cols = {"name", "symbol", "currency", "shares", "target"}
 if not required_cols.issubset(df.columns):
     st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.write("Loaded columns:", df.columns.tolist())
@@ -37,13 +37,14 @@ df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight (%)": "{:.2f}%"
+    "weight (%)": "{:.2f}%",
+    "target (%)": "{:.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
