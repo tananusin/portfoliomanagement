@@ -1,6 +1,6 @@
 # positionsize.py
 
-def classify_position(weight_pct, target_pct, threshold=0.05):
+def classify_position(weight_pct, target_pct, threshold=0.05): # Defaul threshold 5%
     # Calculate the drift
     drift = weight_pct - target_pct
     
