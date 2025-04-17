@@ -56,7 +56,7 @@ format_dict = {
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight": lambda x: f"{x * 100:.0f}%",
+    "weight": lambda x: f"{x * 100:.1f}%",
 }
 # Portfolio Table with color text
 def highlight_position(val):
