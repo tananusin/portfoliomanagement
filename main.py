@@ -34,7 +34,7 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Total portfolio value in THB
 total_thb = df["value (thb)"].sum()
-df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
+df["weight"] = (df["value (thb)"] / total_thb).round(4)
 
 # Convert 'target' %string to numbers
 df["target"] = pd.to_numeric(
@@ -43,22 +43,22 @@ df["target"] = pd.to_numeric(
 ) / 100
 
 # Classify each position (oversized, undersized, aligned) based on target and weight
-df[["position", "drift (%)"]] = df.apply(
-    lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
+df[["position", "drift"]] = df.apply(
+    lambda row: pd.Series(classify_position(row["weight"], row["target"])),
     axis=1
 )
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position", "drift (%)"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "position", "drift"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight (%)": "{:.2f}%",
+    "weight": lambda x: f"{x * 100:.0f}%",
     "target": lambda x: f"{x * 100:.0f}%",
-    "drift (%)": "{:.2f}%"
+    "drift": lambda x: f"{x * 100:.2f}%",
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
