@@ -1,5 +1,3 @@
-# main.py
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,7 +7,7 @@ from positionsize import classify_position
 st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 st.title("📊 Portfolio Rebalancer")
 
-# Access the Google Sheets URL from Streamlit secrets
+# Access Google Sheets URL from Streamlit secrets
 sheet_url = st.secrets["google_sheet"]["url"]
 
 # Load and clean data
@@ -27,7 +25,11 @@ if not required_cols.issubset(df.columns):
     st.write("Loaded columns:", df.columns.tolist())
     st.stop()
 
-# Fetch price and FX
+# Warn if any target is missing
+if df["target"].isna().any():
+    st.warning("⚠️ Some rows are missing target allocation. Please check your Google Sheet.")
+
+# Fetch price and FX rates
 with st.spinner("Fetching live prices and FX rates..."):
     df["price"] = df["symbol"].apply(get_price)
     df["fx rate"] = df["currency"].apply(get_fx_to_thb)
@@ -38,46 +40,46 @@ with st.spinner("Fetching live prices and FX rates..."):
 total_thb = df["value (thb)"].sum()
 df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
-# Ensure 'target' is numeric
-df["target"] = pd.to_numeric(df["target"], errors="coerce")
-
-# Classify position sizing drift
-df["position status"] = df.apply(
-    lambda row: classify_position(row["weight (%)"], row["target"]),
+# Classify position and calculate drift
+df[["position status", "drift (%)"]] = df.apply(
+    lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
     axis=1
 )
 
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position status"]
+show_cols = [
+    "name", "currency", "shares", "price", "fx rate",
+    "value (thb)", "weight (%)", "target", "drift (%)", "position status"
+]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
-    "value (thb)": "{:,.0f}",
+    "value (thb)": "฿{:,.0f}",
     "weight (%)": "{:.2f}%",
     "target": "{:.2f}%",
+    "drift (%)": "{:+.2f}%"
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
 # Show total portfolio value
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
-# Prepare Pie Chart: Group all cash rows together
+# Prepare Pie Chart: Group cash rows
 cash_mask = df["symbol"].str.upper().str.startswith("CASH")
 cash_df = df[cash_mask]
 non_cash_df = df[~cash_mask]
 
+# Summarize cash as a single row
 if not cash_df.empty:
     cash_value = cash_df["value (thb)"].sum()
-    cash_row = pd.DataFrame([{
-        "name": "Cash",
-        "value (thb)": cash_value
-    }])
+    cash_row = pd.DataFrame([{"name": "Cash", "value (thb)": cash_value}])
     chart_df = pd.concat([non_cash_df[["name", "value (thb)"]], cash_row], ignore_index=True)
 else:
     chart_df = non_cash_df[["name", "value (thb)"]]
 
+# Compute weight for chart
 chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 
 # Pie Chart
