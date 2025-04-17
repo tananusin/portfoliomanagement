@@ -1,7 +1,10 @@
+# main.py
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from fetch import get_price, get_fx_to_thb
+from positionsize import classify_position
 
 st.set_page_config(page_title="Portfolio Rebalancer", layout="centered")
 st.title("📊 Portfolio Rebalancer")
@@ -18,7 +21,7 @@ except Exception as e:
     st.stop()
 
 # Validate columns
-required_cols = {"name", "symbol", "currency", "shares"}
+required_cols = {"name", "symbol", "currency", "shares", "target"}
 if not required_cols.issubset(df.columns):
     st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.write("Loaded columns:", df.columns.tolist())
@@ -35,15 +38,25 @@ with st.spinner("Fetching live prices and FX rates..."):
 total_thb = df["value (thb)"].sum()
 df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
-# Portfolio Table with formatted numbers
+# Ensure 'target' is numeric
+df["target"] = pd.to_numeric(df["target"], errors="coerce")
+
+# Classify position sizing drift
+df["position status"] = df.apply(
+    lambda row: classify_position(row["weight (%)"], row["target"]),
+    axis=1
+)
+
+# Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)"]
+show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight (%)", "target", "position status"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
-    "weight (%)": "{:.2f}%"
+    "weight (%)": "{:.2f}%",
+    "target": "{:.2f}%",
 }
 st.dataframe(df[show_cols].style.format(format_dict))
 
@@ -55,7 +68,6 @@ cash_mask = df["symbol"].str.upper().str.startswith("CASH")
 cash_df = df[cash_mask]
 non_cash_df = df[~cash_mask]
 
-# Summarize cash as a single row
 if not cash_df.empty:
     cash_value = cash_df["value (thb)"].sum()
     cash_row = pd.DataFrame([{
@@ -66,7 +78,6 @@ if not cash_df.empty:
 else:
     chart_df = non_cash_df[["name", "value (thb)"]]
 
-# Compute weight for chart
 chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 
 # Pie Chart
