@@ -36,6 +36,9 @@ with st.spinner("Fetching live prices and FX rates..."):
 total_thb = df["value (thb)"].sum()
 df["weight (%)"] = (df["value (thb)"] / total_thb * 100).round(2)
 
+# Convert 'target' to numbers
+df["target"] = pd.to_numeric(df["target"], errors="coerce")
+
 # Classify each position (oversized, undersized, aligned) based on target and weight
 df[["position status", "drift (%)"]] = df.apply(
     lambda row: pd.Series(classify_position(row["weight (%)"], row["target"])),
