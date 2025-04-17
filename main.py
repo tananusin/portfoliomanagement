@@ -37,7 +37,7 @@ total_thb = df["value (thb)"].sum()
 df["weight"] = (df["value (thb)"] / total_thb).round(4)
 
 # Convert 'target' %string to numbers
-df["target"] = pd.to_numeric(
+df[["target", "drift"]] = pd.to_numeric(
     df["target"].astype(str).str.replace(r"[^\d.]+", "", regex=True),
     errors="coerce"
 ) / 100
