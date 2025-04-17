@@ -46,6 +46,17 @@ df[["position status", "drift (%)"]] = df.apply(
     axis=1
 )
 
+# Safely classify positions, skipping rows with missing data
+def safe_classify(row):
+    try:
+        if pd.isna(row["weight (%)"]) or pd.isna(row["target"]):
+            return pd.Series(["invalid", 0.0])
+        return pd.Series(classify_position(row["weight (%)"], row["target"]))
+    except:
+        return pd.Series(["error", 0.0])
+
+df[["position status", "drift (%)"]] = df.apply(safe_classify, axis=1)
+
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
 show_cols = [
