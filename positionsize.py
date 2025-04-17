@@ -1,10 +1,12 @@
 # positionsize.py
 
+import pandas as pd
+
 def classify_position(weight_pct, target_pct, threshold=0.50): # Defaul %drift threshold 50%
     # Calculate the drift
     
-    if target_pct == 0:
-        return "-", 0
+    if pd.isna(weight_pct) or pd.isna(target_pct) or target_pct == 0:
+        return "unknown", None
     
     drift = ((weight_pct - target_pct) / target_pct)
 
