@@ -10,4 +10,4 @@ def classify_position(weight_pct, target_pct, threshold=5.0):
     elif drift < -threshold:
         return "Undersized", drift
     else:
-        return "Aligned", drift
+        return "-", drift
