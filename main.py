@@ -70,9 +70,6 @@ styled_df = (
 )
 st.dataframe(styled_df)
 
-# Show total portfolio value
-st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
-
 # Prepare Pie Chart: Group all cash rows together
 cash_mask = df["symbol"].str.upper().str.startswith("CASH")
 cash_df = df[cash_mask]
