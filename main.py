@@ -50,13 +50,10 @@ df["position"] = df.apply(
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "position"]
+show_cols = ["name", "weight", "target", "position"]
 format_dict = {
-    "shares": "{:,.2f}",
-    "price": "{:,.2f}",
-    "fx rate": "{:,.2f}",
-    "value (thb)": "{:,.0f}",
     "weight": lambda x: f"{x * 100:.1f}%",
+    "target": lambda x: f"{x * 100:.1f}%"
 }
 # Portfolio Table with color text
 def highlight_position(val):
