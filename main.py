@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from fetch import get_price, get_fx_to_thb
 from positionsize import classify_position  # Import the new function
+from valuation import pe_percentile
 
 st.set_page_config(page_title="Portfolio Management", layout="centered")
 st.title("📊 Portfolio Management")
@@ -47,6 +48,13 @@ df["position"] = df.apply(
     lambda row: pd.Series(classify_position(row["weight"], row["target"])),
     axis=1
 )
+
+# Evaluate P/E percentile for debug
+st.subheader("🧪 Valuation Debug (P/E Percentile)")
+for symbol in df["symbol"].unique():
+    if symbol.upper() not in ["CASH", "BOND"]:
+        st.text(f"Processing: {symbol}")
+        pe_percentile(symbol)  # prints to console, or logs if using Streamlit Cloud
 
 # Portfolio Table with formatted numbers
 st.subheader("📄 Portfolio Breakdown")
