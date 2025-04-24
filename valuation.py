@@ -14,31 +14,25 @@ def pe_percentile(ticker_symbol: str):
 
     try:
         ticker = yf.Ticker(ticker_symbol)
-
-        # Get historical data and current trailing EPS
         hist_price = ticker.history(period="3y")
         eps_ttm = ticker.info.get("trailingEps")
 
         if eps_ttm is None or eps_ttm <= 0:
-            print("EPS is not available or invalid")
-            pe_percentile_value = None
-            return
+            st.write(f"{ticker_symbol} EPS is not available or invalid")
+            return None
 
-        # Calculate historical P/E series
         hist_price["PE"] = hist_price["Close"] / eps_ttm
         pe_series = hist_price["PE"].dropna()
 
         if pe_series.empty:
-            print("PE series is empty")
-            pe_percentile_value = None
-            return
+            st.write(f"{ticker_symbol} PE series is empty")
+            return None
 
-        # Get current P/E and compute percentile rank
         current_pe = pe_series.iloc[-1]
-        pe_percentile_value = (pe_series < current_pe).mean() * 100
-
-        print(f"PE percentile for {ticker_symbol} is: {pe_percentile_value:.2f}%")
+        percentile = (pe_series < current_pe).mean() * 100
+        st.write(f"PE percentile for {ticker_symbol} is: {percentile:.2f}%")
+        return percentile
 
     except Exception as e:
-        print(f"Error processing {ticker_symbol}: {e}")
-        pe_percentile_value = None
+        st.write(f"Error processing {ticker_symbol}: {e}")
+        return None
