@@ -19,14 +19,12 @@ def pe_percentile(ticker_symbol: str):
         eps_ttm = ticker.info.get("trailingEps")
 
         if eps_ttm is None or eps_ttm <= 0:
-            st.write(f"{ticker_symbol} EPS is not available or invalid")
             return None
 
         hist_price["PE"] = hist_price["Close"] / eps_ttm
         pe_series = hist_price["PE"].dropna()
 
         if pe_series.empty:
-            st.write(f"{ticker_symbol} PE series is empty")
             return None
 
         current_pe = pe_series.iloc[-1]
@@ -35,5 +33,4 @@ def pe_percentile(ticker_symbol: str):
         return percentile
 
     except Exception as e:
-        st.write(f"Error processing {ticker_symbol}: {e}")
         return None
