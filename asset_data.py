@@ -9,12 +9,11 @@ class AssetData:
     symbol: str
     currency: str
     shares: float
-    par: Optional[float] = None
+    price: Optional[float] = None
     target: Optional[float] = None
     asset_type: Optional[str] = None
 
     # Portfolio Value Variables
-    price: Optional[float] = None
     fx_rate: Optional[float] = None
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
