@@ -11,7 +11,7 @@ def enrich_asset(asset: AssetData) -> AssetData:
         # For other currencies, fetch fx_rate normally
         asset.fx_rate = get_fx_to_thb(asset.currency)
 
-    # Handle BOND and CASH symbols separately for price and fx_rate
+    # Handle BOND and CASH symbols
     if asset.symbol == 'CASH':
         asset.price = 1
     elif asset.symbol == 'BOND':
