@@ -22,7 +22,7 @@ except Exception as e:
     st.stop()
 
 # Validate columns
-required_cols = {"name", "symbol", "currency", "shares"}
+required_cols = {"name", "symbol", "type", "currency", "shares", "target"}
 if not required_cols.issubset(df.columns):
     st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.write("Loaded columns:", df.columns.tolist())
@@ -33,8 +33,10 @@ assets = [
     AssetData(
         name=row["name"],
         symbol=row["symbol"],
+        asset_type=row["type"],
         currency=row["currency"],
-        shares=row["shares"]
+        shares=row["shares"],
+        target=row["target"]
     )
     for _, row in df.iterrows()
 ]
@@ -48,23 +50,27 @@ with st.spinner("Fetching live prices and FX rates..."):
 # Convert back to DataFrame for display
 portfolio_df = pd.DataFrame([{
     "name": asset.name,
+    "symbol": asset.symbol,
     "currency": asset.currency,
+    "currency": asset.asset_type,
     "shares": asset.shares,
     "price": asset.price,
     "fx rate": asset.fx_rate,
     "value (thb)": asset.value_thb,
-    "weight": asset.weight
+    "weight": asset.weight,
+    "target": asset.target
 } for asset in assets])
 
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight"]
+show_cols = ["name", "symbol", "currency", "type", "shares", "price", "fx rate", "value (thb)", "weight", "target"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
     "weight": lambda x: f"{x * 100:.1f}%",
+    "target": lambda x: f"{x * 100:.1f}%",
 }
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
