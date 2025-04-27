@@ -3,11 +3,20 @@ from asset_data import AssetData
 from typing import List
 
 def enrich_asset(asset: AssetData) -> AssetData:
-    asset.price = get_price(asset.symbol)
-    asset.fx_rate = get_fx_to_thb(asset.currency)
+    # For Bond or Cash assets, set price and fx_rate to 1
+    if asset.symbol in ['BOND', 'CASH']:  # Check if the symbol is BOND or CASH
+        asset.price = 1
+        asset.fx_rate = 1
+    else:
+        # Otherwise, fetch live price and FX rate
+        asset.price = get_price(asset.symbol)
+        asset.fx_rate = get_fx_to_thb(asset.currency)
+    
+    # If price and fx_rate are valid (for non-Bond/Cash), calculate value
     if asset.price is not None and asset.fx_rate is not None:
         asset.value_local = asset.shares * asset.price
         asset.value_thb = asset.value_local * asset.fx_rate
+    
     return asset
 
 def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
