@@ -5,10 +5,10 @@ class StockData:
     # Google Sheet Variables
     name: str
     ticker: str
+    asset_type: str
     currency: str
     shares: float
-    target: float
-    asset_type: str
+    target: Optional[float]	#If User Leave Google Sheet Cell Empty
 
     # Portfolio Variables
     price: float
