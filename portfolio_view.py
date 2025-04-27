@@ -22,17 +22,17 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     df = get_individual_df(assets)
     
     # Summarize bond and cash
-    bond_df = df[df["type"] == "Bond"]
-    cash_df = df[df["type"] == "Cash"]
-    others_df = df[(df["type"] != "Bond") & (df["type"] != "Cash")]
+    bond_df = df[df["symbol"] == "BOND"]
+    cash_df = df[df["symbol"] == "Cash"]
+    others_df = df[(df["symbol"] != "BOND") & (df["symbol"] != "CASH")]
 
     bond_row = {
         "name": "Total Bonds",
         "symbol": "BOND",
-        "currency": "",
-        "shares": "",
-        "price": "",
-        "fx rate": "",
+        "currency": "-",
+        "shares": "0.0",
+        "price": "0.0",
+        "fx rate": "0.0",
         "value (thb)": bond_df["value (thb)"].sum(),
         "weight": bond_df["weight"].sum(),
         "target": bond_df["target"].sum(),
@@ -42,10 +42,10 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     cash_row = {
         "name": "Total Cash",
         "symbol": "CASH",
-        "currency": "",
-        "shares": "",
-        "price": "",
-        "fx rate": "",
+        "currency": "-",
+        "shares": "0.0",
+        "price": "0.0",
+        "fx rate": "0.0",
         "value (thb)": cash_df["value (thb)"].sum(),
         "weight": cash_df["weight"].sum(),
         "target": cash_df["target"].sum(),
