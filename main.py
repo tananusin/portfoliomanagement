@@ -38,12 +38,12 @@ portfolio_df = individual_df if show_individual else summarized_df
 # --- Format and Display Table ---
 show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "type"]
 format_dict = {
-    "shares": "{:,.2f}",
-    "price": "{:,.2f}",
-    "fx rate": "{:,.2f}",
-    "value (thb)": "{:,.0f}",
-    "weight": lambda x: f"{x * 100:.1f}%",
-    "target": lambda x: f"{x * 100:.1f}%"
+    "shares": "{:,.2f}" if x != 0.0 else "-",
+    "price": "{:,.2f}" if x != 0.0 else "-",
+    "fx rate": "{:,.2f}" if x != 0.0 else "-",
+    "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
+    "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+    "target": lambda x: f"{x * 100:.1f}%" if x != 0.0 else "-",
 }
 
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
