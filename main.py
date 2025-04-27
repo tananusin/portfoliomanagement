@@ -102,16 +102,13 @@ summarized_df = create_summarized_df(assets, total_thb)
 
 # --- UI Toggle ---
 st.subheader("📄 Portfolio Breakdown")
-view_option = st.radio(
-    "View Mode:",
-    ("Summarized (Bond+Cash Grouped)", "Individual Assets"),
-    index=0
+show_individual = st.toggle(
+    "🔀 Show Individual Assets",
+    value=False,  # Summarized view by default
+    help="Toggle to view each asset separately or group Bonds and Cash together."
 )
 
-if view_option == "Summarized (Bond+Cash Grouped)":
-    portfolio_df = summarized_df
-else:
-    portfolio_df = individual_df
+portfolio_df = individual_df if show_individual else summarized_df
 
 # --- Format and Display Table ---
 show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "type"]
