@@ -14,8 +14,8 @@ def enrich_asset(asset: AssetData) -> AssetData:
     # Handle BOND and CASH symbols separately for price and fx_rate
     if asset.symbol == 'CASH':
         asset.price = 1
-    elif asset.symbol == 'BOND':
-        asset.price = asset.par  # Use par value for BOND
+    elif asset.symbol != 'BOND':
+        pass  # keep asset.price as user-assigned (or asset.par assigned earlier)
     else:
         # For other assets, fetch price normally
         asset.price = get_price(asset.symbol)
