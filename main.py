@@ -10,7 +10,7 @@ from portfolio_value import enrich_assets, calculate_portfolio_total, assign_wei
 st.set_page_config(page_title="Portfolio Management", layout="centered")
 st.title("📊 Portfolio Management")
 
-# Load Google Sheet
+# Load Google Sheet and Create AssetData objects
 sheet_url = st.secrets["google_sheet"]["url"]
 assets = load_assets_from_google_sheet(sheet_url)
 
