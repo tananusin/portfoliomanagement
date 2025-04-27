@@ -36,7 +36,7 @@ assets = [
         asset_type=row["type"],
         currency=row["currency"],
         shares=row["shares"],
-        target=row["target"] if pd.notnull(row["target"]) else 0.0  # Assign 0 if target is empty
+        target=float(row["target"]) if pd.notnull(row["target"]) else 0.0
     )
     for _, row in df.iterrows()
 ]
