@@ -6,8 +6,8 @@ from asset_data import AssetData
 from portfolio_value import enrich_assets, calculate_portfolio_total, assign_weights
 
 # Streamlit page config
-st.set_page_config(page_title="Portfolio Report", layout="centered")
-st.title("📊 Portfolio Report")
+st.set_page_config(page_title="Portfolio Management", layout="centered")
+st.title("📊 Portfolio Management")
 
 # Load Google Sheet
 sheet_url = st.secrets["google_sheet"]["url"]
