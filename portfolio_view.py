@@ -29,7 +29,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     bond_row = {
         "name": "Total Bonds",
         "symbol": "BOND",
-        "currency": "-",
+        "currency": "THB",
         "shares": "0.0",
         "price": "0.0",
         "fx rate": "0.0",
@@ -42,7 +42,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     cash_row = {
         "name": "Total Cash",
         "symbol": "CASH",
-        "currency": "-",
+        "currency": "THB",
         "shares": "0.0",
         "price": "0.0",
         "fx rate": "0.0",
