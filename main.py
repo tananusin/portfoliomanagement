@@ -22,7 +22,7 @@ except Exception as e:
     st.stop()
 
 # Validate columns
-required_cols = {"name", "symbol", "currency", "shares", "par", "target", "type"}
+required_cols = {"name", "symbol", "currency", "shares", "price", "target", "type"}
 if not required_cols.issubset(df.columns):
     st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.write("Loaded columns:", df.columns.tolist())
@@ -35,7 +35,7 @@ assets = [
         symbol=row["symbol"],
         currency=row["currency"],
         shares=row["shares"],
-        par=row["par"] if pd.notnull(row["par"]) else 0.0,  # Use 0.0 for default value if par is empty or null
+        price=row["price"] if pd.notnull(row["price"]) else 0.0,  # Use 0.0 for default value if price is empty or null
         target=(
             float(row["target"].replace('%', '').strip()) / 100
             if pd.notnull(row["target"]) and isinstance(row["target"], str) and "%" in row["target"]
