@@ -22,7 +22,7 @@ except Exception as e:
     st.stop()
 
 # Validate columns
-required_cols = {"name", "symbol", "type", "currency", "shares", "target"}
+required_cols = {"name", "symbol", "currency", "shares", "target", "type"}
 if not required_cols.issubset(df.columns):
     st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
     st.write("Loaded columns:", df.columns.tolist())
@@ -33,14 +33,14 @@ assets = [
     AssetData(
         name=row["name"],
         symbol=row["symbol"],
-        asset_type=row["type"],
         currency=row["currency"],
         shares=row["shares"],
         target=(
             float(row["target"].replace('%', '').strip()) / 100
             if pd.notnull(row["target"]) and isinstance(row["target"], str) and "%" in row["target"]
             else (float(row["target"]) if pd.notnull(row["target"]) else 0.0)
-        )
+        ),
+        asset_type=row["type"],
     )
     for _, row in df.iterrows()
 ]
@@ -56,18 +56,18 @@ portfolio_df = pd.DataFrame([{
     "name": asset.name,
     "symbol": asset.symbol,
     "currency": asset.currency,
-    "type": asset.asset_type,
     "shares": asset.shares,
     "price": asset.price,
     "fx rate": asset.fx_rate,
     "value (thb)": asset.value_thb,
     "weight": asset.weight,
-    "target": asset.target
+    "target": asset.target,
+    "type": asset.asset_type
 } for asset in assets])
 
 # Portfolio Table
 st.subheader("📄 Portfolio Breakdown")
-show_cols = ["name", "symbol", "currency", "type", "shares", "price", "fx rate", "value (thb)", "weight", "target"]
+show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "type"]
 format_dict = {
     "shares": "{:,.2f}",
     "price": "{:,.2f}",
