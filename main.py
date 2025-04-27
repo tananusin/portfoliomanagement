@@ -87,8 +87,8 @@ st.subheader("📈 Allocation Pie Chart")
 chart_df = portfolio_df[["name", "value (thb)"]].copy()
 chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
 
-# Optional: filter out very tiny assets (< 1% if you want), or just plot all
-# chart_df = chart_df[chart_df["weight (%)"] >= 1]  # <- if you want filtering
+# Filter Out <1% Weight Asset
+chart_df = chart_df[chart_df["weight (%)"] >= 1]
 
 # Pie Chart
 fig, ax = plt.subplots()
