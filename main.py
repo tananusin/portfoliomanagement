@@ -77,28 +77,21 @@ st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 # Total Portfolio Value
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
-# Prepare Pie Chart (Cash summarized)
-cash_mask = portfolio_df["name"].str.upper().str.startswith("CASH")
-cash_df = portfolio_df[cash_mask]
-non_cash_df = portfolio_df[~cash_mask]
+# Pie Chart (All assets individually, no cash grouping)
+st.subheader("📈 Allocation Pie Chart")
 
-if not cash_df.empty:
-    cash_value = cash_df["value (thb)"].sum()
-    cash_row = pd.DataFrame([{
-        "name": "Cash",
-        "value (thb)": cash_value
-    }])
-    chart_df = pd.concat([non_cash_df[["name", "value (thb)"]], cash_row], ignore_index=True)
-else:
-    chart_df = non_cash_df[["name", "value (thb)"]]
-
+chart_df = portfolio_df[["name", "value (thb)"]].copy()
 chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
-chart_df_filtered = chart_df[chart_df["weight (%)"] >= 1]
+
+# Optional: filter out very tiny assets (< 1% if you want), or just plot all
+# chart_df = chart_df[chart_df["weight (%)"] >= 1]  # <- if you want filtering
 
 # Pie Chart
-st.subheader("📈 Allocation Pie Chart")
 fig, ax = plt.subplots()
-chart_df_filtered.set_index("name")["weight (%)"].plot.pie(
-    autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
+chart_df.set_index("name")["weight (%)"].plot.pie(
+    autopct="%1.0f%%",
+    figsize=(5, 5),
+    ylabel="",
+    ax=ax
 )
 st.pyplot(fig)
