@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from load_assets import load_assets_from_google_sheet
 from asset_data import AssetData
+from load_assets import load_assets_from_google_sheet
 from portfolio_value import enrich_assets, calculate_portfolio_total, assign_weights
 
 # Streamlit page config
