@@ -17,5 +17,4 @@ class AssetData:
     fx_rate: Optional[float] = None
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
-    portfolio_total_thb: Optional[float] = None
     weight: Optional[float] = None
