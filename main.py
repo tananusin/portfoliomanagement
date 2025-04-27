@@ -21,52 +21,41 @@ with st.spinner("Fetching live prices and FX rates..."):
     total_thb = calculate_portfolio_total(assets)
     assign_weights(assets, total_thb)
 
-# --- User Toggle ---
-show_individual = st.toggle("🔎 Show individual Bonds and Cash", value=False)
+# --- Create two versions of DataFrame ---
 
-# --- Summarize bonds and cash if needed ---
-def summarize_assets(assets, total_thb):
-    summarized = []
-    bond_total = 0
-    cash_total = 0
+# (1) Individual asset view
+individual_df = pd.DataFrame([{
+    "name": asset.name,
+    "symbol": asset.symbol,
+    "currency": asset.currency,
+    "shares": asset.shares,
+    "price": asset.price,
+    "fx rate": asset.fx_rate,
+    "value (thb)": asset.value_thb,
+    "weight": asset.weight,
+    "target": asset.target,
+    "type": asset.asset_type
+} for asset in assets])
+
+# (2) Summarized view (Bond + Cash total)
+def create_summarized_df(assets, total_thb):
+    bond_total_value = 0
+    cash_total_value = 0
+    bond_total_target = 0
+    cash_total_target = 0
     other_assets = []
 
     for asset in assets:
         if asset.asset_type.lower() == "bond":
-            bond_total += asset.value_thb or 0
+            bond_total_value += asset.value_thb or 0
+            bond_total_target += asset.target or 0
         elif asset.asset_type.lower() == "cash":
-            cash_total += asset.value_thb or 0
+            cash_total_value += asset.value_thb or 0
+            cash_total_target += asset.target or 0
         else:
             other_assets.append(asset)
 
-    if bond_total > 0:
-        summarized.append({
-            "name": "Total Bonds",
-            "symbol": "BOND",
-            "currency": "THB",
-            "shares": "-",
-            "price": "-",
-            "fx rate": "-",
-            "value (thb)": bond_total,
-            "weight": bond_total / total_thb,
-            "target": "-",
-            "type": "Bond"
-        })
-    if cash_total > 0:
-        summarized.append({
-            "name": "Total Cash",
-            "symbol": "CASH",
-            "currency": "THB",
-            "shares": "-",
-            "price": "-",
-            "fx rate": "-",
-            "value (thb)": cash_total,
-            "weight": cash_total / total_thb,
-            "target": "-",
-            "type": "Cash"
-        })
-
-    summarized += [{
+    summarized = [{
         "name": asset.name,
         "symbol": asset.symbol,
         "currency": asset.currency,
@@ -79,36 +68,60 @@ def summarize_assets(assets, total_thb):
         "type": asset.asset_type
     } for asset in other_assets]
 
+    # Add Total Bond and Cash at the end
+    if bond_total_value > 0:
+        summarized.append({
+            "name": "Total Bonds",
+            "symbol": "BOND",
+            "currency": "THB",
+            "shares": "-",
+            "price": "-",
+            "fx rate": "-",
+            "value (thb)": bond_total_value,
+            "weight": bond_total_value / total_thb,
+            "target": bond_total_target,
+            "type": "Bond"
+        })
+    if cash_total_value > 0:
+        summarized.append({
+            "name": "Total Cash",
+            "symbol": "CASH",
+            "currency": "THB",
+            "shares": "-",
+            "price": "-",
+            "fx rate": "-",
+            "value (thb)": cash_total_value,
+            "weight": cash_total_value / total_thb,
+            "target": cash_total_target,
+            "type": "Cash"
+        })
+
     return pd.DataFrame(summarized)
 
-# Create the portfolio DataFrame
-if show_individual:
-    portfolio_df = pd.DataFrame([{
-        "name": asset.name,
-        "symbol": asset.symbol,
-        "currency": asset.currency,
-        "shares": asset.shares,
-        "price": asset.price,
-        "fx rate": asset.fx_rate,
-        "value (thb)": asset.value_thb,
-        "weight": asset.weight,
-        "target": asset.target,
-        "type": asset.asset_type
-    } for asset in assets])
-else:
-    portfolio_df = summarize_assets(assets, total_thb)
+summarized_df = create_summarized_df(assets, total_thb)
 
-# --- Portfolio Table ---
+# --- UI Toggle ---
 st.subheader("📄 Portfolio Breakdown")
+view_option = st.radio(
+    "View Mode:",
+    ("Summarized (Bond+Cash Grouped)", "Individual Assets"),
+    index=0
+)
 
+if view_option == "Summarized (Bond+Cash Grouped)":
+    portfolio_df = summarized_df
+else:
+    portfolio_df = individual_df
+
+# --- Format and Display Table ---
 show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "type"]
 format_dict = {
     "shares": "{:,.2f}" if portfolio_df["shares"].dtype != object else None,
     "price": "{:,.2f}" if portfolio_df["price"].dtype != object else None,
     "fx rate": "{:,.2f}" if portfolio_df["fx rate"].dtype != object else None,
     "value (thb)": "{:,.0f}",
-    "weight": lambda x: f"{x * 100:.1f}%" if x != "-" else "-",
-    "target": lambda x: f"{x * 100:.1f}%" if isinstance(x, (int, float)) and x != 0 else "-" 
+    "weight": lambda x: f"{x * 100:.1f}%" if isinstance(x, (int, float)) else "-",
+    "target": lambda x: f"{x * 100:.1f}%" if isinstance(x, (int, float)) else "-"
 }
 
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
