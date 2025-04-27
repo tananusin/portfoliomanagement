@@ -3,7 +3,17 @@ from typing import List
 
 @dataclass
 class StockData:
+	#Google Sheet Variables
+    name: str
     ticker: str
-    price_history: List[float] = field(default_factory=list)
-    net_profit_history: List[float] = field(default_factory=list)
-    dividend_yield: float = 0.0
+    currency: str
+    shares: float
+    target: float
+    type: str
+	
+    #Porfolio Variables
+    Price: float
+    fx: float
+    value_local: float
+    value_thb: float
+    weight: float
