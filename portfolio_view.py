@@ -8,6 +8,7 @@ def get_individual_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
         "name": asset.name,
         "symbol": asset.symbol,
+        "value (thb)": asset.value_thb,
         "weight": asset.weight,
         "target": asset.target,
         "type": asset.asset_type
@@ -27,6 +28,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     bond_row = {
         "name": "Total Bonds",
         "symbol": "BOND",
+        "value (thb)": bond_df["value (thb)"].sum(),
         "weight": bond_df["weight"].sum(),
         "target": bond_df["target"].sum(),
         "type": "Bond"
@@ -36,6 +38,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
         "name": "Total Cash",
         "symbol": "CASH",
         "weight": cash_df["weight"].sum(),
+        "value (thb)": cash_df["value (thb)"].sum(),
         "target": cash_df["target"].sum(),
         "type": "Cash"
     }
