@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from load_assets import load_assets_from_google_sheet
 from asset_data import AssetData
 from portfolio_value import enrich_assets, calculate_portfolio_total, assign_weights
 
@@ -11,40 +12,7 @@ st.title("📊 Portfolio Management")
 
 # Load Google Sheet
 sheet_url = st.secrets["google_sheet"]["url"]
-sheet_url = sheet_url.replace('/edit#gid=', '/gviz/tq?tqx=out:csv&gid=')
-
-# Load and clean data
-try:
-    df = pd.read_csv(sheet_url)
-    df.columns = df.columns.str.strip().str.lower()
-except Exception as e:
-    st.error(f"❌ Failed to load Google Sheet: {e}")
-    st.stop()
-
-# Validate columns
-required_cols = {"name", "symbol", "currency", "shares", "price", "target", "type"}
-if not required_cols.issubset(df.columns):
-    st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
-    st.write("Loaded columns:", df.columns.tolist())
-    st.stop()
-
-# Create AssetData objects
-assets = [
-    AssetData(
-        name=row["name"],
-        symbol=row["symbol"],
-        currency=row["currency"],
-        shares=row["shares"],
-        price=row["price"] if pd.notnull(row["price"]) else 0.0,  # Use 0.0 for default value if price is empty or null
-        target=(
-            float(row["target"].replace('%', '').strip()) / 100
-            if pd.notnull(row["target"]) and isinstance(row["target"], str) and "%" in row["target"]
-            else (float(row["target"]) if pd.notnull(row["target"]) else 0.0)
-        ),
-        asset_type=row["type"],
-    )
-    for _, row in df.iterrows()
-]
+assets = load_assets_from_google_sheet(sheet_url)
 
 # Fetch price, fx, and calculate values
 with st.spinner("Fetching live prices and FX rates..."):
