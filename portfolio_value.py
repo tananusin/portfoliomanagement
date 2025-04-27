@@ -4,16 +4,24 @@ from asset_data import AssetData
 from typing import List
 
 def enrich_asset(asset: AssetData) -> AssetData:
-    # For Bond or Cash assets, set price and fx_rate to 1
-    if asset.symbol in ['BOND', 'CASH']:  # Check if the symbol is BOND or CASH
-        asset.price = 1
+    # Handle THB currency first, set fx_rate to 1
+    if asset.currency == 'THB':
         asset.fx_rate = 1
     else:
-        # Otherwise, fetch live price and FX rate
-        asset.price = get_price(asset.symbol)
+        # For other currencies, fetch fx_rate normally
         asset.fx_rate = get_fx_to_thb(asset.currency)
+
+    # Handle BOND and CASH symbols separately for price and fx_rate
+    if asset.symbol in ['BOND', 'CASH']:
+        asset.price = 1
+        # If currency is not THB, fetch fx_rate for BOND or CASH
+        if asset.currency != 'THB':
+            asset.fx_rate = get_fx_to_thb(asset.currency)
+    else:
+        # For other assets, fetch price normally
+        asset.price = get_price(asset.symbol)
     
-    # If price and fx_rate are valid (for non-Bond/Cash), calculate value
+    # Calculate value if price and fx_rate are valid
     if asset.price is not None and asset.fx_rate is not None:
         asset.value_local = asset.shares * asset.price
         asset.value_thb = asset.value_local * asset.fx_rate
