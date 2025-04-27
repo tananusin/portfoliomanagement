@@ -70,7 +70,7 @@ format_dict = {
     "fx rate": "{:,.2f}",
     "value (thb)": "{:,.0f}",
     "weight": lambda x: f"{x * 100:.1f}%",
-    "target": lambda x: f"{x * 100:.1f}%"
+    # "target": lambda x: f"{x * 100:.1f}%",
 }
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
