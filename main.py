@@ -29,7 +29,7 @@ summarized_df = get_summarized_df(assets)
 # --- UI Toggle ---
 st.subheader("📄 Portfolio Breakdown")
 show_individual = st.toggle(
-    "🔀 Show Individual Assets",
+    "🔀 Show Individual Bond and Cash Assets",
     value=False,  # Summarized view by default
     help="Toggle to view each asset separately or group Bonds and Cash together."
 )
