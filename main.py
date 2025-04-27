@@ -36,7 +36,11 @@ assets = [
         asset_type=row["type"],
         currency=row["currency"],
         shares=row["shares"],
-        target=float(row["target"]) if pd.notnull(row["target"]) else 0.0
+        target=(
+            float(row["target"].replace('%', '').strip()) / 100
+            if pd.notnull(row["target"]) and isinstance(row["target"], str) and "%" in row["target"]
+            else (float(row["target"]) if pd.notnull(row["target"]) else 0.0)
+        )
     )
     for _, row in df.iterrows()
 ]
