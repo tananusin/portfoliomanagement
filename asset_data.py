@@ -9,6 +9,7 @@ class AssetData:
     symbol: str
     currency: str
     shares: float
+    par: Optional[float] = None
     target: Optional[float] = None
     asset_type: Optional[str] = None
 
