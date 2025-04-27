@@ -1,3 +1,4 @@
+# main.py
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,37 +21,102 @@ with st.spinner("Fetching live prices and FX rates..."):
     total_thb = calculate_portfolio_total(assets)
     assign_weights(assets, total_thb)
 
-# Convert back to DataFrame for display
-portfolio_df = pd.DataFrame([{
-    "name": asset.name,
-    "symbol": asset.symbol,
-    "currency": asset.currency,
-    "shares": asset.shares,
-    "price": asset.price,
-    "fx rate": asset.fx_rate,
-    "value (thb)": asset.value_thb,
-    "weight": asset.weight,
-    "target": asset.target,
-    "type": asset.asset_type
-} for asset in assets])
+# --- User Toggle ---
+show_individual = st.toggle("🔎 Show individual Bonds and Cash", value=False)
 
-# Portfolio Table
+# --- Summarize bonds and cash if needed ---
+def summarize_assets(assets, total_thb):
+    summarized = []
+    bond_total = 0
+    cash_total = 0
+    other_assets = []
+
+    for asset in assets:
+        if asset.asset_type.lower() == "bond":
+            bond_total += asset.value_thb or 0
+        elif asset.asset_type.lower() == "cash":
+            cash_total += asset.value_thb or 0
+        else:
+            other_assets.append(asset)
+
+    if bond_total > 0:
+        summarized.append({
+            "name": "Total Bonds",
+            "symbol": "BOND",
+            "currency": "THB",
+            "shares": "-",
+            "price": "-",
+            "fx rate": "-",
+            "value (thb)": bond_total,
+            "weight": bond_total / total_thb,
+            "target": "-",
+            "type": "Bond"
+        })
+    if cash_total > 0:
+        summarized.append({
+            "name": "Total Cash",
+            "symbol": "CASH",
+            "currency": "THB",
+            "shares": "-",
+            "price": "-",
+            "fx rate": "-",
+            "value (thb)": cash_total,
+            "weight": cash_total / total_thb,
+            "target": "-",
+            "type": "Cash"
+        })
+
+    summarized += [{
+        "name": asset.name,
+        "symbol": asset.symbol,
+        "currency": asset.currency,
+        "shares": asset.shares,
+        "price": asset.price,
+        "fx rate": asset.fx_rate,
+        "value (thb)": asset.value_thb,
+        "weight": asset.weight,
+        "target": asset.target,
+        "type": asset.asset_type
+    } for asset in other_assets]
+
+    return pd.DataFrame(summarized)
+
+# Create the portfolio DataFrame
+if show_individual:
+    portfolio_df = pd.DataFrame([{
+        "name": asset.name,
+        "symbol": asset.symbol,
+        "currency": asset.currency,
+        "shares": asset.shares,
+        "price": asset.price,
+        "fx rate": asset.fx_rate,
+        "value (thb)": asset.value_thb,
+        "weight": asset.weight,
+        "target": asset.target,
+        "type": asset.asset_type
+    } for asset in assets])
+else:
+    portfolio_df = summarize_assets(assets, total_thb)
+
+# --- Portfolio Table ---
 st.subheader("📄 Portfolio Breakdown")
+
 show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "target", "type"]
 format_dict = {
-    "shares": "{:,.2f}",
-    "price": "{:,.2f}",
-    "fx rate": "{:,.2f}",
+    "shares": "{:,.2f}" if portfolio_df["shares"].dtype != object else None,
+    "price": "{:,.2f}" if portfolio_df["price"].dtype != object else None,
+    "fx rate": "{:,.2f}" if portfolio_df["fx rate"].dtype != object else None,
     "value (thb)": "{:,.0f}",
-    "weight": lambda x: f"{x * 100:.1f}%",
-    "target": lambda x: f"{x * 100:.1f}%" if x != 0.0 else "-",
+    "weight": lambda x: f"{x * 100:.1f}%" if x != "-" else "-",
+    "target": lambda x: f"{x * 100:.1f}%" if isinstance(x, (int, float)) and x != 0 else "-" 
 }
+
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
-# Total Portfolio Value
+# --- Total Portfolio Value ---
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
-# Pie Chart (All assets individually, no cash grouping)
+# --- Pie Chart ---
 st.subheader("📈 Allocation Pie Chart")
 
 chart_df = portfolio_df[["name", "value (thb)"]].copy()
