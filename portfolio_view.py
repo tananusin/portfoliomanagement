@@ -32,7 +32,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     bond_row = {
         "name": "Total Bonds",
         "symbol": "BOND",
-        "currency": bond_df["currency"].iloc[0] if not bond_df.empty else "THB",
+        "currency": "-",
         "shares": 0.0,
         "price": 0.0,
         "fx rate": 0.0,
@@ -45,7 +45,7 @@ def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
     cash_row = {
         "name": "Total Cash",
         "symbol": "CASH",
-        "currency": cash_df["currency"].iloc[0] if not cash_df.empty else "THB",
+        "currency": "-",
         "shares": 0.0,
         "price": 0.0,
         "fx rate": 0.0,
