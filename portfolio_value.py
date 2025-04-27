@@ -12,11 +12,10 @@ def enrich_asset(asset: AssetData) -> AssetData:
         asset.fx_rate = get_fx_to_thb(asset.currency)
 
     # Handle BOND and CASH symbols separately for price and fx_rate
-    if asset.symbol in ['BOND', 'CASH']:
+    if asset.symbol == 'CASH':
         asset.price = 1
-        # If currency is not THB, fetch fx_rate for BOND or CASH
-        if asset.currency != 'THB':
-            asset.fx_rate = get_fx_to_thb(asset.currency)
+    elif asset.symbol == 'BOND':
+        asset.price = asset.par  # Use par value for BOND
     else:
         # For other assets, fetch price normally
         asset.price = get_price(asset.symbol)
