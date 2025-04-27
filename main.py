@@ -52,7 +52,7 @@ portfolio_df = pd.DataFrame([{
     "name": asset.name,
     "symbol": asset.symbol,
     "currency": asset.currency,
-    "currency": asset.asset_type,
+    "type": asset.asset_type,
     "shares": asset.shares,
     "price": asset.price,
     "fx rate": asset.fx_rate,
