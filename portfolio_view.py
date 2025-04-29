@@ -22,7 +22,7 @@ def get_user_preferences() -> float:
     )
     return investment_pct
 
-def get_individual_df(assets: List[AssetData]) -> pd.DataFrame:
+def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
         "name": asset.name,
         "symbol": asset.symbol,
