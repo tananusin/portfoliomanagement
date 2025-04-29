@@ -31,8 +31,8 @@ def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
     enriched = [enrich_asset(asset) for asset in assets]
 
     # Separate asset types
-    cash_assets = [a for a in enriched if a.asset_type == "Cash"]
     bond_assets = [a for a in enriched if a.asset_type == "Bond"]
+    cash_assets = [a for a in enriched if a.asset_type == "Cash"]
     other_assets = [a for a in enriched if a.asset_type not in {"Cash", "Bond"}]
 
     def summarize_assets(assets_to_sum, name, asset_type):
@@ -52,12 +52,12 @@ def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
         )
 
     summarized = []
-    total_cash = summarize_assets(cash_assets, "Total Cash", "Cash")
     total_bond = summarize_assets(bond_assets, "Total Bond", "Bond")
-    if total_cash:
-        summarized.append(total_cash)
+    total_cash = summarize_assets(cash_assets, "Total Cash", "Cash")
     if total_bond:
         summarized.append(total_bond)
+    if total_cash:
+        summarized.append(total_cash)
 
     # Return combined list
     return other_assets + summarized
