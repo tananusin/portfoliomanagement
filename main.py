@@ -24,7 +24,7 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Slider for Investment Portion Setting
 investment_pct = st.slider(
-    label="Set Investment Portion (%): Risk-Off to Risk-On Strategy",
+    label="Set Preferred Investment Portion (%): Risk-Off to Risk-On",
     min_value=25, max_value=75, value=50, step=1,
     help="Investment portion are speculative, growth and core assets. Reserve portion are cash, bond and gold."
 )
