@@ -23,7 +23,7 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Dynamic Target Position Size For Each Asset
-investment_pct = st.sidebar.slider("Investment %", min_value=10, max_value=100, value=50, step=1)
+investment_pct = st.slider("Investment %", min_value=10, max_value=100, value=50, step=1)
 assign_targets(assets, investment_pct)
 
 # Create DataFrame
