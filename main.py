@@ -22,24 +22,15 @@ with st.spinner("Fetching live prices and FX rates..."):
     total_thb = calculate_portfolio_total(assets)
     assign_weights(assets, total_thb)
 
-# Create two versions of DataFrame
+# Create DataFrame
 individual_df = get_individual_df(assets)
-summarized_df = get_summarized_df(assets)
 
-# --- UI Toggle ---
-st.subheader("📄 Portfolio Breakdown")
-show_individual = st.toggle(
-    "🔀 Show Individual Bond and Cash Assets",
-    value=False,  # Summarized view by default
-    help="Toggle to view each asset separately or group Bonds and Cash together."
-)
 portfolio_df = individual_df if show_individual else summarized_df
 
 # --- Format and Display Table ---
-show_cols = ["name", "weight", "target", "type"]
+show_cols = ["name", "weight", "type"]
 format_dict = {
     "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
-    "target": lambda x: f"{x * 100:.1f}%" if x != 0.0 else "-",
 }
 st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
