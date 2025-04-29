@@ -25,9 +25,9 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Sidebar Slider for Investment %
 investment_pct = st.slider(
-    label="🎯 Set Investment Portion (%): Speculative, Growth, Core",
+    label="⚙️ Portfolio Risk Settings: Set Investment Portion (%)",
     min_value=25, max_value=75, value=50, step=1,
-    help="Investment % of total portfolio. (Remaining % will be allocated to Reserve: Cash, Bonds, Gold.)"
+    help="Investment % of total portfolio. (Investment Portion are Speculative, Growth and Core Assets. Reserve are Cash, Bonds and Gold Assets.)"
 )
 
 # Dynamic Target Position Size For Each Asset
