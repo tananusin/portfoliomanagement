@@ -10,7 +10,7 @@ from portfolio_proportion import assign_targets
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
 
 # Streamlit page config
-st.set_page_config(page_title="Portfolio Management", layout="centered")
+st.set_page_config(page_title="📊 Portfolio Management", layout="centered")
 st.title("Portfolio Management")
 
 # Load Google Sheet and Create AssetData objects
