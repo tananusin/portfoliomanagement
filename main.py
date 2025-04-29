@@ -27,7 +27,7 @@ st.sidebar.markdown("### 🎯 Adjust Your Investment vs Reserve Balance")
 
 # Custom min/max labels
 col1, col2 = st.sidebar.columns(2)
-with col1: st.markdown("<div style='text-align: left;'>**25% (Risk-Off)**</div>", unsafe_allow_html=True")
+with col1: st.markdown("<div style='text-align: left;'>**25% (Risk-Off)**</div>", unsafe_allow_html=True)
 with col2: st.markdown("<div style='text-align: right;'>**75% (Risk-On)**</div>", unsafe_allow_html=True)
 # Slider
 investment_pct = st.sidebar.slider(
