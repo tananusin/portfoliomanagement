@@ -5,8 +5,9 @@ import pandas as pd
 from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
 from portfolio_value import enrich_assets, calculate_portfolio_total, assign_weights
+from user_preferences import get_user_preferences
 from portfolio_proportion import assign_targets
-from portfolio_view import get_user_preferences, get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
+from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
 
 # Streamlit page config
 st.set_page_config(page_title="Portfolio Management", layout="centered")
