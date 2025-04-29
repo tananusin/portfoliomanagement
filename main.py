@@ -23,10 +23,10 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Slider with Custom min/max labels
-col1, col2 = st.sidebar.columns(2)
+col1, col2 = st.columns(2)
 with col1: st.markdown("**25% (Risk-Off)**")
 with col2: st.markdown("<div style='text-align: right;'>**75% (Risk-On)**</div>", unsafe_allow_html=True)
-investment_pct = st.sidebar.slider(
+investment_pct = st.slider(
     label="Set Investment Portion (%)",
     min_value=25, max_value=75, value=50, step=1,
     help="Investment portion are speculative, growth and core assets. Reserve portion are cash, bond and gold."
