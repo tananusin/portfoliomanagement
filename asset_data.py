@@ -10,7 +10,6 @@ class AssetData:
     currency: str
     shares: float
     price: Optional[float] = None
-    target: Optional[float] = None
     asset_type: Optional[str] = None
 
     # Portfolio Value Variables
@@ -18,3 +17,6 @@ class AssetData:
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
     weight: Optional[float] = None
+
+    # Proportion
+    target: Optional[float] = None
