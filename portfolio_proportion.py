@@ -36,6 +36,10 @@ def assign_targets(assets: List[AssetData], investment_pct: float):
     gold_pct = 0.2 * reserve_pct    # Fixed Gold 20% Reserve Allocation
     bond_pct = reserve_pct - cash_pct - gold_pct
 
+    if bond_pct < 0:
+        cash_pct += bond_pct  # reduce cash by overshoot
+        bond_pct = 0.0        # set bond to 0
+    
     reserve_allocation = {
         "Cash": cash_pct,
         "Bond": bond_pct,
