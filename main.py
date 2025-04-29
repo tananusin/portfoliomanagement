@@ -24,7 +24,7 @@ with st.spinner("Fetching live prices and FX rates..."):
 
 # Sidebar Slider for Investment %
 investment_pct = st.slider(
-    label="🎯 Set Investment Portion (%)",
+    label="🎯 Set Investment Portion (%): Core, Growth, Speculative",
     min_value=25,
     max_value=74,
     value=50,
