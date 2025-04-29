@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
 from portfolio_value import enrich_assets, calculate_portfolio_total, assign_weights
-from portfolio_view import get_individual_df, get_summarized_df
+from portfolio_view import get_individual_df
 
 # Streamlit page config
 st.set_page_config(page_title="Portfolio Management", layout="centered")
