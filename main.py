@@ -22,8 +22,17 @@ with st.spinner("Fetching live prices and FX rates..."):
     total_thb = calculate_portfolio_total(assets)
     assign_weights(assets, total_thb)
 
+# Sidebar Slider for Investment %
+investment_pct = st.sidebar.slider(
+    label="🎯 Set Investment Portion (%)",
+    min_value=25,
+    max_value=74,
+    value=50,
+    step=1,
+    help="Investment % of total portfolio. (Remaining % will be allocated to Reserve: Cash, Bonds, Gold.)"
+)
+
 # Dynamic Target Position Size For Each Asset
-investment_pct = st.slider("Investment %", min_value=25, max_value=74, value=50, step=1)
 assign_targets(assets, investment_pct)
 
 # Create DataFrame
