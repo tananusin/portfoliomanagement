@@ -11,14 +11,16 @@ def get_individual_df(assets: List[AssetData]) -> pd.DataFrame:
         "name": asset.name,
         "symbol": asset.symbol,
         "value (thb)": asset.value_thb,
+        "type": asset.asset_type,
         "weight": asset.weight,
-        "type": asset.asset_type
+        "target": asset.target
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
-    show_cols = ["name", "weight", "type"]
+    show_cols = ["name", "type", "weight", "target"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+        "target": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
