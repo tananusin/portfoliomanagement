@@ -22,11 +22,14 @@ with st.spinner("Fetching live prices and FX rates..."):
     total_thb = calculate_portfolio_total(assets)
     assign_weights(assets, total_thb)
 
-# Sidebar Slider for Investment %
-investment_pct = st.slider(
-    label="⚙️ Portfolio Risk Settings: Set Investment Portion (%)",
+# Slider with Custom min/max labels
+col1, col2 = st.sidebar.columns(2)
+with col1: st.markdown("**25% (Risk-Off)**")
+with col2: st.markdown("<div style='text-align: right;'>**75% (Risk-On)**</div>", unsafe_allow_html=True)
+investment_pct = st.sidebar.slider(
+    label="Set Investment Portion (%)",
     min_value=25, max_value=75, value=50, step=1,
-    help="Investment % of total portfolio. (Investment Portion are Speculative, Growth and Core Assets. Reserve are Cash, Bonds and Gold Assets.)"
+    help="Investment portion are speculative, growth and core assets. Reserve portion are cash, bond and gold."
 )
 
 # Dynamic Target Position Size For Each Asset
