@@ -10,7 +10,7 @@ from portfolio_view import get_individual_df, show_portfolio_table, show_allocat
 
 # Streamlit page config
 st.set_page_config(page_title="Portfolio Management", layout="centered")
-st.title("📊 Portfolio Management")
+st.title("Portfolio Management")
 
 # Load Google Sheet and Create AssetData objects
 sheet_url = st.secrets["google_sheet"]["url"]
