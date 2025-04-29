@@ -1,7 +1,6 @@
 # main.py
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
