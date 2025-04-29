@@ -5,11 +5,17 @@ from typing import List
 
 def assign_targets(assets: List[AssetData], investment_pct: float):
     reserve_pct = 100 - investment_pct
+    mdd_investment_pct = 9.3  # Based on your table: MDD ≈ 9.3% for investment portfolio
+
+    # Calculate allocations
+    cash_pct = mdd_investment_pct * investment_pct / 100
+    gold_pct = 0.2 * reserve_pct
+    bond_pct = reserve_pct - cash_pct - gold_pct
 
     reserve_allocation = {
-        "Cash": investment_pct,  # %Cash = %MDD of investment (approx)
-        "Bond": reserve_pct - investment_pct,  # Bond = excess reserve after Cash
-        "Gold": 0.2 * reserve_pct,  # Gold = 20% of reserve
+        "Cash": cash_pct,
+        "Bond": bond_pct,
+        "Gold": gold_pct,
     }
 
     investment_allocation = {
