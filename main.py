@@ -23,7 +23,7 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Sidebar
-st.sidebar.markdown("### 🎯 Adjust Your Investment vs Reserve Balance")
+st.sidebar.markdown("### 🎯 Investment Mode")
 
 # Custom min/max labels
 col1, col2 = st.sidebar.columns(2)
