@@ -23,9 +23,7 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Create DataFrame
-individual_df = get_individual_df(assets)
-
-portfolio_df = individual_df if show_individual else summarized_df
+portfolio_df = get_individual_df(assets)
 
 # --- Format and Display Table ---
 show_cols = ["name", "weight", "type"]
