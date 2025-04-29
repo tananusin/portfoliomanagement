@@ -28,7 +28,39 @@ def enrich_asset(asset: AssetData) -> AssetData:
     return asset
 
 def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
-    return [enrich_asset(asset) for asset in assets]
+    enriched = [enrich_asset(asset) for asset in assets]
+
+    # Separate asset types
+    cash_assets = [a for a in enriched if a.asset_type == "Cash"]
+    bond_assets = [a for a in enriched if a.asset_type == "Bond"]
+    other_assets = [a for a in enriched if a.asset_type not in {"Cash", "Bond"}]
+
+    def summarize_assets(assets_to_sum, name, asset_type):
+        total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
+        if total_value_thb == 0:
+            return None
+        return AssetData(
+            name=name,
+            symbol=name.upper().replace(" ", "_"),
+            currency="THB",
+            shares=1,
+            price=1,
+            asset_type=asset_type,
+            fx_rate=1,
+            value_local=total_value_thb,
+            value_thb=total_value_thb,
+        )
+
+    summarized = []
+    total_cash = summarize_assets(cash_assets, "Total Cash", "Cash")
+    total_bond = summarize_assets(bond_assets, "Total Bond", "Bond")
+    if total_cash:
+        summarized.append(total_cash)
+    if total_bond:
+        summarized.append(total_bond)
+
+    # Return combined list
+    return other_assets + summarized
 
 def calculate_portfolio_total(assets: List[AssetData]) -> float:
     return sum(asset.value_thb or 0 for asset in assets)
