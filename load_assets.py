@@ -16,7 +16,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
         st.stop()
 
     # Validate columns
-    required_cols = {"name", "symbol", "currency", "shares", "price", "target", "type"}
+    required_cols = {"name", "symbol", "currency", "shares", "price", "type"}
     if not required_cols.issubset(df.columns):
         st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
         st.write("Loaded columns:", df.columns.tolist())
@@ -30,11 +30,6 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             currency=row["currency"],
             shares=row["shares"],
             price=row["price"] if pd.notnull(row["price"]) else 0.0,
-            target=(
-                float(row["target"].replace('%', '').strip()) / 100
-                if pd.notnull(row["target"]) and isinstance(row["target"], str) and "%" in row["target"]
-                else (float(row["target"]) if pd.notnull(row["target"]) else 0.0)
-            ),
             asset_type=row["type"],
         )
         for _, row in df.iterrows()
