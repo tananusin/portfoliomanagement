@@ -10,39 +10,5 @@ def get_individual_df(assets: List[AssetData]) -> pd.DataFrame:
         "symbol": asset.symbol,
         "value (thb)": asset.value_thb,
         "weight": asset.weight,
-        "target": asset.target,
         "type": asset.asset_type
     } for asset in assets])
-
-def get_summarized_df(assets: List[AssetData]) -> pd.DataFrame:
-    df = get_individual_df(assets)
-    
-    # Always uppercase to be safe
-    df["symbol"] = df["symbol"].str.upper()
-
-    # Summarize bond and cash
-    bond_df = df[df["symbol"] == "BOND"]
-    cash_df = df[df["symbol"] == "CASH"]
-    others_df = df[~df["symbol"].isin(["BOND", "CASH"])]
-
-    bond_row = {
-        "name": "Total Bonds",
-        "symbol": "BOND",
-        "value (thb)": bond_df["value (thb)"].sum(),
-        "weight": bond_df["weight"].sum(),
-        "target": bond_df["target"].sum(),
-        "type": "Bond"
-    }
-
-    cash_row = {
-        "name": "Total Cash",
-        "symbol": "CASH",
-        "weight": cash_df["weight"].sum(),
-        "value (thb)": cash_df["value (thb)"].sum(),
-        "target": cash_df["target"].sum(),
-        "type": "Cash"
-    }
-
-    # Append totals at bottom
-    summarized_df = pd.concat([others_df, pd.DataFrame([bond_row, cash_row])], ignore_index=True)
-    return summarized_df
