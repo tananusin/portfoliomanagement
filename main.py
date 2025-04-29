@@ -23,7 +23,7 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Sidebar Slider for Investment %
-investment_pct = st.sidebar.slider(
+investment_pct = st.slider(
     label="🎯 Set Investment Portion (%)",
     min_value=25,
     max_value=74,
