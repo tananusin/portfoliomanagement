@@ -30,7 +30,7 @@ def enrich_asset(asset: AssetData) -> AssetData:
 def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
     enriched = [enrich_asset(asset) for asset in assets]
 
-    # Separate asset types
+    # Separate asset types for summarize Bond and Cash asset type
     bond_assets = [a for a in enriched if a.asset_type == "Bond"]
     cash_assets = [a for a in enriched if a.asset_type == "Cash"]
     other_assets = [a for a in enriched if a.asset_type not in {"Cash", "Bond"}]
