@@ -19,8 +19,8 @@ def get_individual_df(assets: List[AssetData]) -> pd.DataFrame:
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     show_cols = ["name", "type", "weight", "target"]
     format_dict = {
-        "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
-        "target": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+        "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
