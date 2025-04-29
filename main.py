@@ -23,6 +23,7 @@ with st.spinner("Fetching live prices and FX rates..."):
     assign_weights(assets, total_thb)
 
 # Sidebar
+st.sidebar.subheader("User Preference")
 st.sidebar.markdown("### 🎯 Investment Mode")
 
 # Custom min/max labels
