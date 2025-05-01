@@ -7,6 +7,7 @@ from load_assets import load_assets_from_google_sheet
 from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
+from portfolio_size import set_all_position_sizes
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
 
 # Streamlit page config
@@ -34,6 +35,9 @@ else:
 assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
+
+# Calulate Position Size for All Assets()
+set_all_position_sizes(assets)
 
 # Dynamic Target Position Size For Each Asset
 assign_targets(assets, user_pref.investment_pct)
