@@ -57,3 +57,19 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
         ax=ax
     )
     st.pyplot(fig)
+
+def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
+    st.subheader("🎯 Target Allocation Pie Chart")
+
+    target_df = portfolio_df[["name", "target"]].copy()
+    target_df = target_df[target_df["target"] > 0]  # Filter out 0 targets
+    target_df["target (%)"] = (target_df["target"] * 100).round(1)
+
+    fig, ax = plt.subplots()
+    target_df.set_index("name")["target (%)"].plot.pie(
+        autopct="%1.0f%%",
+        figsize=(5, 5),
+        ylabel="",
+        ax=ax
+    )
+    st.pyplot(fig)
