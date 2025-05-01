@@ -17,11 +17,22 @@ st.title("📊 Portfolio Management")
 sheet_url = st.secrets["google_sheet"]["url"]
 assets = load_assets_from_google_sheet(sheet_url)
 
-# Fetch price, fx, and calculate values
-with st.spinner("Fetching live prices and FX rates..."):
-    assets = enrich_assets(assets)
-    total_thb = calculate_portfolio_total(assets)
-    assign_weights(assets, total_thb)
+# Ask for the password in the sidebar
+password = st.text_input("Enter the password for fetching real-time data:", type="password")
+
+# Validate the password
+if password == st.secrets["credentials"]["app_password"]:
+    st.success("Password correct! Access granted.")
+    
+    # Fetch price, fx, and 
+    with st.spinner("Fetching live prices and FX rates..."):
+        assets = enrich_assets(assets)
+else:
+    st.error("Use Google Sheet Data.")
+    
+# Calculate Portfolio Values
+total_thb = calculate_portfolio_total(assets)
+assign_weights(assets, total_thb)
 
 # Sidebar for User Preference 
 investment_pct = get_user_preferences()
