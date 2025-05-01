@@ -13,9 +13,9 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "value (thb)": asset.value_thb,
         "type": asset.asset_type,
         "weight": asset.weight,
-        "target": asset.target
-        "drift": asset.drift
-        "drift_pct": asset.drift_pct
+        "target": asset.target,
+        "drift": asset.drift,
+        "drift_pct": asset.drift_pct,
         "position": asset.position_size
     } for asset in assets])
 
