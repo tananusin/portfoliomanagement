@@ -20,3 +20,8 @@ class AssetData:
 
     # Proportion
     target: Optional[float] = None
+
+    # Position Size
+    drift: Optional[float] = None
+    drift_pct: Optional[float] = None
+    position_size: str
