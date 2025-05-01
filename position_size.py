@@ -33,7 +33,7 @@ def set_position_size(
     else:
         asset.position_size = "-"
 
-def set_all_position_sizes(assets: List[AssetData]) -> List[AssetData]:
+def assign_position_sizes(assets: List[AssetData]) -> List[AssetData]:
     """
     Applies set_position_size to all assets in the portfolio.
     """
