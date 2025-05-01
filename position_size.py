@@ -1,9 +1,9 @@
 # portfolio_size.py
 
 from asset_data import AssetData
-from typing import Optional
+from typing import List, Optional
 
-def position_size(
+def set_position_size(
     asset: AssetData,
     drift_threshold: float = 0.05,
     drift_pct_threshold: float = 0.50
@@ -32,3 +32,11 @@ def position_size(
         asset.position_size = "undersize"
     else:
         asset.position_size = "-"
+
+def set_all_position_sizes(assets: List[AssetData]) -> List[AssetData]:
+    """
+    Applies set_position_size to all assets in the portfolio.
+    """
+    for asset in assets:
+        set_position_size(asset)
+    return assets
