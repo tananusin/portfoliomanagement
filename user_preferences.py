@@ -1,11 +1,23 @@
-#user_preferences.py
+# user_preferences.py
 
 import streamlit as st
+from dataclasses import dataclass
 
-def get_user_preferences() -> float:
+@dataclass
+class UserPreference:
+    investment_pct: int
+    password: str
+
+def get_user_preferences() -> UserPreference:
     st.sidebar.header("User Preference")
 
-    # Investment % Slider
+    # Password input for accessing real-time data
+    password = st.sidebar.text_input(
+        "🔑 Enter password for live data access:",
+        type="password"
+    )
+
+    # Investment slider
     st.sidebar.markdown("### 🎯 Investment Mode: Risk-Off/Risk-On")
     investment_pct = st.sidebar.slider(
         label="Set Investment Portion (%)",
@@ -13,6 +25,11 @@ def get_user_preferences() -> float:
         max_value=75,
         value=50,
         step=1,
-        help="Investment portion are Core, Growth, and Speculative assets. Reserve portion are Cash, Bond, and Gold."
+        help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
     )
-    return investment_pct
+
+    return UserPreference(
+        investment_pct=investment_pct,
+        password=password
+    )
+
