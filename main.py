@@ -18,7 +18,7 @@ sheet_url = st.secrets["google_sheet"]["url"]
 assets = load_assets_from_google_sheet(sheet_url)
 
 # Ask for the password in the sidebar
-password = st.text_input("Enter the password for fetching real-time data:", type="password")
+password = st.sidebar.text_input("Enter the password for fetching real-time data:", type="password")
 
 # Validate the password
 if password == st.secrets["credentials"]["app_password"]:
