@@ -10,15 +10,15 @@ def set_position_size(
     """
     Calculates and sets drift, drift_pct, and position_size on an AssetData object.
     """
-
-    if asset.weight is None or asset.target is None:
+    
+    if asset.weight is None or asset.target is None or asset.asset_type is None:
         asset.drift = None
         asset.drift_pct = None
         asset.position_size = "-"
         return
 
     # If target is zero, treat the entire weight as excess
-    if asset.target == 0 and asset.asset_type is not None:
+    if asset.target == 0:
         asset.drift = asset.weight
         asset.drift_pct = None
         asset.position_size = "oversize"
