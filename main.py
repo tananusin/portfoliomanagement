@@ -28,7 +28,7 @@ if user_pref.password == st.secrets["credentials"]["app_password"]:
     with st.spinner("Fetching live prices and FX rates..."):
         assets = enrich_assets(assets)
 else:
-    st.error("Using Google Sheet data without live update.")
+    st.warning("Offline mode: using portfolio data from Google Sheet.")
     
 # Calculate Portfolio Values
 assets = summarize_assets(assets)
