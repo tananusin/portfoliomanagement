@@ -12,13 +12,14 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.header("User Preference")
 
     # Password input for accessing real-time data
+    st.sidebar.markdown("### 🔑 Offline/Live Data")
     password = st.sidebar.text_input(
-        "🔑 Enter password for live data access:",
+        "Enter password for live data access:",
         type="password"
     )
 
     # Investment slider
-    st.sidebar.markdown("### 🎯 Investment Mode: Risk-Off/Risk-On")
+    st.sidebar.markdown("### 🎯 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
         label="Set Investment Portion (%)",
         min_value=25,
