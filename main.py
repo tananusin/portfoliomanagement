@@ -36,11 +36,11 @@ assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
-# Calulate Position Size for All Assets()
-set_all_position_sizes(assets)
-
 # Dynamic Target Position Size For Each Asset
 assign_targets(assets, user_pref.investment_pct)
+
+# Calulate Position Size for All Assets()
+set_all_position_sizes(assets)
 
 # Create DataFrame
 portfolio_df = get_portfolio_df(assets)
