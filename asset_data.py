@@ -10,10 +10,10 @@ class AssetData:
     currency: str
     shares: float
     price: Optional[float] = None
+    fx_rate: Optional[float] = None
     asset_type: Optional[str] = None
 
     # Portfolio Value Variables
-    fx_rate: Optional[float] = None
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
     weight: Optional[float] = None
