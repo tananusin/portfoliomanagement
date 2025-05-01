@@ -7,7 +7,7 @@ from load_assets import load_assets_from_google_sheet
 from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
-from position_size.py import assign_position_sizes
+from position_size import assign_position_sizes
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
 
 # Streamlit page config
