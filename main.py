@@ -8,7 +8,7 @@ from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
-from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart
+from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart, show_target_allocation_pie_chart
 
 # Streamlit page config
 st.set_page_config(page_title="Portfolio Management", layout="centered")
@@ -48,6 +48,7 @@ portfolio_df = get_portfolio_df(assets)
 # --- Display Table ---
 show_portfolio_table(portfolio_df)
 
-# --- Display Pie Chart ---
+# --- Display Pie Charts ---
 show_allocation_pie_chart(portfolio_df, total_thb)
+show_target_allocation_pie_chart(portfolio_df)
 
