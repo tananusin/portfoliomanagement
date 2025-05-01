@@ -12,13 +12,6 @@ def set_position_size(
     Skips calculation entirely if asset_type is missing.
     """
 
-    # If asset_type is not defined, skip position size logic
-    if asset.asset_type is None:
-        asset.drift = None
-        asset.drift_pct = None
-        asset.position_size = "-"
-        return
-
     # If target is zero and weight is known, classify as oversize
     if asset.target == 0 and asset.weight is not None:
         asset.drift = asset.weight
