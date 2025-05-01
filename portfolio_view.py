@@ -14,15 +14,13 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "type": asset.asset_type,
         "weight": asset.weight,
         "target": asset.target,
-        "drift": asset.drift,
-        "drift_pct": asset.drift_pct,
         "position": asset.position_size
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
     
-    show_cols = ["name", "type", "weight", "target", "drift", "drift_pct", "position"]
+    show_cols = ["name", "type", "weight", "target", "position"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
