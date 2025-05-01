@@ -18,7 +18,7 @@ def set_position_size(
         return
 
     # If target is zero, treat the entire weight as excess
-    if asset.target == 0:
+    if asset.target == 0 and asset.asset_type is not None:
         asset.drift = asset.weight
         asset.drift_pct = None
         asset.position_size = "oversize"
