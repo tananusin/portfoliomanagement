@@ -12,7 +12,7 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.header("User Preference")
 
     # Password input for accessing real-time data
-    st.sidebar.markdown("### 🔑 Offline/Live Data")
+    st.sidebar.markdown("### 🔑 Switch to Live Data")
     password = st.sidebar.text_input(
         "Enter password for live data access:",
         type="password"
