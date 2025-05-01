@@ -1,4 +1,4 @@
-# portfolio_size.py
+# position_size.py
 
 from asset_data import AssetData
 from typing import List, Optional
