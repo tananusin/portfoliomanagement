@@ -25,3 +25,12 @@ class AssetData:
     drift: Optional[float] = None
     drift_pct: Optional[float] = None
     position_size: Optional[str] = None
+
+    # Price Signal
+    peak_1y: Optional[float] = None
+    trough_1y: Optional[float] = None
+    trough_3y: Optional[float] = None
+    drop_1y: Optional[float] = None
+    gain_1y: Optional[float] = None
+    gain_3y: Optional[float] = None
+    price_signal: Optional[str] = None
