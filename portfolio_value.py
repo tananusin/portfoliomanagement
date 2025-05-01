@@ -28,14 +28,14 @@ def enrich_asset(asset: AssetData) -> AssetData:
     return asset
 
 def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
-    enriched = [enrich_asset(asset) for asset in assets]
+    return [enrich_asset(asset) for asset in assets]
 
-    # Separate asset types for summarize Bond and Cash asset type
-    bond_assets = [a for a in enriched if a.asset_type == "Bond"]
-    cash_assets = [a for a in enriched if a.asset_type == "Cash"]
-    other_assets = [a for a in enriched if a.asset_type not in {"Cash", "Bond"}]
+def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
+    bond_assets = [a for a in assets if a.asset_type == "Bond"]
+    cash_assets = [a for a in assets if a.asset_type == "Cash"]
+    other_assets = [a for a in assets if a.asset_type not in {"Cash", "Bond"}]
 
-    def summarize_assets(assets_to_sum, name, asset_type):
+    def _summarize_group(assets_to_sum, name, asset_type):
         total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
         if total_value_thb == 0:
             return None
@@ -52,14 +52,13 @@ def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
         )
 
     summarized = []
-    total_bond = summarize_assets(bond_assets, "Total Bond", "Bond")
-    total_cash = summarize_assets(cash_assets, "Total Cash", "Cash")
+    total_bond = _summarize_group(bond_assets, "Total Bond", "Bond")
+    total_cash = _summarize_group(cash_assets, "Total Cash", "Cash")
     if total_bond:
         summarized.append(total_bond)
     if total_cash:
         summarized.append(total_cash)
 
-    # Return combined list
     return other_assets + summarized
 
 def calculate_portfolio_total(assets: List[AssetData]) -> float:
