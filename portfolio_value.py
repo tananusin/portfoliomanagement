@@ -1,36 +1,54 @@
 # portfolio_value.py
-from fetch import get_price, get_fx_to_thb
-from asset_data import AssetData
 from typing import List
+from asset_data import AssetData
+from fetch import get_price, get_fx_to_thb
 
-def enrich_asset(asset: AssetData) -> AssetData:
-    # Handle THB currency first, set fx_rate to 1
-    if asset.currency == 'THB':
-        asset.fx_rate = 1
-    else:
-        # For other currencies, fetch fx_rate normally
-        asset.fx_rate = get_fx_to_thb(asset.currency)
 
-    # Handle BOND and CASH symbols
-    if asset.symbol == 'CASH':
-        asset.price = 1
-    elif asset.symbol == 'BOND':
-        pass  # keep asset.price as user-assigned (or asset.par assigned earlier)
-    else:
-        # For other assets, fetch price normally
-        asset.price = get_price(asset.symbol)
-    
-    # Calculate value if price and fx_rate are valid
+def calculate_asset_values(asset: AssetData) -> None:
+    """
+    Compute value_local and value_thb for an asset if price and fx_rate are available.
+    """
     if asset.price is not None and asset.fx_rate is not None:
         asset.value_local = asset.shares * asset.price
         asset.value_thb = asset.value_local * asset.fx_rate
-    
+
+
+def enrich_asset(asset: AssetData) -> AssetData:
+    """
+    Fetch price and fx_rate for an asset and compute its values.
+    """
+    # FX rate
+    if asset.currency == 'THB':
+        asset.fx_rate = 1
+    else:
+        asset.fx_rate = get_fx_to_thb(asset.currency)
+
+    # Price handling
+    if asset.symbol == 'CASH':
+        asset.price = 1
+    elif asset.symbol == 'BOND':
+        pass  # Use user-assigned value
+    else:
+        asset.price = get_price(asset.symbol)
+
+    # Calculate value
+    calculate_asset_values(asset)
     return asset
+
 
 def enrich_assets(assets: List[AssetData]) -> List[AssetData]:
     return [enrich_asset(asset) for asset in assets]
 
+
 def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
+    """
+    Combine bonds and cash into summary positions. Recalculate values if needed.
+    """
+    # Ensure all value fields are populated
+    for asset in assets:
+        calculate_asset_values(asset)
+
+    # Categorize
     bond_assets = [a for a in assets if a.asset_type == "Bond"]
     cash_assets = [a for a in assets if a.asset_type == "Cash"]
     other_assets = [a for a in assets if a.asset_type not in {"Cash", "Bond"}]
@@ -54,6 +72,7 @@ def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
     summarized = []
     total_bond = _summarize_group(bond_assets, "Total Bond", "Bond")
     total_cash = _summarize_group(cash_assets, "Total Cash", "Cash")
+
     if total_bond:
         summarized.append(total_bond)
     if total_cash:
@@ -61,10 +80,12 @@ def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
 
     return other_assets + summarized
 
+
 def calculate_portfolio_total(assets: List[AssetData]) -> float:
     return sum(asset.value_thb or 0 for asset in assets)
 
+
 def assign_weights(assets: List[AssetData], total_value: float):
     for asset in assets:
-        if asset.value_thb is not None:
+        if asset.value_thb is not None and total_value > 0:
             asset.weight = asset.value_thb / total_value
