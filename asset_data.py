@@ -24,4 +24,4 @@ class AssetData:
     # Position Size
     drift: Optional[float] = None
     drift_pct: Optional[float] = None
-    position_size: str
+    position_size: Optional[str] = None
