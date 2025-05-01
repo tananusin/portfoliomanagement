@@ -29,7 +29,20 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drift_pct": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
-    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
+    # Color Green and Red Format
+    def highlight_position(val):
+        if val == "oversize":
+            return "color: red;"
+        elif val == "undersize":
+            return "color: green;"
+        return ""
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_position, subset=["position"])
+    )
+    st.dataframe(styled_df)
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📈 Allocation Pie Chart")
