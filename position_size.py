@@ -1,6 +1,6 @@
 # position_size.py
 from asset_data import AssetData
-from typing import List, Optional
+from typing import Optional
 
 def set_position_size(
     asset: AssetData,
@@ -9,19 +9,28 @@ def set_position_size(
 ) -> None:
     """
     Calculates and sets drift, drift_pct, and position_size on an AssetData object.
+    Skips calculation entirely if asset_type is missing.
     """
-    
-    if asset.weight is None or asset.target is None or asset.asset_type is None:
+
+    # If asset_type is not defined, skip position size logic
+    if asset.asset_type is None:
         asset.drift = None
         asset.drift_pct = None
         asset.position_size = "-"
         return
 
-    # If target is zero, treat the entire weight as excess
-    if asset.target == 0:
+    # If target is zero and weight is known, classify as oversize
+    if asset.target == 0 and asset.weight is not None:
         asset.drift = asset.weight
         asset.drift_pct = None
         asset.position_size = "oversize"
+        return
+
+    # Skip if essential values are missing
+    if asset.weight is None or asset.target is None:
+        asset.drift = None
+        asset.drift_pct = None
+        asset.position_size = "-"
         return
 
     # Calculate drift and drift %
@@ -35,11 +44,3 @@ def set_position_size(
         asset.position_size = "undersize"
     else:
         asset.position_size = "-"
-
-def assign_position_sizes(assets: List[AssetData]) -> List[AssetData]:
-    """
-    Applies set_position_size to all assets in the portfolio.
-    """
-    for asset in assets:
-        set_position_size(asset)
-    return assets
