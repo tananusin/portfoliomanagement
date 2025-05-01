@@ -22,13 +22,13 @@ user_pref = get_user_preferences()
 
 # Validate the password
 if user_pref.password == st.secrets["credentials"]["app_password"]:
-    st.success("Password correct! Fetching live data...")
+    st.success("Password Correct! Fetching live data...")
     
     # Fetch price, fx, and 
     with st.spinner("Fetching live prices and FX rates..."):
         assets = enrich_assets(assets)
 else:
-    st.warning("Offline mode: using portfolio data from Google Sheet.")
+    st.warning("Offline Mode: Using Portfolio Data From Google Sheet.")
     
 # Calculate Portfolio Values
 assets = summarize_assets(assets)
