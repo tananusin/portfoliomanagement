@@ -71,7 +71,7 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
     
     # Drop NaN and zero values
     target_df = target_df.dropna(subset=["target"])
-    target_df = target_df[target_df["target"] > 0]
+    target_df = target_df[target_df["target"] >= 1]
 
     target_df["target (%)"] = (target_df["target"] * 100).round(1)
 
