@@ -49,7 +49,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
-    st.subheader("📈 Actual Allocation Pie Chart")
+    st.subheader("📊 Actual Allocation Pie Chart")
 
     chart_df = portfolio_df[["name", "value (thb)"]].copy()
     chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
