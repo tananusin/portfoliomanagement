@@ -37,7 +37,7 @@ total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
 # Dynamic Target Position Size For Each Asset
-assign_targets(assets, user_pref.investment_pct)
+assign_targets(assets, user_pref)
 
 # Calulate Position Size for All Assets()
 assign_position_sizes(assets)
