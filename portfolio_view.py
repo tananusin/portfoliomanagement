@@ -14,7 +14,10 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "type": asset.asset_type,
         "weight": asset.weight,
         "target": asset.target,
-        "position": asset.position_size
+        "position": asset.position_size,
+        "peak_1y": asset.peak_1y,
+        "trough_1y": asset.trough_1y,
+        "trough_3y": asset.trough_3y
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
@@ -26,6 +29,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drift_pct": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "peak_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "trough_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "trough_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_position(val):
