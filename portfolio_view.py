@@ -34,9 +34,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     }
     # Color Green and Red Format
     def highlight_position(val):
-        if val == "oversize":
+        if val == "oversize" or "overprice":
             return "color: red;"
-        elif val == "undersize":
+        elif val == "undersize" or "underprice":
             return "color: green;"
         return ""
     styled_df = (
