@@ -56,15 +56,15 @@ def get_user_preferences() -> UserPreference:
 
     # MDD inputs
     st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
-    help_text = "%MDD Assumption for Each Asset Class"
+    st.sidebar.caption("ℹ️ Assumed maximum drop each asset class.")
     mdd_core_pct = st.sidebar.number_input(
-        "Core Assets", value=-25, min_value=-95, max_value=-5, step=5, help=help_text
+        "Core Assets", value=-25, min_value=-95, max_value=-5, step=5
     )
     mdd_growth_pct = st.sidebar.number_input(
-        "Growth Assets", value=-50, min_value=-95, max_value=-5, step=5, help=help_text
+        "Growth Assets", value=-50, min_value=-95, max_value=-5, step=5
     )
     mdd_speculative_pct = st.sidebar.number_input(
-        "Speculative Assets", value=-70, min_value=-95, max_value=-5, step=5, help=help_text
+        "Speculative Assets", value=-70, min_value=-95, max_value=-5, step=5
     )
 
     # Create UserPreference object and compute growth
