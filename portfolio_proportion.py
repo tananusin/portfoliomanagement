@@ -34,7 +34,7 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference):
     bond_pct = reserve_pct - cash_pct - gold_pct
 
     if bond_pct < 0:
-        st.warning(
+        st.error(
             f"⚠️ Not enough reserve to cover maximum drawdown. "
             f"Consider lowering your investment portion below {investment_pct}%."
         )
