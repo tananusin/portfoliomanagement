@@ -1,8 +1,8 @@
+# portfolio_proportion.py
+import streamlit as st
 from asset_data import AssetData
 from typing import List
 from user_preferences import UserPreference
-
-# --- Functions ---
 
 def calculate_investment_mdd(prefs: UserPreference) -> float:
     """
@@ -34,6 +34,10 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference):
     bond_pct = reserve_pct - cash_pct - gold_pct
 
     if bond_pct < 0:
+        st.warning(
+            f"⚠️ Not enough reserve to cover maximum drawdown. "
+            f"Consider lowering your investment portion below {investment_pct}%."
+        )
         cash_pct += bond_pct  # reduce cash by overshoot
         bond_pct = 0.0        # prevent negative bond
 
