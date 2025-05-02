@@ -57,7 +57,6 @@ def get_user_preferences() -> UserPreference:
     # MDD inputs
     st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
     st.sidebar.caption("ℹ️ Assumed maximum drop each asset class.")
-    st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD) ℹ️ *(Used to estimate risk tolerance for each asset class)*")
     mdd_core_pct = st.sidebar.number_input(
         "Core Assets", value=-25, min_value=-95, max_value=-5, step=5
     )
@@ -79,7 +78,8 @@ def get_user_preferences() -> UserPreference:
     prefs.compute_growth_metrics()
 
     # Show metrics
-    st.sidebar.markdown("### 📈 Recovery from MDD in 3 Years")
+    st.sidebar.markdown("### 📈 Recovery Rate from MDD")
+    st.sidebar.caption("ℹ️ Assumes price recovers within 3 years.")
     st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, full recovery {round(prefs.recover_core_pct)}%")
     st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, full recovery {round(prefs.recover_growth_pct)}%")
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
