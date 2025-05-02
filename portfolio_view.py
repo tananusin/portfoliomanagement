@@ -68,15 +68,15 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
     st.subheader("🎯 Target Allocation Pie Chart")
 
     target_df = portfolio_df[["name", "target"]].copy()
-    
-    # Drop NaN and zero values
+
+    # Drop NaN and filter out targets < 1%
     target_df = target_df.dropna(subset=["target"])
-    target_df = target_df[target_df["target"] >= 1]
+    target_df = target_df[target_df["target"] >= 0.01]
 
     target_df["target (%)"] = (target_df["target"] * 100).round(1)
 
     if target_df.empty:
-        st.info("No assets with target allocation > 0% to display.")
+        st.info("No assets with target allocation ≥ 1% to display.")
         return
 
     fig, ax = plt.subplots()
@@ -87,4 +87,5 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
         ax=ax
     )
     st.pyplot(fig)
+
 
