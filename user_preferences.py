@@ -47,8 +47,8 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
         label="Set Investment Portion (%)",
-        min_value=0,
-        max_value=100,
+        min_value=25,
+        max_value=75,
         value=50,
         step=5,
         help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
