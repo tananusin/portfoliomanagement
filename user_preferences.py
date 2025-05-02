@@ -15,19 +15,23 @@ class UserPreference:
     cagr_speculative_pct: Optional[float] = None
     cagr_growth_pct: Optional[float] = None
     cagr_core_pct: Optional[float] = None 
-    recover_speculative: Optional[float] = None
-    recover_growth: Optional[float] = None
-    recover_core: Optional[float] = None
+    recover_speculative_pct: Optional[float] = None
+    recover_growth_pct: Optional[float] = None
+    recover_core_pct: Optional[float] = None
 
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
-            recovery = 1 / (1 + mdd_pct / 100)
-            cagr = recovery ** (1 / 3) - 1
-            return round(cagr * 100, 2), round(recovery, 2)
+            # Recovery multiplier = how much it needs to grow to return to original value
+            recovery_multiplier = 1 / (1 + mdd_pct / 100)
+            # CAGR required to recover in 3 years
+            cagr = recovery_multiplier ** (1 / 3) - 1
+            # Convert recovery to percent gain from bottom (e.g. 2.0x = 100% gain)
+            recovery_pct = (recovery_multiplier - 1) * 100
+            return round(cagr * 100, 2), round(recovery_pct, 2)
 
-        self.cagr_speculative_pct, self.recover_speculative = calc(self.mdd_speculative_pct)
-        self.cagr_growth_pct, self.recover_growth = calc(self.mdd_growth_pct)
-        self.cagr_core_pct, self.recover_core = calc(self.mdd_core_pct)
+        self.cagr_speculative_pct, self.recover_speculative_pct = calc(self.mdd_speculative_pct)
+        self.cagr_growth_pct, self.recover_growth_pct = calc(self.mdd_growth_pct)
+        self.cagr_core_pct, self.recover_core_pct = calc(self.mdd_core_pct)
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
@@ -74,8 +78,9 @@ def get_user_preferences() -> UserPreference:
 
     # Show metrics
     st.sidebar.markdown("### 📈 Implied Full Recovery in 3 Years")
-    st.sidebar.write(f"Speculative CAGR, Recovery: {prefs.cagr_speculative_pct}%, {prefs.recover_speculative}%")
-    st.sidebar.write(f"Growth: CAGR = {prefs.cagr_growth_pct}%, Recovery ×{prefs.recover_growth}")
-    st.sidebar.write(f"Core: CAGR = {prefs.cagr_core_pct}%, Recovery ×{prefs.recover_core}")
+    st.sidebar.write(f"Speculative: CAGR = {prefs.cagr_speculative_pct}%, Recovery = {prefs.recover_speculative_pct}%")
+    st.sidebar.write(f"Growth: CAGR = {prefs.cagr_growth_pct}%, Recovery = {prefs.recover_growth_pct}%")
+    st.sidebar.write(f"Core: CAGR = {prefs.cagr_core_pct}%, Recovery = {prefs.recover_core_pct}%")
 
     return prefs
+
