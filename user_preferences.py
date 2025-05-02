@@ -78,9 +78,9 @@ def get_user_preferences() -> UserPreference:
 
     # Show metrics
     st.sidebar.markdown("### 📈 Implied Full Recovery in 3 Years")
-    st.sidebar.write(f"Speculative: CAGR = {round(prefs.cagr_speculative_pct)}%, Recovery = {round(prefs.recover_speculative_pct)}%")
-    st.sidebar.write(f"Growth: CAGR = {round(prefs.cagr_growth_pct)}%, Recovery = {round(prefs.recover_growth_pct)}%")
-    st.sidebar.write(f"Core: CAGR = {round(prefs.cagr_core_pct)}%, Recovery = {round(prefs.recover_core_pct)}%")
+    st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, Recovery {round(prefs.recover_speculative_pct)}%")
+    st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, Recovery {round(prefs.recover_growth_pct)}%")
+    st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, Recovery {round(prefs.recover_core_pct)}%")
 
 
     return prefs
