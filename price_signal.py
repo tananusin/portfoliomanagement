@@ -42,9 +42,9 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
 
         # --- Price Signal Logic ---
         if asset.drop_1y < mdd:  # dropped more than acceptable MDD
-            asset.price_signal = "Underprice"
+            asset.price_signal = "underprice"
         elif asset.gain_1y > cagr or asset.gain_3y > (1 + cagr) ** 3 - 1:
-            asset.price_signal = "Overprice"
+            asset.price_signal = "overprice"
         else:
             asset.price_signal = "-"
 
