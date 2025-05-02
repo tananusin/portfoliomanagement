@@ -39,11 +39,12 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         elif str(val).lower() in ("undersize", "underpriced"):
             return "color: green;"
         return ""
+
     styled_df = (
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_position, subset=["position"])
+        .applymap(highlight_condition, subset=["position", "price_signal"])
     )
     st.dataframe(styled_df)
 
