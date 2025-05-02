@@ -41,6 +41,7 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
             continue
 
         # --- Price Signal Logic ---
+        # Priority: if both underpriced and overpriced conditions are true, classify as "underprice".
         if asset.drop_1y < mdd:  # dropped more than acceptable MDD
             asset.price_signal = "underprice"
         elif asset.gain_1y > cagr or asset.gain_3y > (1 + cagr) ** 3 - 1:
