@@ -50,7 +50,7 @@ def get_user_preferences() -> UserPreference:
         min_value=25,
         max_value=75,
         value=50,
-        step=5,
+        step=1,
         help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
     )
 
