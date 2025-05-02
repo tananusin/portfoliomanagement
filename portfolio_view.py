@@ -33,10 +33,10 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
-    def highlight_position(val):
-        if val == "oversize" or "overprice":
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overpriced"):
             return "color: red;"
-        elif val == "undersize" or "underprice":
+        elif str(val).lower() in ("undersize", "underpriced"):
             return "color: green;"
         return ""
     styled_df = (
