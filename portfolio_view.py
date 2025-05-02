@@ -28,7 +28,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "peak_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
