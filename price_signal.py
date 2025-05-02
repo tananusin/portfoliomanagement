@@ -11,15 +11,15 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
         if asset.asset_type is None:
             continue
 
-    # Skip if required data is missing or zero (to avoid divide-by-zero)
-    if (
-        asset.price is None or asset.price == 0 or
-        asset.peak_1y is None or asset.peak_1y == 0 or
-        asset.trough_1y is None or asset.trough_1y == 0 or
-        asset.trough_3y is None or asset.trough_3y == 0
-    ):
-        asset.price_signal = None
-        continue
+        # Skip if required data is missing or zero (to avoid divide-by-zero)
+        if (
+            asset.price is None or asset.price == 0 or
+            asset.peak_1y is None or asset.peak_1y == 0 or
+            asset.trough_1y is None or asset.trough_1y == 0 or
+            asset.trough_3y is None or asset.trough_3y == 0
+        ):
+            asset.price_signal = None
+            continue
 
         # --- Calculate Drop and Gain Rates ---
         asset.drop_1y = (asset.price - asset.peak_1y) / asset.peak_1y
@@ -49,3 +49,4 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
             asset.price_signal = "-"
 
     return assets
+
