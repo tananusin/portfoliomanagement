@@ -57,6 +57,7 @@ def get_user_preferences() -> UserPreference:
     # MDD inputs
     st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
     st.sidebar.caption("ℹ️ Assumed maximum drop each asset class.")
+    st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD) ℹ️ *(Used to estimate risk tolerance for each asset class)*")
     mdd_core_pct = st.sidebar.number_input(
         "Core Assets", value=-25, min_value=-95, max_value=-5, step=5
     )
