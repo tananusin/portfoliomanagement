@@ -62,6 +62,11 @@ def get_user_preferences() -> UserPreference:
         "Core Assets", value=-25, min_value=-99, max_value=-1, step=1
     )
 
+    st.sidebar.markdown("### 📈 Implied Recovery")
+    st.sidebar.write(f"Speculative: CAGR = {prefs.cagr_speculative_pct}%, Recovery ×{prefs.recover_speculative}")
+    st.sidebar.write(f"Growth: CAGR = {prefs.cagr_growth_pct}%, Recovery ×{prefs.recover_growth}")
+    st.sidebar.write(f"Core: CAGR = {prefs.cagr_core_pct}%, Recovery ×{prefs.recover_core}")
+    
     return UserPreference(
         investment_pct=investment_pct,
         password=password,
