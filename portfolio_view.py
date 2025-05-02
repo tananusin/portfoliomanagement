@@ -23,12 +23,10 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
     
-    show_cols = ["name", "type", "weight", "target", "position"]
+    show_cols = ["name", "type", "weight", "target", "position", "peak_1y", "trough_1y", "trough_3y"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "drift_pct": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "peak_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "trough_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "trough_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
