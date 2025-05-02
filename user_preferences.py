@@ -2,23 +2,34 @@
 
 import streamlit as st
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class UserPreference:
     investment_pct: int
     password: str
+    mdd_speculative_pct: int
+    mdd_growth_pct: int
+    mdd_core_pct: int
+
+    cagr_speculative_pct: Optional[float] = None
+    cagr_growth_pct: Optional[float] = None
+    cagr_core_pct: Optional[float] = None 
+    recover_speculative: Optional[float] = None
+    recover_growth: Optional[float] = None
+    recover_core: Optional[float] = None 
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
 
-    # Password input for accessing real-time data
+    # Password input
     st.sidebar.markdown("### 🔑 Switch to Live Data")
     password = st.sidebar.text_input(
         "Enter password for live data access:",
         type="password"
     )
 
-    # Investment slider
+    # Investment allocation slider
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
         label="Set Investment Portion (%)",
@@ -29,8 +40,18 @@ def get_user_preferences() -> UserPreference:
         help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
     )
 
+    # MDD inputs
+    st.sidebar.markdown("### 📉 Assumed Maximum Drawdown (%)")
+    mdd_speculative_pct = st.sidebar.number_input("Speculative", value=-75, step=1)
+    mdd_growth_pct = st.sidebar.number_input("Growth", value=-50, step=1)
+    mdd_core_pct = st.sidebar.number_input("Core", value=-25, step=1)
+
     return UserPreference(
         investment_pct=investment_pct,
-        password=password
+        password=password,
+        mdd_speculative_pct=mdd_speculative_pct,
+        mdd_growth_pct=mdd_growth_pct,
+        mdd_core_pct=mdd_core_pct
     )
+
 
