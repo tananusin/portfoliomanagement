@@ -15,21 +15,22 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "weight": asset.weight,
         "target": asset.target,
         "position": asset.position_size,
-        "peak_1y": asset.peak_1y,
-        "trough_1y": asset.trough_1y,
-        "trough_3y": asset.trough_3y
+        "drop_1y": asset.drop_1y,
+        "gain_1y": asset.gain_1y,
+        "gain_3y": asset.gain_3y,
+        "price_signal": asset.price_signal        
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
     
-    show_cols = ["name", "type", "weight", "target", "position", "peak_1y", "trough_1y", "trough_3y"]
+    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "peak_1y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
-        "trough_1y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
-        "trough_3y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
+        "peak_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_position(val):
