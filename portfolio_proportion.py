@@ -35,7 +35,7 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference):
 
     if bond_pct < 0:
         st.error(
-            f"⚠️ Not enough reserve to cover maximum drawdown. "
+            f"⚠️ Not enough cash to cover maximum drawdown. "
             f"Consider lowering your investment portion below {investment_pct}%."
         )
         cash_pct += bond_pct  # reduce cash by overshoot
