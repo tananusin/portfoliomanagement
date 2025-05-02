@@ -27,9 +27,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "peak_1y": lambda x: f"{x:.1f}" if x not in (None, 0.0) else "-",
-        "trough_1y": lambda x: f"{x:.1f}" if x not in (None, 0.0) else "-",
-        "trough_3y": lambda x: f"{x:.1f}" if x not in (None, 0.0) else "-",
+        "peak_1y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
+        "trough_1y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
+        "trough_3y": lambda x: f"{x:,.2f}" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_position(val):
