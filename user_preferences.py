@@ -77,7 +77,7 @@ def get_user_preferences() -> UserPreference:
     prefs.compute_growth_metrics()
 
     # Show metrics
-    st.sidebar.markdown("### 📈 3 Years Recovery from MDD")
+    st.sidebar.markdown("### 📈 Recovery from MDD in 3 Years")
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, Recovery {round(prefs.recover_speculative_pct)}%")
     st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, Recovery {round(prefs.recover_growth_pct)}%")
     st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, Recovery {round(prefs.recover_core_pct)}%")
