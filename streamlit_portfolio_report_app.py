@@ -1,3 +1,4 @@
+# streamlit_portfolio_report_app.py
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,7 +16,6 @@ class UserPreference:
     password: str
     sheet_url: str
 
-
 # --- Helper Functions ---
 def convert_to_csv_url(sheet_url: str) -> str:
     sheet_url = sheet_url.strip()
@@ -25,7 +25,6 @@ def convert_to_csv_url(sheet_url: str) -> str:
         return sheet_url
     else:
         raise ValueError("Invalid Google Sheet link format.")
-
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
@@ -52,7 +51,6 @@ def get_user_preferences() -> UserPreference:
 
     return UserPreference(password=password, sheet_url=sheet_url)
 
-
 def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
         "name": asset.name,
@@ -63,21 +61,23 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "fx rate": asset.fx_rate,
         "value (thb)": asset.value_thb,
         "weight": asset.weight,
+        "52W High": asset.peak_1y,
+        "52W Low": asset.trough_1y,
     } for asset in assets])
-
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
-    show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight"]
+    show_cols = ["name", "symbol", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52W High", "52W Low"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "fx rate": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+        "52W High": lambda x: f"{x:,.2f}" if x else "-",
+        "52W Low": lambda x: f"{x:,.2f}" if x else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
-
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
@@ -90,7 +90,6 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
         autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
     )
     st.pyplot(fig)
-
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Report", layout="centered")
@@ -132,3 +131,4 @@ st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
 # --- Display Chart ---
 show_allocation_pie_chart(portfolio_df, total_thb)
+
