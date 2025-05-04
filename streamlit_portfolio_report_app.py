@@ -1,5 +1,3 @@
-# streamlit_portfolio_report_app.py
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,8 +7,7 @@ from typing import List
 from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
-from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
-
+from portfolio_value import enrich_assets, calculate_asset_values, calculate_portfolio_total, assign_weights
 
 # --- User Preference Dataclass ---
 @dataclass
@@ -33,22 +30,20 @@ def convert_to_csv_url(sheet_url: str) -> str:
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
 
-    # Google Sheet URL input
     st.sidebar.markdown("### 📄 Google Sheet Source")
     input_url = st.sidebar.text_input(
         label="Enter your Google Sheet URL (optional)",
         placeholder="https://docs.google.com/spreadsheets/d/...",
         help="Leave blank to use the default shared sheet."
     )
-    st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`. It will be auto-converted.")
+    st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`.")
 
     try:
         sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
     except ValueError:
-        st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+        st.sidebar.error("❌ Invalid link format.")
         sheet_url = st.secrets["google_sheet"]["url"]
 
-    # Password input
     st.sidebar.markdown("### 🔑 Switch to Live Data")
     password = st.sidebar.text_input(
         "Enter password for live data access:",
@@ -88,14 +83,11 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
     chart_df = portfolio_df[["name", "value (thb)"]].copy()
     chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
-    chart_df = chart_df[chart_df["weight (%)"] >= 1]  # Hide assets <1%
+    chart_df = chart_df[chart_df["weight (%)"] >= 1]
 
     fig, ax = plt.subplots()
     chart_df.set_index("name")["weight (%)"].plot.pie(
-        autopct="%1.0f%%",
-        figsize=(5, 5),
-        ylabel="",
-        ax=ax
+        autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
     )
     st.pyplot(fig)
 
@@ -125,17 +117,18 @@ if user_pref.password == st.secrets["credentials"]["app_password"]:
 else:
     st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
 
-# --- Portfolio Calculations ---
-assets = summarize_assets(assets)
+# --- Calculate Values (Without Summarization) ---
+for asset in assets:
+    calculate_asset_values(asset)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
-# --- Display Table---
+# --- Display Table ---
 portfolio_df = get_portfolio_df(assets)
 show_portfolio_table(portfolio_df)
 
-# --- Total Portfolio Value ---
+# --- Display Metrics ---
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
-# --- Display Piechart---
+# --- Display Chart ---
 show_allocation_pie_chart(portfolio_df, total_thb)
