@@ -49,7 +49,7 @@ def get_user_preferences() -> UserPreference:
         placeholder="https://docs.google.com/spreadsheets/d/...",
         help="Leave blank to use the default shared sheet."
     )
-    st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`. It will be auto-converted.")
+    st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`.")
 
     try:
         sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
