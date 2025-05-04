@@ -1,5 +1,4 @@
 # user_preferences.py
-
 import streamlit as st
 from dataclasses import dataclass
 from typing import Optional
@@ -22,11 +21,8 @@ class UserPreference:
 
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
-            # Recovery multiplier = how much it needs to grow to return to original value
             recovery_multiplier = 1 / (1 + mdd_pct / 100)
-            # CAGR required to recover in 3 years
             cagr = recovery_multiplier ** (1 / 3) - 1
-            # Convert recovery to percent gain from bottom (e.g. 2.0x = 100% gain)
             recovery_pct = (recovery_multiplier - 1) * 100
             return round(cagr * 100, 2), round(recovery_pct, 2)
 
@@ -34,17 +30,32 @@ class UserPreference:
         self.cagr_growth_pct, self.recover_growth_pct = calc(self.mdd_growth_pct)
         self.cagr_core_pct, self.recover_core_pct = calc(self.mdd_core_pct)
 
+def convert_to_csv_url(sheet_url: str) -> str:
+    sheet_url = sheet_url.strip()
+    if "/edit" in sheet_url:
+        return sheet_url.split("/edit")[0] + "/export?format=csv"
+    elif sheet_url.endswith("/export?format=csv"):
+        return sheet_url
+    else:
+        raise ValueError("Invalid Google Sheet link format.")
+
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
 
-    # Google Sheet URL
+    # Google Sheet URL input
     st.sidebar.markdown("### 📄 Google Sheet Source")
     input_url = st.sidebar.text_input(
         label="Enter your Google Sheet URL (optional)",
         placeholder="https://docs.google.com/spreadsheets/d/...",
         help="Leave blank to use the default shared sheet."
     )
-    sheet_url = input_url.strip() or st.secrets["google_sheet"]["url"]
+    st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`. It will be auto-converted.")
+
+    try:
+        sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
+    except ValueError:
+        st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+        sheet_url = st.secrets["google_sheet"]["url"]
 
     # Password input
     st.sidebar.markdown("### 🔑 Switch to Live Data")
@@ -76,7 +87,7 @@ def get_user_preferences() -> UserPreference:
         "Speculative Assets", value=-70, min_value=-95, max_value=-5, step=5
     )
 
-    # Create UserPreference object and compute growth metrics
+    # Create UserPreference object
     prefs = UserPreference(
         investment_pct=investment_pct,
         password=password,
@@ -87,7 +98,7 @@ def get_user_preferences() -> UserPreference:
     )
     prefs.compute_growth_metrics()
 
-    # Show computed recovery metrics
+    # Display recovery metrics
     st.sidebar.markdown("### 📈 Recovery Rate from MDD")
     st.sidebar.caption("ℹ️ Assumes price recovers within 3 years.")
     st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, full recovery {round(prefs.recover_core_pct)}%")
@@ -95,3 +106,4 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
     return prefs
+
