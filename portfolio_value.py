@@ -1,7 +1,7 @@
 # portfolio_value.py
 from typing import List
 from asset_data import AssetData
-from fetch import get_price, get_fx_to_thb
+from fetch_yfinance import get_price, get_fx_to_thb
 
 
 def calculate_asset_values(asset: AssetData) -> None:
