@@ -126,6 +126,7 @@ else:
     st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
 
 # --- Portfolio Calculations ---
+assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
