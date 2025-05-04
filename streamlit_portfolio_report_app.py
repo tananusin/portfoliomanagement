@@ -130,7 +130,12 @@ assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
-# --- Display ---
+# --- Display Table---
 portfolio_df = get_portfolio_df(assets)
 show_portfolio_table(portfolio_df)
+
+# --- Total Portfolio Value ---
+st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
+
+# --- Display Piechart---
 show_allocation_pie_chart(portfolio_df, total_thb)
