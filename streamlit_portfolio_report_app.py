@@ -65,7 +65,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Portfolio Breakdown")
+    st.subheader("📋 Portfolio Report")
     show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52W High", "52W Low"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
