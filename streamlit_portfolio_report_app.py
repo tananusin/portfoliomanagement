@@ -50,7 +50,6 @@ show_portfolio_table(portfolio_df)
 
 @dataclass
 class UserPreference:
-    investment_pct: int
     password: str
     sheet_url: str
 
