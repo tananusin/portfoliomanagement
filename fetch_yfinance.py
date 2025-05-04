@@ -27,3 +27,19 @@ def get_fx_to_thb(currency: str) -> float:
         return round(fx["Close"].iloc[-1], 2)  # Fetch the latest FX rate and round it
     except Exception as e:
         return None  # Return None if there's an error
+
+# 52-Week High
+def get_52_week_high(symbol: str) -> float | None:
+    try:
+        ticker = yf.Ticker(symbol.strip().upper())
+        return ticker.fast_info.get("yearHigh")
+    except Exception:
+        return None
+
+# 52-Week Low
+def get_52_week_low(symbol: str) -> float | None:
+    try:
+        ticker = yf.Ticker(symbol.strip().upper())
+        return ticker.fast_info.get("yearLow")
+    except Exception:
+        return None
