@@ -1,9 +1,9 @@
-#streamlit_portfolio_report_app.py
+# streamlit_portfolio_report_app.py
+
 import streamlit as st
 import pandas as pd
-from dataclasses import dataclass
-from typing import Optional
 import matplotlib.pyplot as plt
+from dataclasses import dataclass
 from typing import List
 
 from asset_data import AssetData
@@ -11,11 +11,15 @@ from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
 from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
 
+
+# --- User Preference Dataclass ---
 @dataclass
 class UserPreference:
     password: str
     sheet_url: str
 
+
+# --- Helper Functions ---
 def convert_to_csv_url(sheet_url: str) -> str:
     sheet_url = sheet_url.strip()
     if "/edit" in sheet_url:
@@ -24,6 +28,7 @@ def convert_to_csv_url(sheet_url: str) -> str:
         return sheet_url
     else:
         raise ValueError("Invalid Google Sheet link format.")
+
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
@@ -50,6 +55,9 @@ def get_user_preferences() -> UserPreference:
         type="password"
     )
 
+    return UserPreference(password=password, sheet_url=sheet_url)
+
+
 def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
         "name": asset.name,
@@ -61,6 +69,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "value (thb)": asset.value_thb,
         "weight": asset.weight,
     } for asset in assets])
+
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
@@ -77,10 +86,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
-
     chart_df = portfolio_df[["name", "value (thb)"]].copy()
     chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
-    chart_df = chart_df[chart_df["weight (%)"] >= 1]
+    chart_df = chart_df[chart_df["weight (%)"] >= 1]  # Hide assets <1%
 
     fig, ax = plt.subplots()
     chart_df.set_index("name")["weight (%)"].plot.pie(
@@ -91,11 +99,12 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     )
     st.pyplot(fig)
 
+
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Report", layout="centered")
 st.title("🗂️ Portfolio Report")
 
-# --- User Preferences ---
+# --- Load User Preferences ---
 user_pref = get_user_preferences()
 
 # --- Load Asset Data ---
@@ -105,10 +114,10 @@ except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
 
-# --- Check Password and Fetch Data ---
+# --- Check Password and Fetch Live Data ---
 if user_pref.password == st.secrets["credentials"]["app_password"]:
     st.success("🔓 Password Correct! Checking live data availability...")
-    if can_fetch_data():  # ✅ Check fetch readiness
+    if can_fetch_data():
         with st.spinner("Fetching live prices and FX rates..."):
             assets = enrich_assets(assets)
     else:
@@ -121,9 +130,7 @@ assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
-# --- Convert to DataFrame ---
+# --- Display ---
 portfolio_df = get_portfolio_df(assets)
-
-# --- Display Table and Charts ---
 show_portfolio_table(portfolio_df)
 show_allocation_pie_chart(portfolio_df, total_thb)
