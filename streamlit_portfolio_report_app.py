@@ -46,7 +46,6 @@ portfolio_df = get_portfolio_df(assets)
 
 # --- Display Table and Charts ---
 show_portfolio_table(portfolio_df)
-show_allocation_pie_chart(portfolio_df, total_thb)
 
 
 @dataclass
