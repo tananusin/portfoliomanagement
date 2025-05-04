@@ -1,6 +1,15 @@
 # fetch.py
 import yfinance as yf
 
+def can_fetch_data(test_symbol: str = "AAPL") -> bool:
+    """Test if live data can be fetched successfully (e.g., not rate-limited or offline)."""
+    try:
+        ticker = yf.Ticker(test_symbol)
+        price = ticker.info.get("regularMarketPrice", None)
+        return price is not None
+    except Exception:
+        return False
+
 def get_price(symbol: str) -> float:
     """Fetches the market price for the asset symbol."""
     symbol_clean = str(symbol).strip().upper()
