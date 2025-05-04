@@ -1,7 +1,7 @@
 # portfolio_value.py
 from typing import List
 from asset_data import AssetData
-from fetch_yfinance import get_price, get_fx_to_thb
+from fetch_yfinance import get_price, get_fx_to_thb, get_52_week_high, get_52_week_low
 
 
 def calculate_asset_values(asset: AssetData) -> None:
@@ -30,6 +30,8 @@ def enrich_asset(asset: AssetData) -> AssetData:
         pass  # Use user-assigned value
     else:
         asset.price = get_price(asset.symbol)
+        asset.peak_1y = get_52_week_high(asset.symbol)
+        asset.trough_1y = get_52_week_low(asset.symbol)
 
     # Calculate value
     calculate_asset_values(asset)
