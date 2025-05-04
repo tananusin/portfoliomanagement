@@ -8,6 +8,7 @@ from typing import Optional
 class UserPreference:
     investment_pct: int
     password: str
+    sheet_url: str
     mdd_speculative_pct: int
     mdd_growth_pct: int
     mdd_core_pct: int
@@ -35,6 +36,15 @@ class UserPreference:
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
+
+    # Google Sheet URL
+    st.sidebar.markdown("### 📄 Google Sheet Source")
+    input_url = st.sidebar.text_input(
+        label="Enter your Google Sheet URL (optional)",
+        placeholder="https://docs.google.com/spreadsheets/d/...",
+        help="Leave blank to use the default shared sheet."
+    )
+    sheet_url = input_url.strip() or st.secrets["google_sheet"]["url"]
 
     # Password input
     st.sidebar.markdown("### 🔑 Switch to Live Data")
@@ -66,17 +76,18 @@ def get_user_preferences() -> UserPreference:
         "Speculative Assets", value=-70, min_value=-95, max_value=-5, step=5
     )
 
-    # Create UserPreference object and compute growth
+    # Create UserPreference object and compute growth metrics
     prefs = UserPreference(
         investment_pct=investment_pct,
         password=password,
+        sheet_url=sheet_url,
         mdd_speculative_pct=mdd_speculative_pct,
         mdd_growth_pct=mdd_growth_pct,
         mdd_core_pct=mdd_core_pct
     )
     prefs.compute_growth_metrics()
 
-    # Show metrics
+    # Show computed recovery metrics
     st.sidebar.markdown("### 📈 Recovery Rate from MDD")
     st.sidebar.caption("ℹ️ Assumes price recovers within 3 years.")
     st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, full recovery {round(prefs.recover_core_pct)}%")
@@ -84,4 +95,3 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
     return prefs
-
