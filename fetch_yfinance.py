@@ -1,4 +1,4 @@
-# fetch.py
+# fetch_yfinance.py
 import yfinance as yf
 
 def can_fetch_data(test_symbol: str = "AAPL") -> bool:
