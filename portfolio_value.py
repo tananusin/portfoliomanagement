@@ -1,7 +1,7 @@
 # portfolio_value.py
 from typing import List
 from asset_data import AssetData
-from fetch_yfinance import get_price, get_fx_to_thb, get_52_week_high, get_52_week_low
+from fetch_yfinance import get_price, get_fx_to_thb, get_52_week_high, get_52_week_low, get_trailing_pe, get_trailing_dividend_yield
 
 
 def calculate_asset_values(asset: AssetData) -> None:
