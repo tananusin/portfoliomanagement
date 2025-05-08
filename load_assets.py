@@ -3,6 +3,15 @@ import pandas as pd
 import streamlit as st
 from asset_data import AssetData
 
+def parse_yield(value):
+    """Converts yield from string with '%' to float."""
+    try:
+        if isinstance(value, str) and "%" in value:
+            return float(value.replace("%", "").strip()) / 100
+        return float(value) if pd.notnull(value) else 0.0
+    except (ValueError, TypeError):
+        return 0.0
+
 def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
     # Adjust URL for CSV export
     sheet_url = sheet_url.replace('/edit#gid=', '/gviz/tq?tqx=out:csv&gid=')
@@ -36,7 +45,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             trough_1y=row["trough_1y"] if pd.notnull(row["trough_1y"]) else 0.0,
             trough_3y=row["trough_3y"] if pd.notnull(row["trough_3y"]) else 0.0,
             pe_ratio=row["pe"] if pd.notnull(row["pe"]) else 0.0,
-            dividend_yield=row["yield"] if pd.notnull(row["yield"]) else 0.0,            
+            dividend_yield=parse_yield(row["yield"])                
         )
         for _, row in df.iterrows()
     ]
