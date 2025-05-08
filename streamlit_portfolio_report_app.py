@@ -62,13 +62,13 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "weight": asset.weight,
         "52w high": asset.peak_1y,
         "52w low": asset.trough_1y,
-        "PE": asset.pe_ratio,
+        "pe": asset.pe_ratio,
         "yield": asset.dividend_yield,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
-    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52w high", "52w low", "PE", "yield"]
+    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -77,7 +77,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
         "52w high": lambda x: f"{x:,.2f}" if x else "-",
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
-        "PE": lambda x: f"{x:,.2f}" if x else "-",
+        "pe": lambda x: f"{x:,.2f}" if x else "-",
         "yield": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
@@ -93,6 +93,12 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
         autopct="%1.0f%%", figsize=(5, 5), ylabel="", ax=ax
     )
     st.pyplot(fig)
+
+
+
+
+
+
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Report", layout="centered")
