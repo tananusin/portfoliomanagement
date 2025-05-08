@@ -18,7 +18,9 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "drop_1y": asset.drop_1y,
         "gain_1y": asset.gain_1y,
         "gain_3y": asset.gain_3y,
-        "price_signal": asset.price_signal        
+        "price_signal": asset.price_signal,
+        "pe": asset.pe_ratio,
+        "yield": asset.dividend_yield,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
@@ -31,6 +33,8 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "pe": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
