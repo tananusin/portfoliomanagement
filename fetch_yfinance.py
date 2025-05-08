@@ -47,6 +47,11 @@ def get_trailing_pe(symbol: str) -> float | None:
     try:
         ticker = yf.Ticker(symbol.strip().upper())
         pe_ratio = ticker.info.get("trailingPE")
+        
+        # Set P/E to 0.0 if None or not available
+        if pe_ratio is None:
+            return 0.0
+        
         return round(pe_ratio, 2) if pe_ratio else None
     except Exception:
         return None
@@ -57,11 +62,13 @@ def get_trailing_dividend_yield(symbol: str) -> float | None:
         dividend_rate = ticker.info.get("dividendRate")
         current_price = ticker.info.get("regularMarketPrice")
 
-        if dividend_rate and current_price:
-            # Calculate trailing dividend yield as a percentage
-            dividend_yield = (dividend_rate / current_price) * 100
-            return round(dividend_yield, 2)
-        return None
+        # Check if dividend rate or current price is None or zero
+        if dividend_rate is None or current_price is None or current_price == 0:
+            return 0.0
+
+        # Calculate trailing dividend yield as a percentage
+        dividend_yield = (dividend_rate / current_price) * 100
+        return round(dividend_yield, 2)
     except Exception:
         return None
 
