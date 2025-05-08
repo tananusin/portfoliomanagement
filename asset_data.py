@@ -34,3 +34,7 @@ class AssetData:
     gain_1y: Optional[float] = None
     gain_3y: Optional[float] = None
     price_signal: Optional[str] = None
+
+    # Fundamental Ratios
+    pe_ratio: Optional[float] = None           # Trailing P/E ratio
+    dividend_yield: Optional[float] = None      # Trailing dividend yield
