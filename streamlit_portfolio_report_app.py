@@ -63,7 +63,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "52w high": asset.peak_1y,
         "52w low": asset.trough_1y,
         "PE": asset.pe_ratio,
-        "Yield": asset.dividend_yield,
+        "yield": asset.dividend_yield,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
