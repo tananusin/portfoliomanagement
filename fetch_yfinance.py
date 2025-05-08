@@ -28,7 +28,6 @@ def get_fx_to_thb(currency: str) -> float:
     except Exception as e:
         return None  # Return None if there's an error
 
-# 52-Week High
 def get_52_week_high(symbol: str) -> float | None:
     try:
         ticker = yf.Ticker(symbol.strip().upper())
@@ -36,10 +35,34 @@ def get_52_week_high(symbol: str) -> float | None:
     except Exception:
         return None
 
-# 52-Week Low
 def get_52_week_low(symbol: str) -> float | None:
     try:
         ticker = yf.Ticker(symbol.strip().upper())
         return ticker.fast_info.get("yearLow")
     except Exception:
         return None
+
+def get_trailing_pe(symbol: str) -> float | None:
+    """Fetches the trailing P/E ratio for the asset symbol."""
+    try:
+        ticker = yf.Ticker(symbol.strip().upper())
+        pe_ratio = ticker.info.get("trailingPE")
+        return round(pe_ratio, 2) if pe_ratio else None
+    except Exception:
+        return None
+
+def get_trailing_dividend_yield(symbol: str) -> float | None:
+    try:
+        ticker = yf.Ticker(symbol.strip().upper())
+        dividend_rate = ticker.info.get("dividendRate")
+        current_price = ticker.info.get("regularMarketPrice")
+
+        if dividend_rate and current_price:
+            # Calculate trailing dividend yield as a percentage
+            dividend_yield = (dividend_rate / current_price) * 100
+            return round(dividend_yield, 2)
+        return None
+    except Exception:
+        return None
+
+
