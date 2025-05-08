@@ -60,21 +60,25 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "fx rate": asset.fx_rate,
         "value (thb)": asset.value_thb,
         "weight": asset.weight,
-        "52W High": asset.peak_1y,
-        "52W Low": asset.trough_1y,
+        "52w high": asset.peak_1y,
+        "52w low": asset.trough_1y,
+        "PE": asset.pe_ratio,
+        "Yield": asset.dividend_yield,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
-    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52W High", "52W Low"]
+    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52w high", "52w low", "PE", "yield"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "fx rate": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
-        "52W High": lambda x: f"{x:,.2f}" if x else "-",
-        "52W Low": lambda x: f"{x:,.2f}" if x else "-",
+        "52w high": lambda x: f"{x:,.2f}" if x else "-",
+        "52w low": lambda x: f"{x:,.2f}" if x else "-",
+        "PE": lambda x: f"{x:,.2f}" if x else "-",
+        "yield": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
