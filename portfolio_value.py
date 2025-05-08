@@ -32,6 +32,8 @@ def enrich_asset(asset: AssetData) -> AssetData:
         asset.price = get_price(asset.symbol)
         asset.peak_1y = get_52_week_high(asset.symbol)
         asset.trough_1y = get_52_week_low(asset.symbol)
+        asset.pe_ratio = get_trailing_pe(asset.symbol)
+        asset.dividend_yield = get_trailing_dividend_yield(asset.symbol)
 
     # Calculate value
     calculate_asset_values(asset)
