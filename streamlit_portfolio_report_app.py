@@ -77,8 +77,8 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
         "52w high": lambda x: f"{x:,.2f}" if x else "-",
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
-        "pe": lambda x: f"{x:,.2f}" if x else "-",
-        "yield": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+        "pe": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
+        "yield": lambda x: f"{x * 100:.1f}%" if pd.notnull(x) and x != 0.0 else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
