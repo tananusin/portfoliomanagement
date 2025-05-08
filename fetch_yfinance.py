@@ -68,7 +68,7 @@ def get_trailing_dividend_yield(symbol: str) -> float | None:
 
         # Calculate trailing dividend yield as a percentage
         dividend_yield = dividend_rate / current_price
-        return round(dividend_yield, 2)
+        return round(dividend_yield, 4)
     except Exception:
         return None
 
