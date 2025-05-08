@@ -25,7 +25,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
         st.stop()
 
     # Validate columns
-    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "type", "peak_1y", "trough_1y", "trough_3y", "pe", "yield"}
+    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "type", "52w_high", "52w_low", "3y_low", "pe", "yield"}
     if not required_cols.issubset(df.columns):
         st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
         st.write("Loaded columns:", df.columns.tolist())
@@ -41,9 +41,9 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             price=row["price"] if pd.notnull(row["price"]) else 0.0,
             fx_rate=row["fx"] if pd.notnull(row["fx"]) else 0.0,
             asset_type=row["type"],
-            peak_1y=row["peak_1y"] if pd.notnull(row["peak_1y"]) else 0.0,
-            trough_1y=row["trough_1y"] if pd.notnull(row["trough_1y"]) else 0.0,
-            trough_3y=row["trough_3y"] if pd.notnull(row["trough_3y"]) else 0.0,
+            peak_1y=row["52w_high"] if pd.notnull(row["52w_high"]) else 0.0,
+            trough_1y=row["52w_low"] if pd.notnull(row["52w_low"]) else 0.0,
+            trough_3y=row["3y_low"] if pd.notnull(row["3y_low"]) else 0.0,
             pe_ratio=row["pe"] if pd.notnull(row["pe"]) else 0.0,
             dividend_yield=parse_yield(row["yield"])                
         )
