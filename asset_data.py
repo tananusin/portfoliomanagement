@@ -37,4 +37,6 @@ class AssetData:
 
     # Fundamental Ratios
     pe_ratio: Optional[float] = None           # Trailing P/E ratio
+    pe_mean: Optional[float] = None
+    pe_sd: Optional[float] = None
     dividend_yield: Optional[float] = None      # Trailing dividend yield
