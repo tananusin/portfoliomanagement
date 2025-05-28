@@ -27,9 +27,9 @@ class AssetData:
     position_size: Optional[str] = None
 
     # Price Signal
-    peak_1y: Optional[float] = None
-    trough_1y: Optional[float] = None
-    trough_3y: Optional[float] = None
+    high_52w: Optional[float] = None
+    low_52w: Optional[float] = None
+    low_1y: Optional[float] = None
     drop_1y: Optional[float] = None
     gain_1y: Optional[float] = None
     gain_3y: Optional[float] = None
