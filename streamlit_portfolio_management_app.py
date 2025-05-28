@@ -9,7 +9,7 @@ from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
-from price_signal import assign_price_signals
+from price_change import assign_price_change
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_allocation_pie_chart, show_target_allocation_pie_chart
 
 
@@ -47,7 +47,7 @@ assign_weights(assets, total_thb)
 # --- Assign Dynamic Target and Position ---
 assign_targets(assets, user_pref)
 assign_position_sizes(assets)
-assign_price_signals(assets, user_pref)
+assign_price_change(assets, user_pref)
 
 # --- Convert to DataFrame ---
 portfolio_df = get_portfolio_df(assets)
