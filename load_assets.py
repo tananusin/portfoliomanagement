@@ -25,7 +25,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
         st.stop()
 
     # Validate columns
-    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "type", "52w_high", "52w_low", "3y_low", "pe", "pe_p25", "pe_75", "yield"}
+    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "type", "52w_high", "52w_low", "3y_low", "pe", "pe_p25", "pe_p75", "yield"}
     if not required_cols.issubset(df.columns):
         st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
         st.write("Loaded columns:", df.columns.tolist())
