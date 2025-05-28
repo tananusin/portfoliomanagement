@@ -11,7 +11,7 @@ from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
 from pe_signal import assign_pe_signals
-from portfolio_view import get_portfolio_df, show_summary_portfolio_table, show_full_details_portfolio_table, show_allocation_pie_chart, show_target_allocation_pie_chart
+from portfolio_view import get_portfolio_df, show_summary_signal_table, show_full_details_signal_table, show_allocation_pie_chart, show_target_allocation_pie_chart
 
 
 
@@ -59,9 +59,9 @@ portfolio_df = get_portfolio_df(assets)
 # --- Display Tables ---
 tab1, tab2 = st.tabs(["📋 Summary", "🧮 Full Details"])
 with tab1:
-    show_summary_portfolio_table(portfolio_df)
+    show_summary_signal_table(portfolio_df)
 with tab2:
-    show_full_details_portfolio_table(portfolio_df)
+    show_full_details_signal_table(portfolio_df)
 
 # --- Display Pie Charts ---
 tab1, tab2 = st.tabs(["📋 Actual", "🎯 Target"])
