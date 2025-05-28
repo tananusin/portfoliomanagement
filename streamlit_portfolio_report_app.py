@@ -79,7 +79,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Portfolio Report (Full Details)")
+    st.subheader("📋 Market Data")
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
