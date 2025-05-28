@@ -6,7 +6,6 @@ from typing import Optional
 @dataclass
 class UserPreference:
     investment_pct: int
-    password: str
     sheet_url: str
     mdd_speculative_pct: int
     mdd_growth_pct: int
@@ -56,13 +55,6 @@ def get_user_preferences() -> UserPreference:
     except ValueError:
         st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
         sheet_url = st.secrets["google_sheet"]["url"]
-
-    # Password input
-    st.sidebar.markdown("### 🔑 Switch to Live Data")
-    password = st.sidebar.text_input(
-        "Enter password for live data access:",
-        type="password"
-    )
 
     # Investment allocation slider
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
