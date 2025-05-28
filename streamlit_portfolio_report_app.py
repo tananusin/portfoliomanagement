@@ -60,8 +60,8 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "fx rate": asset.fx_rate,
         "value (thb)": asset.value_thb,
         "weight": asset.weight,
-        "52w high": asset.peak_1y,
-        "52w low": asset.trough_1y,
+        "52w high": asset.high_52w,
+        "52w low": asset.low_52w,
         "pe": asset.pe_ratio,
         "yield": asset.dividend_yield,
     } for asset in assets])
