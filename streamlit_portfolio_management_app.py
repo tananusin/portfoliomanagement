@@ -58,10 +58,15 @@ assign_pe_signals(assets)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2 = st.tabs(["📋 Signals", "🧮 Signals (Full Details)"])
+tab1, tab2, tab3, tab4 = st.tabs(["📋 Portfolio", "🧮 Market Data", "📋 Signals", "🧮 Signals (Full Details)"])
 with tab1:
-    show_summary_signal_table(portfolio_df)
+    show_portfolio_table(portfolio_df)
+    st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 with tab2:
+    show_market_data_table(portfolio_df)
+with tab3:
+    show_summary_signal_table(portfolio_df)
+with tab4:
     show_full_details_signal_table(portfolio_df)
 
 # --- Display Pie Charts ---
