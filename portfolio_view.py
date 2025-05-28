@@ -42,9 +42,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     }
     # Color Green and Red Format
     def highlight_condition(val):
-        if str(val).lower() in ("oversize", "overprice"):
+        if str(val).lower() in ("oversize", "overbought"):
             return "color: red;"
-        elif str(val).lower() in ("undersize", "underprice"):
+        elif str(val).lower() in ("undersize", "oversold"):
             return "color: green;"
         return ""
 
