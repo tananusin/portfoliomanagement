@@ -79,7 +79,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Market Data")
+    st.subheader("🧮 Market Data")
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -142,7 +142,7 @@ assign_weights(assets, total_thb)
 
 # --- Display Table ---
 portfolio_df = get_portfolio_df(assets)
-tab1, tab2 = st.tabs(["📋 Portfolio", "🧾 Market Data"])
+tab1, tab2 = st.tabs(["📋 Portfolio", "🧮 Market Data"])
 with tab1:
     show_portfolio_table(portfolio_df)
 with tab2:
