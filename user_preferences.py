@@ -82,7 +82,6 @@ def get_user_preferences() -> UserPreference:
     # Create UserPreference object
     prefs = UserPreference(
         investment_pct=investment_pct,
-        password=password,
         sheet_url=sheet_url,
         mdd_speculative_pct=mdd_speculative_pct,
         mdd_growth_pct=mdd_growth_pct,
