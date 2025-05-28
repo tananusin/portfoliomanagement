@@ -57,7 +57,7 @@ assign_pe_signals(assets)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2 = st.tabs(["📋 Summary", "🧮 Full Details"])
+tab1, tab2 = st.tabs(["📋 Signal", "🧮 Signal (Full Details)"])
 with tab1:
     show_summary_signal_table(portfolio_df)
 with tab2:
