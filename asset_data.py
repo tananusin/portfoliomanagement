@@ -26,7 +26,7 @@ class AssetData:
     drift_pct: Optional[float] = None
     position_size: Optional[str] = None
 
-    # Price Signal
+    # Price Change
     high_52w: Optional[float] = None
     low_52w: Optional[float] = None
     low_3y: Optional[float] = None
