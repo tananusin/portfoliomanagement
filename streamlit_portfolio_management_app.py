@@ -18,7 +18,6 @@ from portfolio_view import get_portfolio_df, show_summary_portfolio_table, show_
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Management", layout="centered")
 st.title("🗂️ Portfolio Management")
-st.warning("🔒 Not Live Data: Using static data from Google Sheet.")
 
 # --- User Preferences ---
 user_pref = get_user_preferences()
@@ -29,6 +28,17 @@ try:
 except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
+
+# --- Check Password and Fetch Live Data ---
+if user_pref.password == st.secrets["credentials"]["app_password"]:
+    st.success("🔓 Password Correct! Checking live data availability...")
+    if can_fetch_data():
+        with st.spinner("Fetching live prices and FX rates..."):
+            assets = enrich_assets(assets)
+    else:
+        st.error("❌ Unable to fetch live data. Falling back to static data.")
+else:
+    st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
 
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
