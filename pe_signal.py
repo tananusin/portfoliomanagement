@@ -7,8 +7,8 @@ def assign_pe_signals(assets: List[AssetData]) -> None:
         if asset.pe_ratio is None or asset.pe_p25 is None or asset.pe_p75 is None:
             asset.pe_signal = None
         elif asset.pe_ratio < asset.pe_p25:
-            asset.pe_signal = "undervalued"
+            asset.pe_signal = "undervalue"
         elif asset.pe_ratio > asset.pe_p75:
-            asset.pe_signal = "overvalued"
+            asset.pe_signal = "overvalue"
         else:
             asset.pe_signal = "-"
