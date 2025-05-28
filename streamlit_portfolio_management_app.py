@@ -18,6 +18,7 @@ from portfolio_view import get_portfolio_df, show_summary_portfolio_table, show_
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Management", layout="centered")
 st.title("🗂️ Portfolio Management")
+st.warning("🔒 Not Live Data: Using static data from Google Sheet.")
 
 # --- User Preferences ---
 user_pref = get_user_preferences()
