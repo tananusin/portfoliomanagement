@@ -30,8 +30,8 @@ def enrich_asset(asset: AssetData) -> AssetData:
         pass  # Use user-assigned value
     else:
         asset.price = get_price(asset.symbol)
-        asset.peak_1y = get_52_week_high(asset.symbol)
-        asset.trough_1y = get_52_week_low(asset.symbol)
+        asset.high_52w = get_52_week_high(asset.symbol)
+        asset.low_52w = get_52_week_low(asset.symbol)
         asset.pe_ratio = get_trailing_pe(asset.symbol)
         asset.dividend_yield = get_trailing_dividend_yield(asset.symbol)
 
