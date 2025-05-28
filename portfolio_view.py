@@ -22,13 +22,14 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "pe": asset.pe_ratio,
         "pe_p25": asset.pe_p25,
         "pe_p75": asset.pe_p75,
+        "pe_signal": asset.pe_signal,
         "yield": asset.dividend_yield,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
     
-    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "yield"]
+    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -42,9 +43,9 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     }
     # Color Green and Red Format
     def highlight_condition(val):
-        if str(val).lower() in ("oversize", "overbought"):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
             return "color: red;"
-        elif str(val).lower() in ("undersize", "oversold"):
+        elif str(val).lower() in ("undersize", "oversold", "undervalue"):
             return "color: green;"
         return ""
 
