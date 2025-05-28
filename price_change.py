@@ -1,9 +1,9 @@
-# price_signal.py
+# price_change.py
 from typing import List
 from asset_data import AssetData
 from user_preferences import UserPreference
 
-def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
+def assign_price_change(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
     """
     Classifies each asset as Overpriced, Underpriced, or Neutral based on price behavior vs user assumptions.
     """
@@ -18,7 +18,7 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
             asset.low_52w is None or asset.low_52w == 0 or
             asset.low_3y is None or asset.low_3y == 0
         ):
-            asset.price_signal = None
+            asset.price_change = None
             continue
 
         # --- Calculate Drop and Gain Rates ---
@@ -37,17 +37,17 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
             mdd = prefs.mdd_core_pct / 100
             cagr = prefs.cagr_core_pct / 100
         else:
-            asset.price_signal = None
+            asset.price_change = None
             continue
 
         # --- Price Signal Logic ---
         # Priority: if both underpriced and overpriced conditions are true, classify as "underprice".
         if asset.drop_1y < mdd:  # dropped more than acceptable MDD
-            asset.price_signal = "underprice"
+            asset.price_change = "oversold"
         elif asset.gain_1y > cagr or asset.gain_3y > (1 + cagr) ** 3 - 1:
-            asset.price_signal = "overprice"
+            asset.price_change = "overbought"
         else:
-            asset.price_signal = "-"
+            asset.price_change = "-"
 
     return assets
 
