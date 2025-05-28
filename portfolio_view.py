@@ -26,8 +26,32 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "yield": asset.dividend_yield,
     } for asset in assets])
 
-def show_portfolio_table(portfolio_df: pd.DataFrame):
+def show_summary_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
+    
+    show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield"]
+    format_dict = {
+        "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+    }
+    # Color Green and Red Format
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
+            return "color: red;"
+        elif str(val).lower() in ("undersize", "oversold", "undervalue"):
+            return "color: green;"
+        return ""
+
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal"])
+    )
+    st.dataframe(styled_df)
+
+def show_full_details_portfolio_table(portfolio_df: pd.DataFrame):
+    st.subheader("📋 Portfolio Breakdown (Full Details)")
     
     show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
     format_dict = {
