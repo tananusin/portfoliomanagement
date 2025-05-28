@@ -45,7 +45,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("🌐 Market Data")
+    st.subheader("💹 Market Data")
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -58,7 +58,7 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Portfolio Signals")
+    st.subheader("📈 Portfolio Signals")
     
     show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield"]
     format_dict = {
@@ -82,7 +82,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("🧮 Portfolio Signals (Full Details)")
+    st.subheader("📉 Portfolio Signals (Full Details)")
     
     show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
     format_dict = {
