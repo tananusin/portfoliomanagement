@@ -10,6 +10,10 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
         "name": asset.name,
         "symbol": asset.symbol,
+        "currency": asset.currency,
+        "shares": asset.shares,
+        "price": asset.price,
+        "fx rate": asset.fx_rate,
         "value (thb)": asset.value_thb,
         "type": asset.asset_type,
         "weight": asset.weight,
