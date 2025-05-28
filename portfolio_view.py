@@ -18,7 +18,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "drop_1y": asset.drop_1y,
         "gain_1y": asset.gain_1y,
         "gain_3y": asset.gain_3y,
-        "price_signal": asset.price_signal,
+        "price_change": asset.price_change,
         "pe": asset.pe_ratio,
         "pe_p25": asset.pe_p25,
         "pe_p75": asset.pe_p75,
@@ -28,7 +28,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Breakdown")
     
-    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_signal", "pe", "pe_p25", "pe_p75", "yield"]
+    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "yield"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -52,7 +52,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_signal"])
+        .applymap(highlight_condition, subset=["position", "price_change"])
     )
     st.dataframe(styled_df)
 
