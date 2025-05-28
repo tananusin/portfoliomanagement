@@ -68,6 +68,18 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
+    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight"]
+    format_dict = {
+        "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "fx rate": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
+        "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+    }
+    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
+
+def show_details_portfolio_table(portfolio_df: pd.DataFrame):
+    st.subheader("📋 Portfolio Report (Full Details)")
     show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -133,7 +145,11 @@ assign_weights(assets, total_thb)
 
 # --- Display Table ---
 portfolio_df = get_portfolio_df(assets)
-show_portfolio_table(portfolio_df)
+tab1, tab2 = st.tabs(["📋 Summary", "🧾 Full Details"])
+with tab1:
+    show_portfolio_table(portfolio_df)
+with tab2:
+    show_details_portfolio_table(portfolio_df)
 
 # --- Display Metrics ---
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
