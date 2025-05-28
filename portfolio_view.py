@@ -19,6 +19,8 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "weight": asset.weight,
         "target": asset.target,
         "position": asset.position_size,
+        "52w high": asset.high_52w,
+        "52w low": asset.low_52w,
         "drop_1y": asset.drop_1y,
         "gain_1y": asset.gain_1y,
         "gain_3y": asset.gain_3y,
