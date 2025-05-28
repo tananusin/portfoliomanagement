@@ -26,6 +26,31 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "yield": asset.dividend_yield,
     } for asset in assets])
 
+def show_portfolio_table(portfolio_df: pd.DataFrame):
+    st.subheader("📋 Portfolio Report")
+    show_cols = ["name", "currency", "shares", "price", "fx rate", "value (thb)", "weight"]
+    format_dict = {
+        "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "fx rate": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
+        "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+    }
+    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
+
+def show_market_data_table(portfolio_df: pd.DataFrame):
+    st.subheader("🧮 Market Data")
+    show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
+    format_dict = {
+        "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "fx rate": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "52w high": lambda x: f"{x:,.2f}" if x else "-",
+        "52w low": lambda x: f"{x:,.2f}" if x else "-",
+        "pe": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+    }
+    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
+
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Signals")
     
