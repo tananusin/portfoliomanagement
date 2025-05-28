@@ -14,17 +14,17 @@ def assign_price_signals(assets: List[AssetData], prefs: UserPreference) -> List
         # Skip if required data is missing or zero (to avoid divide-by-zero)
         if (
             asset.price is None or asset.price == 0 or
-            asset.peak_1y is None or asset.peak_1y == 0 or
-            asset.trough_1y is None or asset.trough_1y == 0 or
-            asset.trough_3y is None or asset.trough_3y == 0
+            asset.high_52w is None or asset.high_52w == 0 or
+            asset.low_52w is None or asset.low_52w == 0 or
+            asset.low_3y is None or asset.low_3y == 0
         ):
             asset.price_signal = None
             continue
 
         # --- Calculate Drop and Gain Rates ---
-        asset.drop_1y = (asset.price - asset.peak_1y) / asset.peak_1y
-        asset.gain_1y = (asset.price - asset.trough_1y) / asset.trough_1y
-        asset.gain_3y = (asset.price - asset.trough_3y) / asset.trough_3y
+        asset.drop_1y = (asset.price - asset.high_52w) / asset.high_52w
+        asset.gain_1y = (asset.price - asset.low_52w) / asset.low_52w
+        asset.gain_3y = (asset.price - asset.low_3y) / asset.low_3y
 
         # --- Lookup user MDD and CAGR ---
         if asset.asset_type == "Speculative":
