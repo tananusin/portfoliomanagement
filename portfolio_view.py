@@ -53,7 +53,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_change"])
+        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal"])
     )
     st.dataframe(styled_df)
 
