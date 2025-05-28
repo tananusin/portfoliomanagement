@@ -27,7 +27,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Portfolio Breakdown")
+    st.subheader("📋 Portfolio Signals")
     
     show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield"]
     format_dict = {
@@ -51,7 +51,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("🧮 Portfolio Breakdown (Full Details)")
+    st.subheader("🧮 Portfolio Signals (Full Details)")
     
     show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
     format_dict = {
