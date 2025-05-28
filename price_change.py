@@ -3,7 +3,7 @@ from typing import List
 from asset_data import AssetData
 from user_preferences import UserPreference
 
-def assign_price_change(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
+def assign_price_changes(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
     """
     Classifies each asset as Overpriced, Underpriced, or Neutral based on price behavior vs user assumptions.
     """
