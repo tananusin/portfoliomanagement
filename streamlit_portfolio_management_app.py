@@ -64,5 +64,10 @@ with tab2:
     show_full_details_portfolio_table(portfolio_df)
 
 # --- Display Pie Charts ---
-show_allocation_pie_chart(portfolio_df, total_thb)
-show_target_allocation_pie_chart(portfolio_df)
+tab1, tab2 = st.tabs(["📋 Actual", "🧮 Target"])
+with tab1:
+    show_allocation_pie_chart(portfolio_df, total_thb)
+with tab2:
+    show_target_allocation_pie_chart(portfolio_df)
+
+
