@@ -119,9 +119,9 @@ def get_user_preferences() -> UserPreference:
     # Display yield metrics
     st.sidebar.markdown("### 📈 Dividend Yield for MDD Recovery")
     st.sidebar.caption("ℹ️ Expect recoverty within 5 years.")
-    st.sidebar.write(f"Core Yield: {round(prefs.yield_core*100)}%")
-    st.sidebar.write(f"Growth Yield: {round(prefs.yield_growth)}%")
-    st.sidebar.write(f"Speculative Yield: {round(prefs.yield_speculative)}%")
+    st.sidebar.write(f"Core Yield: {round(prefs.yield_core*-100)}%")
+    st.sidebar.write(f"Growth Yield: {round(prefs.yield_growth*-100)}%")
+    st.sidebar.write(f"Speculative Yield: {round(prefs.yield_speculative*-100)}%")
     
     return prefs
 
