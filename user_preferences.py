@@ -19,6 +19,10 @@ class UserPreference:
     recover_growth_pct: Optional[float] = None
     recover_core_pct: Optional[float] = None
 
+    yield_speculative: Optional[float] = None
+    yield_growth: Optional[float] = None
+    yield_core: Optional[float] = None 
+
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
             recovery_multiplier = 1 / (1 + mdd_pct / 100)
@@ -29,6 +33,12 @@ class UserPreference:
         self.cagr_speculative_pct, self.recover_speculative_pct = calc(self.mdd_speculative_pct)
         self.cagr_growth_pct, self.recover_growth_pct = calc(self.mdd_growth_pct)
         self.cagr_core_pct, self.recover_core_pct = calc(self.mdd_core_pct)
+    
+    def compute_yield_metrics(self):
+        self.yield_speculative = (self.mdd_speculative_pct/100)/5
+        self.yield_growth = (self.mdd_growth_pct/100)/5
+        self.yield_core = (self.mdd_core_pct/100)/5
+
 
 def convert_to_csv_url(sheet_url: str) -> str:
     sheet_url = sheet_url.strip()
@@ -96,6 +106,7 @@ def get_user_preferences() -> UserPreference:
         mdd_core_pct=mdd_core_pct
     )
     prefs.compute_growth_metrics()
+    prefs.compute_yield_metrics()
 
     # Display recovery metrics
     st.sidebar.markdown("### 📈 Recovery Rate from MDD")
@@ -104,5 +115,13 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, full recovery {round(prefs.recover_growth_pct)}%")
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
+
+    # Display yield metrics
+    st.sidebar.markdown("### 📈 Dividend Yield for MDD Recovery")
+    st.sidebar.caption("ℹ️ Expect recoverty within 5 years.")
+    st.sidebar.write(f"Core Yield: {round(prefs.yield_core*100)}%")
+    st.sidebar.write(f"Growth Yield: {round(prefs.yield_growth)}%")
+    st.sidebar.write(f"Speculative Yield: {round(prefs.yield_speculative)}%")
+    
     return prefs
 
