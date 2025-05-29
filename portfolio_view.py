@@ -18,6 +18,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "type": asset.asset_type,
         "weight": asset.weight,
         "target": asset.target,
+        "%drift": asset.drift_pct,
         "position": asset.position_size,
         "52w high": asset.high_52w,
         "52w low": asset.low_52w,
@@ -84,10 +85,11 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📉 Portfolio Signals (Full Details)")
     
-    show_cols = ["name", "type", "weight", "target", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
+    show_cols = ["name", "type", "weight", "target", "%drift", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "%drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
