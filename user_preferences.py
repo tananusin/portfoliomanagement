@@ -35,9 +35,9 @@ class UserPreference:
         self.cagr_core_pct, self.recover_core_pct = calc(self.mdd_core_pct)
     
     def compute_yield_metrics(self):
-        self.yield_speculative = (self.mdd_speculative_pct/100)/5
-        self.yield_growth = (self.mdd_growth_pct/100)/5
-        self.yield_core = (self.mdd_core_pct/100)/5
+        self.yield_speculative = (self.mdd_speculative_pct)/5
+        self.yield_growth = (self.mdd_growth_pct)/5
+        self.yield_core = (self.mdd_core_pct)/5
 
 
 def convert_to_csv_url(sheet_url: str) -> str:
@@ -118,9 +118,9 @@ def get_user_preferences() -> UserPreference:
     # Display yield metrics
     st.sidebar.markdown("### 📈 Dividend for MDD Recovery")
     st.sidebar.caption("ℹ️ Expected dividend recovery within 5 years.")
-    st.sidebar.write(f"Core Dividend Yield: {round(prefs.yield_core*-100)}%")
-    st.sidebar.write(f"Growth Dividend Yield: {round(prefs.yield_growth*-100)}%")
-    st.sidebar.write(f"Speculative Dividend Yield: {round(prefs.yield_speculative*-100)}%")
+    st.sidebar.write(f"Core Dividend Yield: {round(prefs.yield_core*-1)}%")
+    st.sidebar.write(f"Growth Dividend Yield: {round(prefs.yield_growth*-1)}%")
+    st.sidebar.write(f"Speculative Dividend Yield: {round(prefs.yield_speculative*-1)}%")
     
     return prefs
 
