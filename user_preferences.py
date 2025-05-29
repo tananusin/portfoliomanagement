@@ -115,7 +115,6 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, full recovery {round(prefs.recover_growth_pct)}%")
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
-
     # Display yield metrics
     st.sidebar.markdown("### 📈 Dividend for MDD Recovery")
     st.sidebar.caption("ℹ️ Expected dividend recovery within 5 years.")
