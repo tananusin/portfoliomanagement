@@ -36,9 +36,11 @@ class AssetData:
     price_change: Optional[str] = None
 
     # Fundamental Ratios
-    pe_ratio: Optional[float] = None            # Trailing P/E ratio
-    pe_p25: Optional[float] = None              # 25th percentile P/E
-    pe_p75: Optional[float] = None              # 75th percentile P/E
+    pe_ratio: Optional[float] = None                # Trailing P/E ratio
+    pe_p25: Optional[float] = None                  # 25th percentile P/E
+    pe_p75: Optional[float] = None                  # 75th percentile P/E
     pe_signal: Optional[str] = None
     
-    dividend_yield: Optional[float] = None      # Trailing dividend yield
+    dividend_yield: Optional[float] = None          # Trailing dividend yield
+    dividend_yield_recovery: Optional[float] = None
+    dividend_yield_signal: Optional[str] = None
