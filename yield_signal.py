@@ -3,7 +3,7 @@ from typing import List
 from asset_data import AssetData
 from user_preferences import UserPreference
 
-def assign_yield(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
+def assign_yield_signals(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
 
     for asset in assets:
       if asset.asset_type is None:
