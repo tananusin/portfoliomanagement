@@ -1,4 +1,4 @@
-# dividend_yield_signal.py
+# yield_signal.py
 from typing import List
 from asset_data import AssetData
 from user_preferences import UserPreference
