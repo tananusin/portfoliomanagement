@@ -47,6 +47,12 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
     st.subheader("💹 Market Data (Fetchable)")
+        with st.expander("ℹ️ What does this show?"):
+            st.markdown("""
+            - Live prices fetched from Yahoo Finance
+            - FX rates applied to convert to THB
+            - Includes P/E ratio, yield, and recent price movement
+        """)
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
