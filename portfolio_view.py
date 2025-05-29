@@ -46,8 +46,8 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("💹 Market Data (Fetchable)")
-    st.caption("ℹ️ Copy this data to your Google Sheet to update static values when using live market data.")
+    st.subheader("💹 Market Data")
+    st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static values.")
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
