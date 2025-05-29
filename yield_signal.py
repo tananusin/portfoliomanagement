@@ -22,6 +22,6 @@ def assign_yield_signals(assets: List[AssetData], prefs: UserPreference) -> List
         if asset.dividend_yield is not None and asset.dividend_yield >= asset.dividend_yield_recovery:
             asset.dividend_yield_signal = "sufficient"
         else:
-            asset.dividend_yield_signal = "insufficient"
+            asset.dividend_yield_signal = "-"
 
     return assets
