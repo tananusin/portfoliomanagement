@@ -18,10 +18,12 @@ def assign_yield_signals(assets: List[AssetData], prefs: UserPreference) -> List
         else:
             asset.dividend_yield_signal = None
             continue
-          
+        
+        asset.dividend_yield_recovery = dividend_yield_recovery
+        
         if asset.dividend_yield > asset.dividend_yield_recovery:
             asset.dividend_yield_signal = "sufficient"
         else:
-            asset.price_change = "-"
+            asset.dividend_yield_signal = "-"
 
     return assets
