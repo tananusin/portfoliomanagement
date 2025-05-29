@@ -40,6 +40,7 @@ if user_pref.password == st.secrets["credentials"]["app_password"]:
 else:
     st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
 
+# --- For Showing Unsummarized Market Data ---
 portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
