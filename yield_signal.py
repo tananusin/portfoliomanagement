@@ -2,6 +2,7 @@
 from typing import List
 from asset_data import AssetData
 from user_preferences import UserPreference
+import streamlit as st
 
 def print_ABC():
     st.write("ABC")
