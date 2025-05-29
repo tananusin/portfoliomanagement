@@ -31,6 +31,8 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "pe_p75": asset.pe_p75,
         "pe_signal": asset.pe_signal,
         "yield": asset.dividend_yield,
+        "yield_threshold": asset.dividend_yield_recovery,
+        "yield_signal": asset.dividend_yield_signal,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
@@ -62,16 +64,15 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📈 Portfolio Signals")
     
-    show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield"]
+    show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield_signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
         if str(val).lower() in ("oversize", "overbought", "overvalue"):
             return "color: red;"
-        elif str(val).lower() in ("undersize", "oversold", "undervalue"):
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
             return "color: green;"
         return ""
 
@@ -79,14 +80,14 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal"])
+        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal", "yield_signal"])
     )
     st.dataframe(styled_df)
 
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("🧮 Signal Calculations")
     
-    show_cols = ["name", "type", "weight", "target", "%drift", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield"]
+    show_cols = ["name", "type", "weight", "target", "%drift", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield", "yield_threshold", "yield_signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -98,12 +99,13 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
         "pe_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "pe_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "yield_threshold": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
         if str(val).lower() in ("oversize", "overbought", "overvalue"):
             return "color: red;"
-        elif str(val).lower() in ("undersize", "oversold", "undervalue"):
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
             return "color: green;"
         return ""
 
@@ -111,7 +113,7 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal"])
+        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal", "yield_signal"])
     )
     st.dataframe(styled_df)
 
