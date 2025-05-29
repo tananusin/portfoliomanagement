@@ -47,6 +47,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
     st.subheader("💹 Market Data (Fetchable)")
+    st.caption("ℹ️ Copy this data to your Google Sheet to update static values when using live market data.")
     show_cols = ["name", "currency", "price", "fx rate", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -57,7 +58,6 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
         "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
-    st.caption("ℹ️ Copy this data to your Google Sheet to update static values when using live market data.")
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📈 Portfolio Signals")
