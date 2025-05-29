@@ -40,6 +40,8 @@ if user_pref.password == st.secrets["credentials"]["app_password"]:
 else:
     st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
 
+portfolio_unsum_df = get_portfolio_df(assets)
+
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
@@ -62,7 +64,7 @@ with tab1:
     show_portfolio_table(portfolio_df)
     st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 with tab2:
-    show_market_data_table(portfolio_df)
+    show_market_data_table(portfolio_unsum_df)
 with tab3:
     show_summary_signal_table(portfolio_df)
 with tab4:
