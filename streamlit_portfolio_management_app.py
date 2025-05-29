@@ -11,7 +11,7 @@ from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
 from pe_signal import assign_pe_signals
-from yield_signal import assign_yield_signals
+from yield_signal import
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_market_data_table, show_summary_signal_table, show_full_details_signal_table, show_allocation_pie_chart, show_target_allocation_pie_chart
 
 
