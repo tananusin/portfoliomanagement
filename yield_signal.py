@@ -6,7 +6,7 @@ import streamlit as st
 
 def print_ABC():
     st.write("ABC")
- 
+'''
 def assign_yield_signals(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
 
     for asset in assets:
@@ -29,3 +29,4 @@ def assign_yield_signals(assets: List[AssetData], prefs: UserPreference) -> List
             asset.dividend_yield_signal = "insufficient"
 
     return assets
+'''
