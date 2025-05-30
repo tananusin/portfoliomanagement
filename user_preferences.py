@@ -85,7 +85,7 @@ def get_user_preferences() -> UserPreference:
     )
 
     # MDD inputs
-    st.sidebar.markdown("### 🪙 Maximum Drawdown (%MDD)")
+    st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
     mdd_core_pct = st.sidebar.number_input(
         "Core Assets", value=-25, min_value=-95, max_value=-5, step=5
     )
@@ -116,7 +116,7 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
     # Display yield metrics
-    st.sidebar.markdown("### 📈 Dividend for MDD Recovery")
+    st.sidebar.markdown("### 🪙 Dividend for MDD Recovery")
     st.sidebar.caption("ℹ️ Expected dividend recovery within 5 years.")
     st.sidebar.write(f"Core Dividend Yield: {round(prefs.yield_core)}%")
     st.sidebar.write(f"Growth Dividend Yield: {round(prefs.yield_growth)}%")
