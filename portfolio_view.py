@@ -64,9 +64,10 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📈 Portfolio Signals")
     
-    show_cols = ["name", "type", "weight", "position", "price_change", "pe_signal", "yield_signal"]
+    show_cols = ["name", "type", "weight", "target", "position", "price_change", "pe_signal", "yield_signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
