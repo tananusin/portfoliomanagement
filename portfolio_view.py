@@ -13,7 +13,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "currency": asset.currency,
         "shares": asset.shares,
         "price": asset.price,
-        "fx": asset.fx_rate,
+        "Fx": asset.fx_rate,
         "value (thb)": asset.value_thb,
         "type": asset.asset_type,
         "weight": asset.weight,
@@ -37,11 +37,11 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
-    show_cols = ["name", "currency", "shares", "price", "fx", "value (thb)", "weight"]
+    show_cols = ["name", "currency", "shares", "price", "Fx", "value (thb)", "weight"]
     format_dict = {
         "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
     }
@@ -50,10 +50,10 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
 def show_market_data_table(portfolio_df: pd.DataFrame):
     st.subheader("💹 Market Data")
     st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-    show_cols = ["name", "currency", "price", "fx", "52w high", "52w low", "pe", "yield"]
+    show_cols = ["name", "currency", "price", "Fx", "52w high", "52w low", "pe", "yield"]
     format_dict = {
         "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "52w high": lambda x: f"{x:,.2f}" if x else "-",
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
         "pe": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
