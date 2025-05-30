@@ -37,13 +37,13 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
-    show_cols = ["Name", "Currency", "Shares", "Price", "Fx", "value (thb)", "weight"]
+    show_cols = ["Name", "Currency", "Shares", "Price", "Fx", "Value (THB)", "Weight"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
-        "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
+        "Value (THB)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
+        "Weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
@@ -64,9 +64,9 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📈 Portfolio Signals")
     
-    show_cols = ["Name", "Type", "weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
+    show_cols = ["Name", "Type", "Weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
     format_dict = {
-        "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
@@ -88,9 +88,9 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("🧮 Signal Calculations")
     
-    show_cols = ["Name", "Type", "weight", "Target", "%drift", "Position", "drop_1y", "gain_1y", "gain_3y", "Price Change", "PE", "PE_p25", "PE_p75", "PE Signal", "Yield", "yield_threshold", "Yield Signal"]
+    show_cols = ["Name", "Type", "Weight", "Target", "%drift", "Position", "drop_1y", "gain_1y", "gain_3y", "Price Change", "PE", "PE_p25", "PE_p75", "PE Signal", "Yield", "yield_threshold", "Yield Signal"]
     format_dict = {
-        "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "%drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -121,8 +121,8 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
 
-    chart_df = portfolio_df[["Name", "value (thb)"]].copy()
-    chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
+    chart_df = portfolio_df[["Name", "Value (THB)"]].copy()
+    chart_df["weight (%)"] = (chart_df["Value (THB)"] / total_thb * 100).round(2)
     chart_df = chart_df[chart_df["weight (%)"] >= 1]
 
     fig, ax = plt.subplots()
