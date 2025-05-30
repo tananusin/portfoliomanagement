@@ -8,39 +8,39 @@ from typing import List
 
 def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     return pd.DataFrame([{
-        "name": asset.name,
-        "symbol": asset.symbol,
-        "currency": asset.currency,
-        "shares": asset.shares,
-        "price": asset.price,
+        "Name": asset.name,
+        "Symbol": asset.symbol,
+        "Currency": asset.currency,
+        "Shares": asset.shares,
+        "Price": asset.price,
         "Fx": asset.fx_rate,
-        "value (thb)": asset.value_thb,
-        "type": asset.asset_type,
-        "weight": asset.weight,
-        "target": asset.target,
+        "Value (THB)": asset.value_thb,
+        "Type": asset.asset_type,
+        "Weight": asset.weight,
+        "Target": asset.target,
         "%drift": asset.drift_pct,
-        "position": asset.position_size,
-        "52w high": asset.high_52w,
-        "52w low": asset.low_52w,
+        "Position": asset.position_size,
+        "52w_high": asset.high_52w,
+        "52w_low": asset.low_52w,
         "drop_1y": asset.drop_1y,
         "gain_1y": asset.gain_1y,
         "gain_3y": asset.gain_3y,
-        "price_change": asset.price_change,
-        "pe": asset.pe_ratio,
-        "pe_p25": asset.pe_p25,
-        "pe_p75": asset.pe_p75,
-        "pe_signal": asset.pe_signal,
-        "yield": asset.dividend_yield,
+        "Price Change": asset.price_change,
+        "PE": asset.pe_ratio,
+        "PE_p25": asset.pe_p25,
+        "PE_p75": asset.pe_p75,
+        "PE Signal": asset.pe_signal,
+        "Yield": asset.dividend_yield,
         "yield_threshold": asset.dividend_yield_recovery,
-        "yield_signal": asset.dividend_yield_signal,
+        "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.subheader("📋 Portfolio Report")
-    show_cols = ["name", "currency", "shares", "price", "Fx", "value (thb)", "weight"]
+    show_cols = ["Name", "Currency", "Shares", "Price", "Fx", "value (thb)", "weight"]
     format_dict = {
-        "shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "value (thb)": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
         "weight": lambda x: f"{x * 100:.1f}%" if x is not None else "-",
@@ -50,24 +50,24 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
 def show_market_data_table(portfolio_df: pd.DataFrame):
     st.subheader("💹 Market Data")
     st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-    show_cols = ["name", "currency", "price", "Fx", "52w high", "52w low", "pe", "yield"]
+    show_cols = ["Name", "Currency", "Price", "Fx", "52w_high", "52w_low", "PE", "Yield"]
     format_dict = {
-        "price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "52w high": lambda x: f"{x:,.2f}" if x else "-",
-        "52w low": lambda x: f"{x:,.2f}" if x else "-",
-        "pe": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "52w_high": lambda x: f"{x:,.2f}" if x else "-",
+        "52w_low": lambda x: f"{x:,.2f}" if x else "-",
+        "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("📈 Portfolio Signals")
     
-    show_cols = ["name", "type", "weight", "target", "position", "price_change", "pe_signal", "yield_signal"]
+    show_cols = ["Name", "Type", "weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
@@ -81,25 +81,25 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal", "yield_signal"])
+        .applymap(highlight_condition, subset=["Position", "Price Change", "PE Signal", "Yield Signal"])
     )
     st.dataframe(styled_df)
 
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("🧮 Signal Calculations")
     
-    show_cols = ["name", "type", "weight", "target", "%drift", "position", "drop_1y", "gain_1y", "gain_3y", "price_change", "pe", "pe_p25", "pe_p75", "pe_signal", "yield", "yield_threshold", "yield_signal"]
+    show_cols = ["Name", "Type", "weight", "Target", "%drift", "Position", "drop_1y", "gain_1y", "gain_3y", "Price Change", "PE", "PE_p25", "PE_p75", "PE Signal", "Yield", "yield_threshold", "Yield Signal"]
     format_dict = {
         "weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "%drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "pe": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "pe_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "pe_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
         "yield_threshold": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
@@ -114,19 +114,19 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["position", "price_change", "pe_signal", "yield_signal"])
+        .applymap(highlight_condition, subset=["Position", "Price Change", "PE Signal", "Yield Signal"])
     )
     st.dataframe(styled_df)
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
 
-    chart_df = portfolio_df[["name", "value (thb)"]].copy()
+    chart_df = portfolio_df[["Name", "value (thb)"]].copy()
     chart_df["weight (%)"] = (chart_df["value (thb)"] / total_thb * 100).round(2)
     chart_df = chart_df[chart_df["weight (%)"] >= 1]
 
     fig, ax = plt.subplots()
-    chart_df.set_index("name")["weight (%)"].plot.pie(
+    chart_df.set_index("Name")["weight (%)"].plot.pie(
         autopct="%1.0f%%",
         figsize=(5, 5),
         ylabel="",
@@ -137,20 +137,20 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
 def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
     st.subheader("🎯 Target Allocation Pie Chart")
 
-    target_df = portfolio_df[["name", "target"]].copy()
+    target_df = portfolio_df[["Name", "Target"]].copy()
 
     # Drop NaN and filter out targets < 1%
-    target_df = target_df.dropna(subset=["target"])
-    target_df = target_df[target_df["target"] >= 0.01]
+    target_df = target_df.dropna(subset=["Target"])
+    target_df = target_df[target_df["Target"] >= 0.01]
 
-    target_df["target (%)"] = (target_df["target"] * 100).round(1)
+    target_df["target (%)"] = (target_df["Target"] * 100).round(1)
 
     if target_df.empty:
         st.info("No assets with target allocation ≥ 1% to display.")
         return
 
     fig, ax = plt.subplots()
-    target_df.set_index("name")["target (%)"].plot.pie(
+    target_df.set_index("Name")["target (%)"].plot.pie(
         autopct="%1.0f%%",
         figsize=(5, 5),
         ylabel="",
