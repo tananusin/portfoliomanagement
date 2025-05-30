@@ -110,14 +110,14 @@ def get_user_preferences() -> UserPreference:
 
     # Display recovery metrics
     st.sidebar.markdown("### 📈 Price Growth Rate")
-    st.sidebar.caption("ℹ️ Assumes price recovers MDD in 3 years.")
+    st.sidebar.caption("ℹ️ Assumes price rebounds from MDD within 3 years.")
     st.sidebar.write(f"Core: CAGR {round(prefs.cagr_core_pct)}%, full recovery {round(prefs.recover_core_pct)}%")
     st.sidebar.write(f"Growth: CAGR {round(prefs.cagr_growth_pct)}%, full recovery {round(prefs.recover_growth_pct)}%")
     st.sidebar.write(f"Speculative: CAGR {round(prefs.cagr_speculative_pct)}%, full recovery {round(prefs.recover_speculative_pct)}%")
 
     # Display yield metrics
     st.sidebar.markdown("### 🪙 Dividend Yield")
-    st.sidebar.caption("ℹ️ Expect dividend recovers MDD in 5 years.")
+    st.sidebar.caption("ℹ️ Expects dividend recovery to offset MDD loss within 5 years.")
     st.sidebar.write(f"Core Dividend Yield: {round(prefs.yield_core)}%")
     st.sidebar.write(f"Growth Dividend Yield: {round(prefs.yield_growth)}%")
     st.sidebar.write(f"Speculative Dividend Yield: {round(prefs.yield_speculative)}%")
