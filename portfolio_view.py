@@ -49,19 +49,15 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("💹 Google Sheet")
+    st.subheader("💹 Market Data")
     st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Type", "52w_high", "52w_low", "3y_low", "PE", "PE_p25", "PE_p75", "Yield"]
+    show_cols = ["Name", "Currency", "Price", "Fx", "52w_high", "52w_low", "PE", "Yield"]
     format_dict = {
-        "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "52w_high": lambda x: f"{x:,.2f}" if x else "-",
         "52w_low": lambda x: f"{x:,.2f}" if x else "-",
-        "3y_low": lambda x: f"{x:,.2f}" if x else "-",
         "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
