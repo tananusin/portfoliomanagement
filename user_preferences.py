@@ -25,10 +25,10 @@ class UserPreference:
 
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
-            reboundy_multiplier = 1 / (1 + mdd_pct / 100)
-            cagr = reboundy_multiplier ** (1 / 3) - 1
-            reboundy_pct = (reboundy_multiplier - 1) * 100
-            return round(cagr * 100, 2), round(reboundy_pct, 2)
+            rebound_multiplier = 1 / (1 + mdd_pct / 100)
+            cagr = rebound_multiplier ** (1 / 3) - 1
+            rebound_pct = (rebound_multiplier - 1) * 100
+            return round(cagr * 100, 2), round(rebound_pct, 2)
 
         self.cagr_speculative_pct, self.rebound_speculative_pct = calc(self.mdd_speculative_pct)
         self.cagr_growth_pct, self.rebound_growth_pct = calc(self.mdd_growth_pct)
