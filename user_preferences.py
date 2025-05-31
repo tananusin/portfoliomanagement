@@ -15,9 +15,9 @@ class UserPreference:
     cagr_speculative_pct: Optional[float] = None
     cagr_growth_pct: Optional[float] = None
     cagr_core_pct: Optional[float] = None 
-    recover_speculative_pct: Optional[float] = None
-    recover_growth_pct: Optional[float] = None
-    recover_core_pct: Optional[float] = None
+    rebound_speculative_pct: Optional[float] = None
+    rebound_growth_pct: Optional[float] = None
+    rebound_core_pct: Optional[float] = None
 
     yield_speculative: Optional[float] = None
     yield_growth: Optional[float] = None
@@ -25,14 +25,14 @@ class UserPreference:
 
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
-            recovery_multiplier = 1 / (1 + mdd_pct / 100)
-            cagr = recovery_multiplier ** (1 / 3) - 1
-            recovery_pct = (recovery_multiplier - 1) * 100
-            return round(cagr * 100, 2), round(recovery_pct, 2)
+            reboundy_multiplier = 1 / (1 + mdd_pct / 100)
+            cagr = reboundy_multiplier ** (1 / 3) - 1
+            reboundy_pct = (reboundy_multiplier - 1) * 100
+            return round(cagr * 100, 2), round(reboundy_pct, 2)
 
-        self.cagr_speculative_pct, self.recover_speculative_pct = calc(self.mdd_speculative_pct)
-        self.cagr_growth_pct, self.recover_growth_pct = calc(self.mdd_growth_pct)
-        self.cagr_core_pct, self.recover_core_pct = calc(self.mdd_core_pct)
+        self.cagr_speculative_pct, self.rebound_speculative_pct = calc(self.mdd_speculative_pct)
+        self.cagr_growth_pct, self.rebound_growth_pct = calc(self.mdd_growth_pct)
+        self.cagr_core_pct, self.rebound_core_pct = calc(self.mdd_core_pct)
     
     def compute_yield_metrics(self):
         self.yield_speculative = (self.mdd_speculative_pct)/-5
@@ -108,14 +108,14 @@ def get_user_preferences() -> UserPreference:
     prefs.compute_growth_metrics()
     prefs.compute_yield_metrics()
 
-    # Display recovery metrics
+    # Display price rebound metrics
     st.sidebar.markdown("### 📈 Price Growth Rate")
     st.sidebar.caption("ℹ️ Assumes price rebounds from MDD in 3 yrs.")
-    st.sidebar.write(f"Core: rebound {round(prefs.recover_core_pct)}% → CAGR {round(prefs.cagr_core_pct)}%")
-    st.sidebar.write(f"Growth: rebound {round(prefs.recover_growth_pct)}% → CAGR {round(prefs.cagr_growth_pct)}%")
-    st.sidebar.write(f"Speculative: rebound {round(prefs.recover_speculative_pct)}% → CAGR {round(prefs.cagr_speculative_pct)}%")
+    st.sidebar.write(f"Core: rebound {round(prefs.rebound_core_pct)}% → CAGR {round(prefs.cagr_core_pct)}%")
+    st.sidebar.write(f"Growth: rebound {round(prefs.rebound_growth_pct)}% → CAGR {round(prefs.cagr_growth_pct)}%")
+    st.sidebar.write(f"Speculative: rebound {round(prefs.rebound_speculative_pct)}% → CAGR {round(prefs.cagr_speculative_pct)}%")
 
-    # Display yield metrics
+    # Display dividend yield metrics
     st.sidebar.markdown("### 🪙 Dividend Yield")
     st.sidebar.caption("ℹ️ Expects dividend to offset MDD loss in 5 yrs.")
     st.sidebar.write(f"Core: yield {round(prefs.yield_core)}%")
