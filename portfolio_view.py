@@ -32,7 +32,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "PE_p75": asset.pe_p75,
         "PE Signal": asset.pe_signal,
         "Yield": asset.dividend_yield,
-        "yield_threshold": asset.dividend_yield_recovery,
+        "yield_offset": asset.dividend_yield_offset,
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
@@ -89,7 +89,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
 def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     st.subheader("🧮 Signal Calculations")
     
-    show_cols = ["Name", "Type", "Weight", "Target", "%drift", "Position", "drop_1y", "gain_1y", "gain_3y", "Price Change", "PE", "PE_p25", "PE_p75", "PE Signal", "Yield", "yield_threshold", "Yield Signal"]
+    show_cols = ["Name", "Type", "Weight", "Target", "%drift", "Position", "drop_1y", "gain_1y", "gain_3y", "Price Change", "PE", "PE_p25", "PE_p75", "PE Signal", "Yield", "yield_offset", "Yield Signal"]
     format_dict = {
         "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -101,7 +101,7 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
         "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
-        "yield_threshold": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "yield_offset": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
