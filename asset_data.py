@@ -43,5 +43,5 @@ class AssetData:
 
     # Dividend Yield Signal
     dividend_yield: Optional[float] = None              # Trailing dividend yield
-    dividend_yield_recovery: Optional[float] = None
+    dividend_yield_offset: Optional[float] = None
     dividend_yield_signal: Optional[str] = None
