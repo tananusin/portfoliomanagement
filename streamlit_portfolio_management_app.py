@@ -31,6 +31,12 @@ except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
 
+# --- Counting Asset Type ---
+count_dict = count_asset_types(assets)
+st.sidebar.markdown("### 📊 Asset Type Counts")
+for key, value in count_dict.items():
+    st.sidebar.write(f"{key}: {value}")
+
 # --- Check Password and Fetch Live Data ---
 if user_pref.password == st.secrets["credentials"]["app_password"]:
     st.success("🔓 Password Correct! Checking live data availability...")
