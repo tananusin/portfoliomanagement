@@ -32,18 +32,15 @@ def calculate_investment_mdd(prefs: UserPreference) -> float:
     return abs(mdd_investment)  # Convert to positive %
 
 def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
-    """
-    Assigns target portfolio weights to each asset based on user preferences.
-    """
     investment_pct = prefs.investment_pct
     reserve_pct = 100 - investment_pct
 
     # Calculate weighted MDD of investment portion
     mdd_investment = calculate_investment_mdd(prefs)
 
-    # Calculate reserve allocation
+    # Reserve Allocation
     cash_pct = mdd_investment * investment_pct / 100
-    gold_pct = 0.2 * reserve_pct    # Fixed: Gold is 20% of reserve
+    gold_pct = 0.2 * reserve_pct
     bond_pct = reserve_pct - cash_pct - gold_pct
 
     if bond_pct < 0:
@@ -51,8 +48,8 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
             f"⚠️ Not enough cash to cover maximum drawdown. "
             f"Consider lowering your investment portion below {investment_pct}%."
         )
-        cash_pct += bond_pct  # reduce cash by overshoot
-        bond_pct = 0.0        # prevent negative bond
+        cash_pct += bond_pct
+        bond_pct = 0.0
 
     reserve_allocation = {
         "Cash": cash_pct,
@@ -60,14 +57,24 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
         "Gold": gold_pct,
     }
 
-    investment_allocation = {
-        "Core": 0.6 * investment_pct,
-        "Growth": 0.3 * investment_pct,
-        "Speculative": 0.1 * investment_pct,
-    }
-
     # --- Count assets per type ---
     type_counts = count_asset_types(assets)
+
+    # --- Determine which investment types are available ---
+    base_alloc = {"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}
+    available_types = {k: v for k, v in base_alloc.items() if type_counts.get(k, 0) > 0}
+
+    if not available_types:
+        st.error("❌ No investment assets found. Please add Core, Growth, or Speculative assets.")
+        return assets
+
+    total_weight = sum(available_types.values())
+
+    # Recalculate allocations based only on available types
+    investment_allocation = {
+        k: (v / total_weight) * investment_pct
+        for k, v in available_types.items()
+    }
 
     # --- Assign target percentage per asset ---
     for asset in assets:
@@ -78,6 +85,6 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
             count = type_counts.get(asset.asset_type, 0)
             asset.target = (investment_allocation[asset.asset_type] / count / 100) if count > 0 else 0.0
         else:
-            asset.target = 0.0  # fallback for unknown asset_type
+            asset.target = 0.0
 
     return assets
