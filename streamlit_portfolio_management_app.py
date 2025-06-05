@@ -6,6 +6,7 @@ from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
 from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
+from counting_asset_type import count_asset_types
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
