@@ -45,7 +45,7 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
 
     if bond_pct < 0:
         st.error(
-            f"⚠️ Not enough cash to cover maximum drawdown. "
+            f"⚠️ Not enough cash to cover portfolio maximum drawdown {cash_pct:.2f}%. "
             f"Consider lowering your investment portion below {investment_pct}%."
         )
         cash_pct += bond_pct
