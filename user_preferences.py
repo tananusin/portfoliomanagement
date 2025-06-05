@@ -22,14 +22,6 @@ class UserPreference:
     yield_speculative: Optional[float] = None
     yield_growth: Optional[float] = None
     yield_core: Optional[float] = None 
-
-    # Asset Type Count
-    count_speculative: int = 0
-    count_growth: int = 0
-    count_core: int = 0
-    count_gold: int = 0
-    count_bond: int = 0
-    count_cash: int = 0
     
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
