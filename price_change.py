@@ -11,12 +11,11 @@ def assign_price_changes(assets: List[AssetData], prefs: UserPreference) -> List
         if asset.asset_type is None:
             continue
 
-        # Skip if required data is missing or zero (to avoid divide-by-zero)
+        # Skip if essential 1Y data is missing or zero
         if (
             asset.price is None or asset.price == 0 or
             asset.high_52w is None or asset.high_52w == 0 or
-            asset.low_52w is None or asset.low_52w == 0 or
-            asset.low_3y is None or asset.low_3y == 0
+            asset.low_52w is None or asset.low_52w == 0
         ):
             asset.price_change = None
             continue
@@ -24,7 +23,11 @@ def assign_price_changes(assets: List[AssetData], prefs: UserPreference) -> List
         # --- Calculate Drop and Gain Rates ---
         asset.drop_1y = (asset.price - asset.high_52w) / asset.high_52w
         asset.gain_1y = (asset.price - asset.low_52w) / asset.low_52w
-        asset.gain_3y = (asset.price - asset.low_3y) / asset.low_3y
+
+        if asset.low_3y is not None and asset.low_3y != 0:
+            asset.gain_3y = (asset.price - asset.low_3y) / asset.low_3y
+        else:
+            asset.gain_3y = None
 
         # --- Lookup user MDD and CAGR ---
         if asset.asset_type == "Speculative":
@@ -41,10 +44,11 @@ def assign_price_changes(assets: List[AssetData], prefs: UserPreference) -> List
             continue
 
         # --- Price Signal Logic ---
-        # Priority: if both underpriced and overpriced conditions are true, classify as "underprice".
-        if asset.drop_1y < mdd:  # dropped more than acceptable MDD
+        if asset.drop_1y < mdd:
             asset.price_change = "oversold"
-        elif asset.gain_1y > cagr or asset.gain_3y > (1 + cagr) ** 3 - 1:
+        elif asset.gain_1y > cagr or (
+            asset.gain_3y is not None and asset.gain_3y > (1 + cagr) ** 3 - 1
+        ):
             asset.price_change = "overbought"
         else:
             asset.price_change = "-"
