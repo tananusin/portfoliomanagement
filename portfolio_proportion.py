@@ -35,12 +35,17 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
     investment_pct = prefs.investment_pct
     reserve_pct = 100 - investment_pct
 
+    # --- Count assets per type ---
+    type_counts = count_asset_types(assets)
+    
     # Calculate weighted MDD of investment portion
     mdd_investment = calculate_investment_mdd(prefs)
 
     # Reserve Allocation
     cash_pct = mdd_investment * investment_pct / 100
     gold_pct = 0.2 * reserve_pct
+    if type_counts.get("Gold", 0) == 0:
+        gold_pct = 0.0
     bond_pct = reserve_pct - cash_pct - gold_pct
 
     if bond_pct < 0:
@@ -56,9 +61,6 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
         "Bond": bond_pct,
         "Gold": gold_pct,
     }
-
-    # --- Count assets per type ---
-    type_counts = count_asset_types(assets)
 
     # --- Determine which investment types are available ---
     base_alloc = {"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}
