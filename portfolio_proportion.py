@@ -44,6 +44,7 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
     # Reserve Allocation
     cash_pct = mdd_investment * investment_pct / 100
     gold_pct = 0.2 * reserve_pct
+    # ✅ Skip Gold allocation if no Gold assets
     if type_counts.get("Gold", 0) == 0:
         gold_pct = 0.0
     bond_pct = reserve_pct - cash_pct - gold_pct
@@ -56,6 +57,11 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
         cash_pct += bond_pct
         bond_pct = 0.0
 
+    # ✅ If no bond assets, assign bond_pct to cash instead
+    if type_counts.get("Bond", 0) == 0:
+        cash_pct += bond_pct
+        bond_pct = 0.0
+    
     reserve_allocation = {
         "Cash": cash_pct,
         "Bond": bond_pct,
