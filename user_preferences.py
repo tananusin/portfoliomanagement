@@ -23,6 +23,14 @@ class UserPreference:
     yield_growth: Optional[float] = None
     yield_core: Optional[float] = None 
 
+    # Asset Type Count
+    count_speculative: int
+    count_growth: int
+    count_core: int
+    count_gold: int
+    count_bond: int
+    count_gold: int
+    
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
             rebound_multiplier = 1 / (1 + mdd_pct / 100)
