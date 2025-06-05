@@ -6,7 +6,6 @@ from asset_data import AssetData
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
 from portfolio_value import enrich_assets, summarize_assets, calculate_portfolio_total, assign_weights
-from counting_asset_type import count_asset_types
 from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
@@ -30,12 +29,6 @@ try:
 except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
-
-# --- Counting Asset Type ---
-count_dict = count_asset_types(assets)
-st.sidebar.markdown("### 📊 Asset Type Counts")
-for key, value in count_dict.items():
-    st.sidebar.write(f"{key}: {value}")
 
 # --- Check Password and Fetch Live Data ---
 if user_pref.password == st.secrets["credentials"]["app_password"]:
