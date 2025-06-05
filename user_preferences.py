@@ -29,7 +29,7 @@ class UserPreference:
     count_core: int
     count_gold: int
     count_bond: int
-    count_gold: int
+    count_cash: int
     
     def compute_growth_metrics(self):
         def calc(mdd_pct: int):
