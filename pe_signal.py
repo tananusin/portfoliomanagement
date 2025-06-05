@@ -5,7 +5,7 @@ from typing import List
 def assign_pe_signals(assets: List[AssetData]) -> None:
     for asset in assets:
         if asset.pe_ratio is None or asset.pe_ratio == 0:
-            asset.pe_signal = "-"
+            asset.pe_signal = None
         elif (
             asset.pe_p25 is None or asset.pe_p25 == 0 or
             asset.pe_p75 is None or asset.pe_p75 == 0
