@@ -5,15 +5,24 @@ from typing import List, Dict
 from user_preferences import UserPreference
 
 def count_asset_types(assets: List[AssetData]) -> Dict[str, int]:
+    """
+    Count how many assets exist in each type category.
+    """
     type_list = ["Speculative", "Growth", "Core", "Gold", "Bond", "Cash"]
     return {t: sum(1 for a in assets if a.asset_type == t) for t in type_list}
 
 def get_adjusted_weights(base_weights: Dict[str, float], type_counts: Dict[str, int]) -> Dict[str, float]:
+    """
+    Recalculate weights based only on available asset types.
+    """
     available = {k: v for k, v in base_weights.items() if type_counts.get(k, 0) > 0}
     total = sum(available.values())
     return {k: v / total for k, v in available.items()} if total > 0 else {}
 
 def calculate_investment_mdd(prefs: UserPreference, type_counts: Dict[str, int]) -> float:
+    """
+    Calculates the weighted MDD for the investment portion.
+    """
     base_weights = {"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}
     weights = get_adjusted_weights(base_weights, type_counts)
     mdd = sum([
@@ -23,14 +32,20 @@ def calculate_investment_mdd(prefs: UserPreference, type_counts: Dict[str, int])
     ])
     return abs(mdd) * prefs.investment_pct / 100
 
-def assign_proportional_allocation(assets: List[AssetData], allocations: Dict[str, float], type_counts: Dict[str, int]) -> None:
+def assign_proportional_allocation(
+    assets: List[AssetData],
+    allocations: Dict[str, float],
+    type_counts: Dict[str, int],
+    eligible_types: List[str]
+) -> None:
+    """
+    Assign target percentage to eligible asset types based on allocation and count.
+    """
     for asset in assets:
         a_type = asset.asset_type
-        count = type_counts.get(a_type, 0)
-        if a_type in allocations and count > 0:
-            asset.target = allocations[a_type] / count / 100
-        else:
-            asset.target = 0.0
+        if a_type in allocations and a_type in eligible_types:
+            count = type_counts.get(a_type, 0)
+            asset.target = (allocations[a_type] / count / 100) if count > 0 else 0.0
 
 def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
     type_counts = count_asset_types(assets)
@@ -69,8 +84,9 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
         "Gold": gold_pct,
     }
 
-    # --- Assign Weights ---
-    assign_proportional_allocation(assets, reserve_allocation, type_counts)
-    assign_proportional_allocation(assets, investment_allocation, type_counts)
+    # --- Assign Targets ---
+    assign_proportional_allocation(assets, reserve_allocation, type_counts, eligible_types=["Cash", "Bond", "Gold"])
+    assign_proportional_allocation(assets, investment_allocation, type_counts, eligible_types=list(investment_allocation.keys()))
 
     return assets
+
