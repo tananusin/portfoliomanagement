@@ -68,6 +68,9 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
 
     # --- Count assets per type ---
     type_counts = count_asset_types(assets)
+    st.sidebar.markdown("### 📊 Asset Type Counts")
+    for k, v in counts.items():
+        st.sidebar.write(f"{k}: {v}")
 
     # --- Assign target percentage per asset ---
     for asset in assets:
