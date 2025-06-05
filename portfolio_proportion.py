@@ -5,62 +5,49 @@ from typing import List, Dict
 from user_preferences import UserPreference
 
 def count_asset_types(assets: List[AssetData]) -> Dict[str, int]:
-    """
-    Count how many assets exist in each type category.
-    """
     type_list = ["Speculative", "Growth", "Core", "Gold", "Bond", "Cash"]
-    count_dict = {t: 0 for t in type_list}
+    return {t: sum(1 for a in assets if a.asset_type == t) for t in type_list}
 
-    for asset in assets:
-        if asset.asset_type in count_dict:
-            count_dict[asset.asset_type] += 1
-
-    return count_dict
+def get_adjusted_weights(base_weights: Dict[str, float], type_counts: Dict[str, int]) -> Dict[str, float]:
+    available = {k: v for k, v in base_weights.items() if type_counts.get(k, 0) > 0}
+    total = sum(available.values())
+    return {k: v / total for k, v in available.items()} if total > 0 else {}
 
 def calculate_investment_mdd(prefs: UserPreference, type_counts: Dict[str, int]) -> float:
-    """
-    Calculates the weighted maximum drawdown for the investment portion,
-    dynamically adjusting weights based on available asset types.
-    """
-    investment_pct = prefs.investment_pct
+    base_weights = {"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}
+    weights = get_adjusted_weights(base_weights, type_counts)
+    mdd = sum([
+        weights.get("Core", 0.0) * prefs.mdd_core_pct,
+        weights.get("Growth", 0.0) * prefs.mdd_growth_pct,
+        weights.get("Speculative", 0.0) * prefs.mdd_speculative_pct,
+    ])
+    return abs(mdd) * prefs.investment_pct / 100
 
-    base_weights = {
-        "Core": 0.6,
-        "Growth": 0.3,
-        "Speculative": 0.1,
-    }
-
-    # Only include types with non-zero count
-    available_types = {k: v for k, v in base_weights.items() if type_counts.get(k, 0) > 0}
-
-    if not available_types:
-        return 0.0  # No investment assets
-
-    total_weight = sum(available_types.values())
-
-    adjusted_weights = {k: v / total_weight for k, v in available_types.items()}
-
-    mdd_investment = sum([
-        adjusted_weights.get("Core", 0.0) * prefs.mdd_core_pct,
-        adjusted_weights.get("Growth", 0.0) * prefs.mdd_growth_pct,
-        adjusted_weights.get("Speculative", 0.0) * prefs.mdd_speculative_pct,
-    ]) * investment_pct / 100
-
-    return abs(mdd_investment)
+def assign_proportional_allocation(assets: List[AssetData], allocations: Dict[str, float], type_counts: Dict[str, int]) -> None:
+    for asset in assets:
+        a_type = asset.asset_type
+        count = type_counts.get(a_type, 0)
+        if a_type in allocations and count > 0:
+            asset.target = allocations[a_type] / count / 100
+        else:
+            asset.target = 0.0
 
 def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
+    type_counts = count_asset_types(assets)
     investment_pct = prefs.investment_pct
     reserve_pct = 100 - investment_pct
 
-    # --- Count assets per type ---
-    type_counts = count_asset_types(assets)
+    # --- Investment Allocation ---
+    investment_weights = get_adjusted_weights({"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}, type_counts)
+    if not investment_weights:
+        st.error("❌ No investment assets found. Please add Core, Growth, or Speculative assets.")
+        return assets
 
-    # --- Calculate weighted MDD of investment portion ---
-    mdd_investment = calculate_investment_mdd(prefs, type_counts)
+    investment_allocation = {k: v * investment_pct for k, v in investment_weights.items()}
 
     # --- Reserve Allocation ---
+    mdd_investment = calculate_investment_mdd(prefs, type_counts)
     cash_pct = mdd_investment * investment_pct / 100
-
     gold_pct = 0.2 * reserve_pct if type_counts.get("Gold", 0) > 0 else 0.0
     bond_pct = reserve_pct - cash_pct - gold_pct
 
@@ -82,30 +69,8 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
         "Gold": gold_pct,
     }
 
-    # --- Investment Allocation ---
-    base_alloc = {"Core": 0.6, "Growth": 0.3, "Speculative": 0.1}
-    available_types = {k: v for k, v in base_alloc.items() if type_counts.get(k, 0) > 0}
-
-    if not available_types:
-        st.error("❌ No investment assets found. Please add Core, Growth, or Speculative assets.")
-        return assets
-
-    total_weight = sum(available_types.values())
-    investment_allocation = {
-        k: (v / total_weight) * investment_pct
-        for k, v in available_types.items()
-    }
-
-    # --- Assign target percentage per asset ---
-    for asset in assets:
-        if asset.asset_type in reserve_allocation:
-            count = type_counts.get(asset.asset_type, 0)
-            asset.target = (reserve_allocation[asset.asset_type] / count / 100) if count > 0 else 0.0
-        elif asset.asset_type in investment_allocation:
-            count = type_counts.get(asset.asset_type, 0)
-            asset.target = (investment_allocation[asset.asset_type] / count / 100) if count > 0 else 0.0
-        else:
-            asset.target = 0.0  # fallback for unknown asset_type
+    # --- Assign Weights ---
+    assign_proportional_allocation(assets, reserve_allocation, type_counts)
+    assign_proportional_allocation(assets, investment_allocation, type_counts)
 
     return assets
-
