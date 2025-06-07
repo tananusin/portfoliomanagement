@@ -85,10 +85,10 @@ def get_user_preferences() -> UserPreference:
         help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
     )
     gold_pct = st.sidebar.slider(
-        label="Set Gold (%)",
+        label="Set Gold Portion (%)",
         min_value=0,
-        max_value=20,
-        value=10,
+        max_value=50,
+        value=20,
         step=1,
     )
 
