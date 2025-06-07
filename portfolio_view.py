@@ -119,6 +119,81 @@ def show_full_details_signal_table(portfolio_df: pd.DataFrame):
     )
     st.dataframe(styled_df)
 
+def show_price_change_table(portfolio_df: pd.DataFrame):
+    st.subheader("🧮 Signal Calculations")
+    
+    show_cols = ["Name", "Type", "drop_1y", "gain_1y", "gain_3y", "Price Change"]
+    format_dict = {
+        "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+    }
+    # Color Green and Red Format
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
+            return "color: red;"
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
+            return "color: green;"
+        return ""
+
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_condition, subset=["Price Change"])
+    )
+    st.dataframe(styled_df)
+
+def show_pe_signal_table(portfolio_df: pd.DataFrame):
+    st.subheader("🧮 Signal Calculations")
+    
+    show_cols = ["Name", "Type","PE", "PE_p25", "PE_p75", "PE Signal"]
+    format_dict = {
+        "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+    }
+    # Color Green and Red Format
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
+            return "color: red;"
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
+            return "color: green;"
+        return ""
+
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_condition, subset=["PE Signal"])
+    )
+    st.dataframe(styled_df)
+
+def show_yield_signal_table(portfolio_df: pd.DataFrame):
+    st.subheader("🧮 Signal Calculations")
+    
+    show_cols = ["Name", "Type", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
+    format_dict = {
+        "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "yield_offset": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+    }
+    # Color Green and Red Format
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
+            return "color: red;"
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
+            return "color: green;"
+        return ""
+
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_condition, subset=["Yield Signal"])
+    )
+    st.dataframe(styled_df)
+
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.subheader("📊 Actual Allocation Pie Chart")
 
