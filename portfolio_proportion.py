@@ -50,6 +50,7 @@ def assign_proportional_allocation(
 def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
     type_counts = count_asset_types(assets)
     investment_pct = prefs.investment_pct
+    gold_pct = prefs.gold_pct
     reserve_pct = 100 - investment_pct
 
     # --- Investment Allocation ---
@@ -63,7 +64,7 @@ def assign_targets(assets: List[AssetData], prefs: UserPreference) -> List[Asset
     # --- Reserve Allocation ---
     mdd_investment = calculate_investment_mdd(prefs, type_counts)
     cash_pct = mdd_investment * investment_pct / 100
-    gold_pct = 0.2 * reserve_pct if type_counts.get("Gold", 0) > 0 else 0.0
+    gold_pct = gold_pct/100 * reserve_pct if type_counts.get("Gold", 0) > 0 else 0.0
     bond_pct = reserve_pct - cash_pct - gold_pct
 
     if bond_pct < 0:
