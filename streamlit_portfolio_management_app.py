@@ -12,7 +12,8 @@ from position_size import assign_position_sizes
 from price_change import assign_price_changes
 from pe_signal import assign_pe_signals
 from yield_signal import assign_yield_signals
-from portfolio_view import get_portfolio_df, show_portfolio_table, show_market_data_table, show_summary_signal_table, show_full_details_signal_table, show_allocation_pie_chart, show_target_allocation_pie_chart
+from portfolio_view import get_portfolio_df, show_portfolio_table, show_market_data_table, show_summary_signal_table, show_price_change_table, show_pe_signal_table
+, show_yield_signal_table, show_allocation_pie_chart, show_target_allocation_pie_chart
 
 
 
@@ -64,15 +65,19 @@ assign_yield_signals(assets, user_pref)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2, tab3, tab4 = st.tabs(["📋 Portfolio", "📈 Signals", "🧮 Calculations", "💹 Market Data"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📈 Signals", "🧮 Price Change",  "🧮 PE Signal", "🧮 Yield Signal", "💹 Market Data"])
 with tab1:
     show_portfolio_table(portfolio_df)
     st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 with tab2:
     show_summary_signal_table(portfolio_df)
 with tab3:
-    show_full_details_signal_table(portfolio_df)
+    show_price_change_table(portfolio_df)
 with tab4:
+    show_pe_signal_table(portfolio_df)
+with tab5:
+    show_yield_signal_table(portfolio_df)
+with tab6:
     show_market_data_table(portfolio_unsum_df)
 
 
