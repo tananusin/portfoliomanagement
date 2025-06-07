@@ -6,6 +6,7 @@ from typing import Optional
 @dataclass
 class UserPreference:
     investment_pct: int
+    gold_pct: int
     password: str
     sheet_url: str
     mdd_speculative_pct: int
@@ -83,6 +84,13 @@ def get_user_preferences() -> UserPreference:
         step=1,
         help="Investment portion includes Core, Growth, and Speculative assets. Reserve portion includes Cash, Bond, and Gold."
     )
+    gold_pct = st.sidebar.slider(
+        label="Set Gold (%)",
+        min_value=0,
+        max_value=20,
+        value=10,
+        step=1,
+    )
 
     # MDD inputs
     st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
@@ -99,6 +107,7 @@ def get_user_preferences() -> UserPreference:
     # Create UserPreference object
     prefs = UserPreference(
         investment_pct=investment_pct,
+        gold_pct=gold_pct,
         password=password,
         sheet_url=sheet_url,
         mdd_speculative_pct=mdd_speculative_pct,
