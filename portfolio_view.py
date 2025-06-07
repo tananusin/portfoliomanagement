@@ -63,7 +63,7 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("📈 Portfolio Signals")
+    st.subheader("📶 Portfolio Signals")
     
     show_cols = ["Name", "Type", "Weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
     format_dict = {
@@ -87,7 +87,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_price_change_table(portfolio_df: pd.DataFrame):
-    st.subheader("🧮 Price Changes")
+    st.subheader("📉 Price Changes")
     
     show_cols = ["Name", "Type", "drop_1y", "gain_1y", "gain_3y", "Price Change"]
     format_dict = {
