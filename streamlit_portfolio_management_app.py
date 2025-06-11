@@ -85,7 +85,7 @@ with tab6:
     st.subheader("💹 Market Data")
     st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
     show_market_data_table(portfolio_unsum_df)
-    st.subheader("🧮 PE Percentiles")
+    st.subheader("🧮 P/E Ratio Percentiles")
     symbol = st.text_input("Enter stock symbol (e.g., AAPL)", value="AAPL")
 
     if user_pref.password == st.secrets["credentials"]["app_password"]:
