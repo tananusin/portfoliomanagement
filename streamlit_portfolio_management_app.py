@@ -93,8 +93,8 @@ with tab6:
         if can_fetch_data():  # ✅ Check fetch readiness
             with st.spinner("Fetching data OK"):
                 pe_p25, pe_p75 = display_pe_percentiles(symbol)
-                st.write(f"**25th Percentile P/E:** {pe_25:.2f}")
-                st.write(f"**75th Percentile P/E:** {pe_75:.2f}")
+                st.write(f"**25th Percentile P/E:** {pe_p25:.2f}")
+                st.write(f"**75th Percentile P/E:** {pe_p75:.2f}")
         else:
             st.error("❌ Unable to fetch live data. Falling back to static data.")
     else:
