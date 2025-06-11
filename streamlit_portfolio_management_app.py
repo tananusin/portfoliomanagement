@@ -13,7 +13,7 @@ from price_change import assign_price_changes
 from pe_signal import assign_pe_signals
 from yield_signal import assign_yield_signals
 from portfolio_view import get_portfolio_df, show_portfolio_table, show_market_data_table, show_summary_signal_table, show_price_change_table, show_pe_signal_table, show_yield_signal_table, show_allocation_pie_chart, show_target_allocation_pie_chart
-
+from pe_percentile import display_pe_percentiles
 
 
 # --- Streamlit Page Config ---
