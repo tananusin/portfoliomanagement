@@ -90,8 +90,10 @@ with tab6:
 # --- Display Pie Charts ---
 tab1, tab2 = st.tabs(["📋 Actual", "🎯 Target"])
 with tab1:
+    st.subheader("📊 Actual Allocation Pie Chart")
     show_allocation_pie_chart(portfolio_df, total_thb)
 with tab2:
+    st.subheader("🎯 Target Allocation Pie Chart")
     show_target_allocation_pie_chart(portfolio_df)
 
 
