@@ -64,7 +64,7 @@ assign_yield_signals(assets, user_pref)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💸 Yield Signal", "💹 Market Data"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
 with tab1:
     st.subheader("📋 Portfolio Report")
     show_portfolio_table(portfolio_df)
@@ -79,7 +79,7 @@ with tab4:
     st.subheader("🧮 PE Signal")
     show_pe_signal_table(portfolio_df)
 with tab5:
-    st.subheader("💸 Yield Signal")
+    st.subheader("💵 Yield Signal")
     show_yield_signal_table(portfolio_df)
 with tab6:
     st.subheader("💹 Market Data")
@@ -88,7 +88,7 @@ with tab6:
 
 
 # --- Display Pie Charts ---
-tab1, tab2 = st.tabs(["📋 Actual", "🎯 Target"])
+tab1, tab2 = st.tabs(["📊 Actual", "🎯 Target"])
 with tab1:
     st.subheader("📊 Actual Allocation Pie Chart")
     show_allocation_pie_chart(portfolio_df, total_thb)
