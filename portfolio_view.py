@@ -37,7 +37,6 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_portfolio_table(portfolio_df: pd.DataFrame):
-    st.subheader("📋 Portfolio Report")
     show_cols = ["Name", "Currency", "Shares", "Price", "Fx", "Value (THB)", "Weight"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -49,8 +48,6 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_market_data_table(portfolio_df: pd.DataFrame):
-    st.subheader("💹 Market Data")
-    st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
     show_cols = ["Name", "Currency", "Price", "Fx", "52w_high", "52w_low", "PE", "Yield"]
     format_dict = {
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -63,8 +60,6 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("📶 Portfolio Signals")
-    
     show_cols = ["Name", "Type", "Weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
     format_dict = {
         "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -87,8 +82,6 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_price_change_table(portfolio_df: pd.DataFrame):
-    st.subheader("📉 Price Changes")
-    
     show_cols = ["Name", "Type", "drop_1y", "gain_1y", "gain_3y", "Price Change"]
     format_dict = {
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
@@ -112,8 +105,6 @@ def show_price_change_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_pe_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("🧮 PE Signal")
-    
     show_cols = ["Name", "Type","PE", "PE_p25", "PE_p75", "PE Signal"]
     format_dict = {
         "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
@@ -137,8 +128,6 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_yield_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("💸 Yield Signal")
-    
     show_cols = ["Name", "Type", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
     format_dict = {
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
