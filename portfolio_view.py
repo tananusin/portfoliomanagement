@@ -151,8 +151,6 @@ def show_yield_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
-    st.subheader("📊 Actual Allocation Pie Chart")
-
     chart_df = portfolio_df[["Name", "Value (THB)"]].copy()
     chart_df["weight (%)"] = (chart_df["Value (THB)"] / total_thb * 100).round(2)
     chart_df = chart_df[chart_df["weight (%)"] >= 1]
@@ -167,8 +165,6 @@ def show_allocation_pie_chart(portfolio_df: pd.DataFrame, total_thb: float):
     st.pyplot(fig)
 
 def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
-    st.subheader("🎯 Target Allocation Pie Chart")
-
     target_df = portfolio_df[["Name", "Target"]].copy()
 
     # Drop NaN and filter out targets < 1%
