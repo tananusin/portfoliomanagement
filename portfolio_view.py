@@ -137,7 +137,7 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_yield_signal_table(portfolio_df: pd.DataFrame):
-    st.subheader("🪙 Yield Signal")
+    st.subheader("💸 Yield Signal")
     
     show_cols = ["Name", "Type", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
     format_dict = {
