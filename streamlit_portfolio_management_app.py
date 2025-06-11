@@ -96,7 +96,7 @@ with tab6:
         else:
             st.error("❌ Unable to fetch live data. Falling back to static data.")
     else:
-        st.warning("🔒 Offline Mode: Using static data from Google Sheet.")
+        st.warning("🔒 Offline Mode: Available only for online mode.")
 
 
 # --- Display Pie Charts ---
