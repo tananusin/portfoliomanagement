@@ -126,7 +126,7 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.write(f"Speculative: rebound {round(prefs.rebound_speculative_pct)}% → CAGR {round(prefs.cagr_speculative_pct)}%")
 
     # Display dividend yield metrics
-    st.sidebar.markdown("### 🪙 Dividend Yield")
+    st.sidebar.markdown("### 💸 Dividend Yield")
     st.sidebar.caption("ℹ️ Expects dividend to offset MDD loss in 5 yrs.")
     st.sidebar.write(f"Core: yield {round(prefs.yield_core)}%")
     st.sidebar.write(f"Growth: yield {round(prefs.yield_growth)}%")
