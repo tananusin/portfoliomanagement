@@ -28,6 +28,8 @@ def enrich_asset(asset: AssetData) -> AssetData:
         asset.price = 1
     elif asset.symbol == 'BOND':
         pass  # Use user-assigned value
+    elif asset.symbol == 'FUND':
+        pass  # Use user-assigned value
     else:
         asset.price = get_price(asset.symbol)
         asset.high_52w = get_52_week_high(asset.symbol)
