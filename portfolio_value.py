@@ -28,7 +28,7 @@ def enrich_asset(asset: AssetData) -> AssetData:
         asset.price = 1
     elif asset.symbol == 'BOND':
         pass  # Use user-assigned value
-    elif asset.symbol == 'FUND':
+    elif asset.symbol == 'FUNDTH':
         pass  # Use user-assigned value
     else:
         asset.price = get_price(asset.symbol)
