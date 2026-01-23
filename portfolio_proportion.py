@@ -30,7 +30,7 @@ def calculate_investment_mdd(prefs: UserPreference, type_counts: Dict[str, int])
         weights.get("Growth", 0.0) * prefs.mdd_growth_pct,
         weights.get("Speculative", 0.0) * prefs.mdd_speculative_pct,
     ])
-    return abs(mdd) * prefs.investment_pct / 100
+    return abs(mdd)
 
 def assign_proportional_allocation(
     assets: List[AssetData],
