@@ -25,11 +25,11 @@ def combine_assets(assets: List[AssetData]) -> List[AssetData]:
         calculate_asset_value(asset)
         
     # Categorize
-    bond_assets = [a for a in assets if a.asset_type == "Bond"]
-    cash_assets = [a for a in assets if a.asset_type == "Cash"]
-    other_assets = [a for a in assets if a.asset_type not in {"Cash", "Bond"}]
+    bond_assets = [a for a in assets if a.asset_class == "Bond"]
+    cash_assets = [a for a in assets if a.asset_class == "Cash"]
+    other_assets = [a for a in assets if a.asset_class not in {"Cash", "Bond"}]
 
-    def _summarize_group(assets_to_sum, name, asset_type):
+    def _summarize_group(assets_to_sum, name, asset_class):
         total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
         if total_value_thb == 0:
             return None
@@ -39,7 +39,7 @@ def combine_assets(assets: List[AssetData]) -> List[AssetData]:
             currency="THB",
             shares=1,
             price=1,
-            asset_type=asset_type,
+            asset_class=asset_class,
             fx_rate=1,
             value_local=total_value_thb,
             value_thb=total_value_thb,
