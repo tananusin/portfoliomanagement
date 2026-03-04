@@ -34,6 +34,7 @@ except Exception:
 # --- For Showing Unsummarized Market Data ---
 portfolio_unsum_df = get_portfolio_df(assets)
 
+show_portfolio_table(portfolio_unsum_df)
 
 # # --- Portfolio Calculations ---
 # assets = summarize_assets(assets)
@@ -56,10 +57,6 @@ portfolio_unsum_df = get_portfolio_df(assets)
 # portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-
-st.subheader("📋 Portfolio Report")
-show_portfolio_table(portfolio_unsum_df)
-st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
 # tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
 # with tab1:
