@@ -2,7 +2,7 @@
 from typing import List
 from asset_data import AssetData
 
-def calculate_asset_values(asset: AssetData) -> None:
+def calculate_asset_value(asset: AssetData) -> None:
     """
     Compute value_local and value_thb for an asset if price and fx_rate are available.
     """
@@ -13,7 +13,7 @@ def calculate_asset_values(asset: AssetData) -> None:
 def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
     # Ensure all value fields are populated
     for asset in assets:
-        calculate_asset_values(asset)
+        calculate_asset_value(asset)
     return assets
 
 def combine_assets(assets: List[AssetData]) -> List[AssetData]:
@@ -22,7 +22,7 @@ def combine_assets(assets: List[AssetData]) -> List[AssetData]:
     """
     # Ensure all value fields are populated
     for asset in assets:
-        calculate_asset_values(asset)
+        calculate_asset_value(asset)
         
     # # Categorize
     # bond_assets = [a for a in assets if a.asset_type == "Bond"]
