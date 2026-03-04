@@ -16,7 +16,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Fx": asset.fx_rate,
         "Value (THB)": asset.value_thb,
         "Class": asset.asset_class,
-        # "MDD": asset.mdd,        
+        "MDD": asset.mdd,        
         "Weight": asset.weight,
         "Target": asset.target,
         "%drift": asset.drift_pct,
