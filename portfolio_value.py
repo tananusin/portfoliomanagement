@@ -54,38 +54,38 @@ def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
     for asset in assets:
         calculate_asset_values(asset)
 
-    # Categorize
-    bond_assets = [a for a in assets if a.asset_type == "Bond"]
-    cash_assets = [a for a in assets if a.asset_type == "Cash"]
-    other_assets = [a for a in assets if a.asset_type not in {"Cash", "Bond"}]
+    # # Categorize
+    # bond_assets = [a for a in assets if a.asset_type == "Bond"]
+    # cash_assets = [a for a in assets if a.asset_type == "Cash"]
+    # other_assets = [a for a in assets if a.asset_type not in {"Cash", "Bond"}]
 
-    def _summarize_group(assets_to_sum, name, asset_type):
-        total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
-        if total_value_thb == 0:
-            return None
-        return AssetData(
-            name=name,
-            symbol=name.upper().replace(" ", "_"),
-            currency="THB",
-            shares=1,
-            price=1,
-            asset_type=asset_type,
-            fx_rate=1,
-            value_local=total_value_thb,
-            value_thb=total_value_thb,
-        )
+    # def _summarize_group(assets_to_sum, name, asset_type):
+    #     total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
+    #     if total_value_thb == 0:
+    #         return None
+    #     return AssetData(
+    #         name=name,
+    #         symbol=name.upper().replace(" ", "_"),
+    #         currency="THB",
+    #         shares=1,
+    #         price=1,
+    #         asset_type=asset_type,
+    #         fx_rate=1,
+    #         value_local=total_value_thb,
+    #         value_thb=total_value_thb,
+    #     )
 
-    summarized = []
-    total_bond = _summarize_group(bond_assets, "Total Bond", "Bond")
-    total_cash = _summarize_group(cash_assets, "Total Cash", "Cash")
+    # summarized = []
+    # total_bond = _summarize_group(bond_assets, "Total Bond", "Bond")
+    # total_cash = _summarize_group(cash_assets, "Total Cash", "Cash")
 
-    if total_bond:
-        summarized.append(total_bond)
-    if total_cash:
-        summarized.append(total_cash)
+    # if total_bond:
+    #     summarized.append(total_bond)
+    # if total_cash:
+    #     summarized.append(total_cash)
 
-    return other_assets + summarized
-
+    # return other_assets + summarized
+    return assets
 
 def calculate_portfolio_total(assets: List[AssetData]) -> float:
     return sum(asset.value_thb or 0 for asset in assets)
