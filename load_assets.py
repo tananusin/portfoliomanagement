@@ -25,7 +25,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
         st.stop()
 
     # Validate columns
-    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "type", "52w_high", "52w_low", "3y_low", "pe", "pe_p25", "pe_p75", "yield"}
+    required_cols = {"name", "symbol", "currency", "shares", "price", "fx", "class", "mdd", "52w high", "52w low", "years low", "pe", "pe p25", "pe p75", "yield"}
     if not required_cols.issubset(df.columns):
         st.error(f"Missing columns in Google Sheet. Required: {required_cols}")
         st.write("Loaded columns:", df.columns.tolist())
@@ -40,13 +40,14 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             shares=row["shares"],
             price=row["price"] if pd.notnull(row["price"]) else 0.0,
             fx_rate=row["fx"] if pd.notnull(row["fx"]) else 0.0,
-            asset_type=row["type"],
-            high_52w=row["52w_high"] if pd.notnull(row["52w_high"]) else 0.0,
-            low_52w=row["52w_low"] if pd.notnull(row["52w_low"]) else 0.0,
-            low_3y=row["3y_low"] if pd.notnull(row["3y_low"]) else 0.0,
+            asset_class=row["class"],
+            mdd=row["fx"] if pd.notnull(row["mdd"]) else 0.0,           
+            high_52w=row["52w high"] if pd.notnull(row["52w high"]) else 0.0,
+            low_52w=row["52w low"] if pd.notnull(row["52w low"]) else 0.0,
+            low_years=row["years low"] if pd.notnull(row["years low"]) else 0.0,
             pe_ratio=row["pe"] if pd.notnull(row["pe"]) else 0.0,
-            pe_p25=row["pe_p25"] if pd.notnull(row["pe_p25"]) else 0.0,
-            pe_p75=row["pe_p75"] if pd.notnull(row["pe_p75"]) else 0.0,
+            pe_p25=row["pe p25"] if pd.notnull(row["pe p25"]) else 0.0,
+            pe_p75=row["pe p75"] if pd.notnull(row["pe p75"]) else 0.0,
             dividend_yield=parse_yield(row["yield"])                
         )
         for _, row in df.iterrows()
