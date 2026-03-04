@@ -27,7 +27,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "52w drop": asset.drop_52w,
         "52w 1y": asset.gain_52w,
         "Years gain": asset.gain_years,
-        "Price Change": asset.price_change,
+        "Price Signal": asset.price_signal,
         "PE": asset.pe_ratio,
         "PE p25": asset.pe_p25,
         "PE p75": asset.pe_p75,
