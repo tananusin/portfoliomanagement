@@ -11,7 +11,9 @@ class AssetData:
     shares: float
     price: Optional[float] = None
     fx_rate: Optional[float] = None
-    asset_type: Optional[str] = None
+    asset_class: Optional[str] = None
+    mdd: Optional[float] = None
+    
 
     # Portfolio Value Variables
     value_local: Optional[float] = None
@@ -26,14 +28,14 @@ class AssetData:
     drift_pct: Optional[float] = None
     position_size: Optional[str] = None
 
-    # Price Change
+    # Price Signal
     high_52w: Optional[float] = None
     low_52w: Optional[float] = None
-    low_3y: Optional[float] = None
-    drop_1y: Optional[float] = None
-    gain_1y: Optional[float] = None
-    gain_3y: Optional[float] = None
-    price_change: Optional[str] = None
+    low_years: Optional[float] = None
+    drop_52w: Optional[float] = None
+    gain_52w: Optional[float] = None
+    gain_years: Optional[float] = None
+    price_signal: Optional[str] = None
 
     # P/E Signal
     pe_ratio: Optional[float] = None                    # Trailing P/E ratio
