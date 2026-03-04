@@ -82,7 +82,8 @@ with tab6:
 
 
 # --- Display Pie Charts ---
-portfolio_combine_df = get_portfolio_df(combine_assets(assets))
+assets_combine = combine_assets(assets)
+portfolio_combine_df = get_portfolio_df(assets_combine)
 
 tab1, tab2 = st.tabs(["📊 Actual", "🎯 Target"])
 with tab1:
