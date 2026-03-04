@@ -35,8 +35,8 @@ except Exception:
 portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
-    for asset in assets:
-        calculate_asset_values(asset)
+for asset in assets:
+    calculate_asset_values(asset)
 # assets = summarize_assets(assets)
 
 # total_thb = calculate_portfolio_total(assets)
