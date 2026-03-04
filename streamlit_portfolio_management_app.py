@@ -35,8 +35,8 @@ except Exception:
 # portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
-# assets = summarize_assets(assets)
-assets = combine_assets(assets)
+assets = summarize_assets(assets)
+# assets = combine_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
@@ -82,10 +82,12 @@ with tab6:
 
 
 # --- Display Pie Charts ---
+portfolio_combine_df = get_portfolio_df(combine_assets(assets))
+
 tab1, tab2 = st.tabs(["📊 Actual", "🎯 Target"])
 with tab1:
     st.subheader("📊 Actual Allocation Pie Chart")
-    show_allocation_pie_chart(portfolio_df, total_thb)
+    show_allocation_pie_chart(portfolio_combine_df, total_thb)
 with tab2:
     st.subheader("🎯 Target Allocation Pie Chart")
     # show_target_allocation_pie_chart(portfolio_df)
