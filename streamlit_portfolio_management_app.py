@@ -52,13 +52,13 @@ portfolio_unsum_df = get_portfolio_df(assets)
 # assign_yield_signals(assets, user_pref)
 
 
-# --- Convert to DataFrame ---
-portfolio_df = get_portfolio_df(assets)
+# # --- Convert to DataFrame ---
+# portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
 
 st.subheader("📋 Portfolio Report")
-show_portfolio_table(portfolio_df)
+show_portfolio_table(portfolio_unsum_df)
 st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 
 # tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
