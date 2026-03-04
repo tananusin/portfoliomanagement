@@ -11,13 +11,13 @@ def calculate_asset_values(asset: AssetData) -> None:
         asset.value_thb = asset.value_local * asset.fx_rate
 
 def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
-    """
-    Combine bonds and cash into summary positions. Recalculate values if needed.
-    """
+
     # Ensure all value fields are populated
     for asset in assets:
         calculate_asset_values(asset)
-
+    """
+    Combine bonds and cash into summary positions. Recalculate values if needed.
+    """
     # # Categorize
     # bond_assets = [a for a in assets if a.asset_type == "Bond"]
     # cash_assets = [a for a in assets if a.asset_type == "Cash"]
