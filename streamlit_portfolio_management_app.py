@@ -31,8 +31,8 @@ except Exception:
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
 
 
-# --- For Showing Unsummarized Market Data ---
-portfolio_unsum_df = get_portfolio_df(assets)
+# # --- For Showing Unsummarized Market Data ---
+# portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
