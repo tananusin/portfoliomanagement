@@ -10,12 +10,13 @@ def calculate_asset_values(asset: AssetData) -> None:
         asset.value_local = asset.shares * asset.price
         asset.value_thb = asset.value_local * asset.fx_rate
 
-def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
-    # Ensure all value fields are populated
-    for asset in assets:
-        calculate_asset_values(asset)
+# def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
+#     # Ensure all value fields are populated
+#     for asset in assets:
+#         calculate_asset_values(asset)
 
-def combine_assets(assets: List[AssetData]) -> List[AssetData]:
+def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
+# def combine_assets(assets: List[AssetData]) -> List[AssetData]:
     """
     Combine bonds and cash into summary positions. Recalculate values if needed.
     """
