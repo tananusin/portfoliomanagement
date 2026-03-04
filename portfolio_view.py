@@ -33,7 +33,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "PE p75": asset.pe_p75,
         "PE Signal": asset.pe_signal,
         "Yield": asset.dividend_yield,
-        "yield offset": asset.dividend_yield_offset,
+        "yield Offset": asset.dividend_yield_offset,
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
