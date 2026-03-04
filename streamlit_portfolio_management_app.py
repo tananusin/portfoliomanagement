@@ -36,9 +36,8 @@ portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
-
-# total_thb = calculate_portfolio_total(assets)
-# assign_weights(assets, total_thb)
+total_thb = calculate_portfolio_total(assets)
+assign_weights(assets, total_thb)
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
@@ -56,29 +55,28 @@ assets = summarize_assets(assets)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-show_portfolio_table(portfolio_df)
 
-# tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
-# with tab1:
-#     st.subheader("📋 Portfolio Report")
-#     show_portfolio_table(portfolio_df)
-#     st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
-# with tab2:
-#     st.subheader("📶 Portfolio Signals")
-#     show_summary_signal_table(portfolio_df)
-# with tab3:
-#     st.subheader("📉 Price Changes")
-#     show_price_change_table(portfolio_df)
-# with tab4:
-#     st.subheader("🧮 PE Signal")
-#     show_pe_signal_table(portfolio_df)
-# with tab5:
-#     st.subheader("💵 Yield Signal")
-#     show_yield_signal_table(portfolio_df)
-# with tab6:
-#     st.subheader("💹 Market Data")
-#     st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-#     show_market_data_table(portfolio_unsum_df)
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
+with tab1:
+    st.subheader("📋 Portfolio Report")
+    show_portfolio_table(portfolio_df)
+    st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
+with tab2:
+    st.subheader("📶 Portfolio Signals")
+    # show_summary_signal_table(portfolio_df)
+with tab3:
+    st.subheader("📉 Price Changes")
+    # show_price_change_table(portfolio_df)
+with tab4:
+    st.subheader("🧮 PE Signal")
+    # show_pe_signal_table(portfolio_df)
+with tab5:
+    st.subheader("💵 Yield Signal")
+    # show_yield_signal_table(portfolio_df)
+with tab6:
+    st.subheader("💹 Market Data")
+    # st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
+    # show_market_data_table(portfolio_unsum_df)
 
 
 
