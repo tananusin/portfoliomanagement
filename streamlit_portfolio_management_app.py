@@ -34,7 +34,7 @@ except Exception:
 # --- For Showing Unsummarized Market Data ---
 portfolio_unsum_df = get_portfolio_df(assets)
 
-'''
+"""
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
@@ -50,7 +50,7 @@ assign_pe_signals(assets)
 
 # --- Assign Yield Signal ---
 assign_yield_signals(assets, user_pref)
-'''
+"""
 
 # --- Convert to DataFrame ---
 portfolio_df = get_portfolio_df(assets)
