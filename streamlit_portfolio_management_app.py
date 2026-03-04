@@ -33,7 +33,7 @@ except Exception:
 
 # --- For Showing Unsummarized Market Data ---
 portfolio_unsum_df = get_portfolio_df(assets)
-
+assets = summarize_assets(assets)
 show_portfolio_table(portfolio_unsum_df)
 
 # # --- Portfolio Calculations ---
