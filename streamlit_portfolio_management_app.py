@@ -36,19 +36,19 @@ portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
-total_thb = calculate_portfolio_total(assets)
-assign_weights(assets, total_thb)
+# total_thb = calculate_portfolio_total(assets)
+# assign_weights(assets, total_thb)
 
-# --- Assign Dynamic Target and Position ---
-assign_targets(assets, user_pref)
-assign_position_sizes(assets)
-assign_price_changes(assets, user_pref)
+# # --- Assign Dynamic Target and Position ---
+# assign_targets(assets, user_pref)
+# assign_position_sizes(assets)
+# assign_price_changes(assets, user_pref)
 
-# --- Assign PE Signal ---
-assign_pe_signals(assets)
+# # --- Assign PE Signal ---
+# assign_pe_signals(assets)
 
-# --- Assign Yield Signal ---
-assign_yield_signals(assets, user_pref)
+# # --- Assign Yield Signal ---
+# assign_yield_signals(assets, user_pref)
 
 
 # --- Convert to DataFrame ---
