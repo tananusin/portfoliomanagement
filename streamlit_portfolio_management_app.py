@@ -35,7 +35,7 @@ except Exception:
 portfolio_unsum_df = get_portfolio_df(assets)
 
 # --- Portfolio Calculations ---
-# assets = summarize_assets(assets)
+assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 
@@ -56,6 +56,7 @@ portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
 show_portfolio_table(portfolio_unsum_df)
+
 # tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
 # with tab1:
 #     st.subheader("📋 Portfolio Report")
