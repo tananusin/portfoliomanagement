@@ -14,7 +14,7 @@ class AssetData:
     asset_class: Optional[str] = None
     mdd: Optional[float] = None
 
-    # Assumption
+    # Assumption calculated from MDD
     rebound: Optional[float] = None 
     cagr: Optional[float] = None
     dividend_yield_offset: Optional[float] = None
@@ -31,7 +31,7 @@ class AssetData:
 
     # Position Size
     drift: Optional[float] = None
-    drift_pct: Optional[float] = None
+    drift_relative: Optional[float] = None
     position_size: Optional[str] = None
 
     # Price Signal
