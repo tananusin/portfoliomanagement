@@ -85,8 +85,8 @@ def get_user_preferences() -> UserPreference:
     )
 
     # Convert % to decimals
-    investment_weight = investment_pct / 100.0
-    gold_weight_reserve = gold_pct / 100.0
+    investment_weight = investment_pct / 100
+    gold_weight_reserve = gold_pct / 100
 
     prefs = UserPreference(
         sheet_url=cleaned_url or None,
