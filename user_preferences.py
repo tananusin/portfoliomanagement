@@ -41,11 +41,13 @@ def get_user_preferences() -> UserPreference:
     cleaned_url = input_url.strip() if input_url else ""
     default_csv_url = st.secrets["google_sheet"]["url"]
 
-    # Decide final CSV url
-    try:
-        sheet_csv_url = convert_to_csv_url(cleaned_url) if cleaned_url else default_csv_url
-    except ValueError:
-        st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+    if input_url.strip():  # only validate if user typed something
+        try:
+            sheet_csv_url = convert_to_csv_url(input_url)
+        except ValueError:
+            st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+            sheet_csv_url = default_csv_url
+    else:
         sheet_csv_url = default_csv_url
 
     # Investment allocation slider (user-friendly % input, returned as decimals)
