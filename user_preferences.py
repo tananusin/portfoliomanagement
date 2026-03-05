@@ -43,12 +43,7 @@ def get_user_preferences() -> UserPreference:
         st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
         sheet_url = st.secrets["google_sheet"]["url"]
 
-    st.sidebar.markdown("### 🔑 Switch to Live Data")
-    password = st.sidebar.text_input(
-        "Enter password for live data access:",
-        type="password"
-    )
-
+    
     # Investment allocation slider (user-friendly % input, returned as decimals)
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
