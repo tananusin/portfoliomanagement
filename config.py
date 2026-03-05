@@ -1,5 +1,6 @@
+#config.py
 from dataclasses import dataclass
-
+from risk_class import RiskClass
 
 @dataclass
 class PortfolioConfig:
@@ -11,3 +12,9 @@ class PortfolioConfig:
 
     threshold_drift: float = 0.05
     threshold_drift_relative: float = 0.5
+
+RISK_CLASSES = [
+    RiskClass("Core", -0.25),
+    RiskClass("Growth", -0.50),
+    RiskClass("Speculative", -0.70),
+]
