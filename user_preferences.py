@@ -66,14 +66,14 @@ def get_user_preferences() -> UserPreference:
     # Assumption inputs
     st.sidebar.markdown("### 📉 Assumption")
     years_rebound = st.sidebar.number_input(
-        "Years to Fully Rebound from MDD",
+        "Years for Prices to Fully Rebound from MDD",
         value=3,
         min_value=1,
         max_value=10,
         step=1
     )
     years_dividend = st.sidebar.number_input(
-        "Years for Dividend to cover MDD",
+        "Years for Dividend to cover unrealised MDD",
         value=5,
         min_value=1,
         max_value=10,
