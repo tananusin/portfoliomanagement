@@ -3,17 +3,42 @@ import streamlit as st
 from dataclasses import dataclass
 from typing import Optional
 
-
 @dataclass
 class UserPreference:
-    sheet_url: Optional[str] = None        # original user input (optional)
-    sheet_csv_url: Optional[str] = None    # converted CSV export URL (optional)
+    investment_pct: int
+    gold_pct: int
+    password: str
+    sheet_url: str
+    mdd_speculative_pct: int
+    mdd_growth_pct: int
+    mdd_core_pct: int
 
-    investment_weight: float = 0.50        # decimal (0.25 - 0.75)
-    gold_weight_reserve: float = 0.20      # decimal (0.00 - 0.50) of reserve portion
+    cagr_speculative_pct: Optional[float] = None
+    cagr_growth_pct: Optional[float] = None
+    cagr_core_pct: Optional[float] = None 
+    rebound_speculative_pct: Optional[float] = None
+    rebound_growth_pct: Optional[float] = None
+    rebound_core_pct: Optional[float] = None
 
-    years_rebound: int = 3
-    years_dividend: int = 5
+    yield_speculative: Optional[float] = None
+    yield_growth: Optional[float] = None
+    yield_core: Optional[float] = None 
+    
+    def compute_growth_metrics(self):
+        def calc(mdd_pct: int):
+            rebound_multiplier = 1 / (1 + mdd_pct / 100)
+            cagr = rebound_multiplier ** (1 / 3) - 1
+            rebound_pct = (rebound_multiplier - 1) * 100
+            return round(cagr * 100, 2), round(rebound_pct, 2)
+
+        self.cagr_speculative_pct, self.rebound_speculative_pct = calc(self.mdd_speculative_pct)
+        self.cagr_growth_pct, self.rebound_growth_pct = calc(self.mdd_growth_pct)
+        self.cagr_core_pct, self.rebound_core_pct = calc(self.mdd_core_pct)
+    
+    def compute_yield_metrics(self):
+        self.yield_speculative = (self.mdd_speculative_pct)/-5
+        self.yield_growth = (self.mdd_growth_pct)/-5
+        self.yield_core = (self.mdd_core_pct)/-5
 
 
 def convert_to_csv_url(sheet_url: str) -> str:
@@ -23,8 +48,7 @@ def convert_to_csv_url(sheet_url: str) -> str:
     elif sheet_url.endswith("/export?format=csv"):
         return sheet_url
     else:
-        raise ValueError("Invalid Google Sheet link format. Expected a link containing '/edit'.")
-
+        raise ValueError("Invalid Google Sheet link format.")
 
 def get_user_preferences() -> UserPreference:
     st.sidebar.header("🛠️ User Preference")
@@ -38,18 +62,19 @@ def get_user_preferences() -> UserPreference:
     )
     st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`.")
 
-    sheet_csv_url: Optional[str] = None
-    cleaned_url = input_url.strip() if input_url else ""
+    try:
+        sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
+    except ValueError:
+        st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+        sheet_url = st.secrets["google_sheet"]["url"]
 
-    # Convert URL if provided
-    if cleaned_url:
-        try:
-            sheet_csv_url = convert_to_csv_url(cleaned_url)
-            st.sidebar.success("✅ Sheet link accepted.")
-        except ValueError as e:
-            st.sidebar.error(f"❌ {e}")
-
-    # Investment allocation slider (user-friendly % input, returned as decimals)
+    st.sidebar.markdown("### 🔑 Switch to Live Data")
+    password = st.sidebar.text_input(
+        "Enter password for live data access:",
+        type="password"
+    )
+    
+    # Investment allocation slider
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
         label="Set Investment Portion (%)",
@@ -68,34 +93,43 @@ def get_user_preferences() -> UserPreference:
         help="Reserve portion includes cash, bond, and gold."
     )
 
-    # Assumption inputs
-    st.sidebar.markdown("### 📉 Assumption")
-    years_rebound = st.sidebar.number_input(
-        "Years to Fully Rebound from MDD",
-        value=3,
-        min_value=1,
-        max_value=10,
-        step=1
+    # MDD inputs
+    st.sidebar.markdown("### 📉 Maximum Drawdown (%MDD)")
+    mdd_core_pct = st.sidebar.number_input(
+        "Core Assets", value=-25, min_value=-95, max_value=-5, step=5
     )
-    years_dividend = st.sidebar.number_input(
-        "Years for Dividend to cover MDD",
-        value=5,
-        min_value=1,
-        max_value=10,
-        step=1
+    mdd_growth_pct = st.sidebar.number_input(
+        "Growth Assets", value=-50, min_value=-95, max_value=-5, step=5
+    )
+    mdd_speculative_pct = st.sidebar.number_input(
+        "Speculative Assets", value=-70, min_value=-95, max_value=-5, step=5
     )
 
-    # Convert % to decimals
-    investment_weight = investment_pct / 100.0
-    gold_weight_reserve = gold_pct / 100.0
-
+    # Create UserPreference object
     prefs = UserPreference(
-        sheet_url=cleaned_url or None,
-        sheet_csv_url=sheet_csv_url,
-        investment_weight=investment_weight,
-        gold_weight_reserve=gold_weight_reserve,
-        years_rebound=int(years_rebound),
-        years_dividend=int(years_dividend),
+        investment_pct=investment_pct,
+        gold_pct=gold_pct,
+        password=password,
+        sheet_url=sheet_url,
+        mdd_speculative_pct=mdd_speculative_pct,
+        mdd_growth_pct=mdd_growth_pct,
+        mdd_core_pct=mdd_core_pct
     )
+    prefs.compute_growth_metrics()
+    prefs.compute_yield_metrics()
 
+    # Display price rebound metrics
+    st.sidebar.markdown("### 📈 Price Growth Rate")
+    st.sidebar.caption("ℹ️ Assumes price rebounds from MDD in 3 yrs.")
+    st.sidebar.write(f"Core: rebound {round(prefs.rebound_core_pct)}% → CAGR {round(prefs.cagr_core_pct)}%")
+    st.sidebar.write(f"Growth: rebound {round(prefs.rebound_growth_pct)}% → CAGR {round(prefs.cagr_growth_pct)}%")
+    st.sidebar.write(f"Speculative: rebound {round(prefs.rebound_speculative_pct)}% → CAGR {round(prefs.cagr_speculative_pct)}%")
+
+    # Display dividend yield metrics
+    st.sidebar.markdown("### 💵 Dividend Yield")
+    st.sidebar.caption("ℹ️ Expects dividend to offset MDD loss in 5 yrs.")
+    st.sidebar.write(f"Core: yield {round(prefs.yield_core)}%")
+    st.sidebar.write(f"Growth: yield {round(prefs.yield_growth)}%")
+    st.sidebar.write(f"Speculative: yield {round(prefs.yield_speculative)}%")
+    
     return prefs
