@@ -3,12 +3,12 @@ import streamlit as st
 import pandas as pd
 
 from asset_data import AssetData
-from config import PortfolioConfig, RISK_CLASSES
+from config import RiskClass, RISK_CLASSES, THRESHOLD_DRIFT, THRESHOLD_DRIFT_RELATIVE
+from user_preferences import get_user_preferences, UserPreference
 
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
-from user_preferences import get_user_preferences, UserPreference
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
