@@ -73,7 +73,7 @@ def get_user_preferences() -> UserPreference:
         step=1
     )
     years_dividend = st.sidebar.number_input(
-        "Years for Dividend to cover unrealised MDD",
+        "Years for Dividends to cover MDD",
         value=5,
         min_value=1,
         max_value=10,
