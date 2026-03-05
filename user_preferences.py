@@ -7,10 +7,10 @@ from typing import Optional
 @dataclass
 class UserPreference:
     sheet_url: Optional[str] = None        # original user input (optional)
-    sheet_csv_url: Optional[str] = None    # converted CSV export URL (optional)
+    sheet_csv_url: Optional[str] = None    # final CSV export URL (optional)
 
-    investment_weight: float = 0.50        # decimal (0.25 - 0.75)
-    gold_weight_reserve: float = 0.20      # decimal (0.00 - 0.50) of reserve portion
+    investment_weight: float = 0.50
+    gold_weight_reserve: float = 0.20
 
     years_rebound: int = 3
     years_dividend: int = 5
@@ -38,11 +38,15 @@ def get_user_preferences() -> UserPreference:
     )
     st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`.")
 
+    cleaned_url = input_url.strip() if input_url else ""
+    default_csv_url = st.secrets["google_sheet"]["url"]
+
+    # Decide final CSV url
     try:
-        sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
+        sheet_csv_url = convert_to_csv_url(cleaned_url) if cleaned_url else default_csv_url
     except ValueError:
         st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
-        sheet_url = st.secrets["google_sheet"]["url"]
+        sheet_csv_url = default_csv_url
 
     # Investment allocation slider (user-friendly % input, returned as decimals)
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
