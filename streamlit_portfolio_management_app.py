@@ -31,9 +31,6 @@ except Exception:
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
 
 
-# # --- For Showing Unsummarized Market Data ---
-# portfolio_unsum_df = get_portfolio_df(assets)
-
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
@@ -76,7 +73,7 @@ with tab5:
 with tab6:
     st.subheader("💹 Market Data")
     # st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-    # show_market_data_table(portfolio_unsum_df)
+    # show_market_data_table(portfolio_df)
 
 
 
