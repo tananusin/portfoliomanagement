@@ -3,8 +3,7 @@ import streamlit as st
 import pandas as pd
 
 from asset_data import AssetData
-from risk_class import RiskClass
-from config import PortfolioConfig
+from config import PortfolioConfig, RISK_CLASSES
 
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
