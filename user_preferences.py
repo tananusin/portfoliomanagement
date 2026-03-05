@@ -23,7 +23,7 @@ def convert_to_csv_url(sheet_url: str) -> str:
     elif sheet_url.endswith("/export?format=csv"):
         return sheet_url
     else:
-        raise ValueError("Invalid Google Sheet link format. Expected a link containing '/edit'.")
+        raise ValueError("Invalid Google Sheet link format.")
 
 
 def get_user_preferences() -> UserPreference:
@@ -38,17 +38,17 @@ def get_user_preferences() -> UserPreference:
     )
     st.sidebar.caption("ℹ️ Paste a shared Google Sheet link ending in `/edit?usp=sharing`.")
 
-    cleaned_url = input_url.strip() if input_url else ""
-    default_csv_url = st.secrets["google_sheet"]["url"]
+    try:
+        sheet_url = convert_to_csv_url(input_url) if input_url else st.secrets["google_sheet"]["url"]
+    except ValueError:
+        st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
+        sheet_url = st.secrets["google_sheet"]["url"]
 
-    if input_url.strip():  # only validate if user typed something
-        try:
-            sheet_csv_url = convert_to_csv_url(input_url)
-        except ValueError:
-            st.sidebar.error("❌ Invalid link format. Please make sure it's a shared Google Sheet URL.")
-            sheet_csv_url = default_csv_url
-    else:
-        sheet_csv_url = default_csv_url
+    st.sidebar.markdown("### 🔑 Switch to Live Data")
+    password = st.sidebar.text_input(
+        "Enter password for live data access:",
+        type="password"
+    )
 
     # Investment allocation slider (user-friendly % input, returned as decimals)
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
@@ -91,7 +91,7 @@ def get_user_preferences() -> UserPreference:
     gold_weight_reserve = gold_pct / 100
 
     prefs = UserPreference(
-        sheet_url=cleaned_url or None,
+        sheet_url=sheet_url,
         sheet_csv_url=sheet_csv_url,
         investment_weight=investment_weight,
         gold_weight_reserve=gold_weight_reserve,
