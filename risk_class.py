@@ -1,5 +1,5 @@
+#risk_class.py
 from dataclasses import dataclass
-
 
 @dataclass
 class RiskClass:
