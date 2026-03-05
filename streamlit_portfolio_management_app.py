@@ -4,7 +4,7 @@ import pandas as pd
 
 from asset_data import AssetData
 from config import RiskClass, RISK_CLASSES, THRESHOLD_DRIFT, THRESHOLD_DRIFT_RELATIVE
-from user_preferences import get_user_preferences, UserPreference
+from user_preferences import UserPreference, get_user_preferences
 
 from load_assets import load_assets_from_google_sheet
 from fetch_yfinance import can_fetch_data
