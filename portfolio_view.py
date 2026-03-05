@@ -19,7 +19,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "MDD": asset.mdd,        
         "Weight": asset.weight,
         "Target": asset.target,
-        "%drift": asset.drift_pct,
+        "%Drift": asset.drift_relative,
         "Position": asset.position_size,
         "52w high": asset.high_52w,
         "52w low": asset.low_52w,
