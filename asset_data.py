@@ -13,8 +13,12 @@ class AssetData:
     fx_rate: Optional[float] = None
     asset_class: Optional[str] = None
     mdd: Optional[float] = None
-    
 
+    # Assumption
+    rebound: Optional[float] = None 
+    cagr: Optional[float] = None
+    dividend_yield_offset: Optional[float] = None
+    
     # Portfolio Value Variables
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
@@ -45,5 +49,4 @@ class AssetData:
 
     # Dividend Yield Signal
     dividend_yield: Optional[float] = None              # Trailing dividend yield
-    dividend_yield_offset: Optional[float] = None
     dividend_yield_signal: Optional[str] = None
