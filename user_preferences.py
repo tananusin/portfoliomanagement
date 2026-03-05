@@ -6,8 +6,7 @@ from typing import Optional
 
 @dataclass
 class UserPreference:
-    sheet_url: Optional[str] = None        # original user input (optional)
-    sheet_csv_url: Optional[str] = None    # final CSV export URL (optional)
+    sheet_url: str
 
     investment_weight: float = 0.50
     gold_weight_reserve: float = 0.20
@@ -92,7 +91,6 @@ def get_user_preferences() -> UserPreference:
 
     prefs = UserPreference(
         sheet_url=sheet_url,
-        sheet_csv_url=sheet_csv_url,
         investment_weight=investment_weight,
         gold_weight_reserve=gold_weight_reserve,
         years_rebound=int(years_rebound),
