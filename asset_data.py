@@ -25,6 +25,8 @@ class AssetData:
     weight: Optional[float] = None
 
     # Proportion
+    mdd_inverse: Optional[float] = None
+    target_in_class: Optional[float] = None
     target: Optional[float] = None
 
     # Position Size
