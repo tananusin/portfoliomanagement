@@ -1,18 +1,16 @@
 #config.py
 from dataclasses import dataclass
-from risk_class import RiskClass
 
 @dataclass
-class PortfolioConfig:
-    investment_weight: float = 0.5
-    gold_weight_reserve: float = 0.2
+class RiskClass:
+    name: str
+    class_mdd: float  # decimal, e.g. -0.25
 
-    years_rebound: int = 3
-    years_dividend: int = 5
+# Drift thresholds (decimals)
+THRESHOLD_DRIFT = 0.05
+THRESHOLD_DRIFT_RELATIVE = 0.50
 
-    threshold_drift: float = 0.05
-    threshold_drift_relative: float = 0.5
-
+# Default class assumptions
 RISK_CLASSES = [
     RiskClass("Core", -0.25),
     RiskClass("Growth", -0.50),
