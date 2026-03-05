@@ -14,7 +14,7 @@ class PortfolioConfig:
     threshold_drift_relative: float = 0.5
 
 RISK_CLASSES = [
-    RiskClass("Core"),
-    RiskClass("Growth"),
-    RiskClass("Speculative"),
+    RiskClass("Core", -0.25),
+    RiskClass("Growth", -0.50),
+    RiskClass("Speculative", -0.70),
 ]
