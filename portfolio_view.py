@@ -20,7 +20,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
 
         "Rebound": asset.rebound,
         "CAGR": asset.cagr,
-        "Yield Offset": asset.dividend_yield_offset,
+        "Offset Yield": asset.dividend_yield_offset,
         
         "Weight": asset.weight,
         "Target": asset.target,
@@ -42,12 +42,12 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_debug_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "MDD", "Rebound", "CAGR", "Yield Offset"]
+    show_cols = ["Name", "MDD", "Rebound", "CAGR", "Offset Yield"]
     format_dict = {
         "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Rebound": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
         "CAGR": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",        
-        "Yield Offset": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
+        "Offset Yield": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
