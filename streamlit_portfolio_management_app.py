@@ -55,7 +55,7 @@ portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📶 Signals", "📉 Price Changes",  "🧮 PE Signal", "💵 Yield Signal", "💹 Market Data"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "📊 Signals", "📉 Price Changes",  "💹 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data"])
 with tab1:
     st.subheader("📋 Portfolio Report")
     show_portfolio_table(portfolio_df)
