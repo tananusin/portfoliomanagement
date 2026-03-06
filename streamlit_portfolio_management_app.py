@@ -45,7 +45,7 @@ calculate_assumptions(assets, user_pref)
 
 # # --- Assign Target Weight to Investment Portfolio
 apply_all_asset_class_erc(assets, RISK_CLASSES) # 1) Asset ERC inside each class
-# portfolio_mdd = apply_risk_class_erc(RISK_CLASSES) # 2) Class ERC using dynamic class_mdd
+portfolio_mdd = apply_risk_class_erc(RISK_CLASSES) # 2) Class ERC using dynamic class_mdd
 # apply_final_asset_targets(assets, RISK_CLASSES) # 3) Final asset portfolio targets
 
 
