@@ -18,14 +18,11 @@ def apply_erc_by_mdd(
         Portfolio MDD     = Σ(Target Weight × assumed MDD)
 
     Notes:
-        - MDD can be stored as negative (-0.25) or positive (0.25).
-        - This function uses abs(MDD) for calculation.
-        - The function mutates each item by writing:
-            * inverse_attr
-            * target_attr
+        - MDD can be negative or positive; abs(MDD) is used.
+        - Mutates each item by writing inverse_attr and target_attr.
 
     Returns:
-        float: portfolio-level weighted MDD
+        float: weighted portfolio MDD
     """
     items = list(items)
 
@@ -34,18 +31,20 @@ def apply_erc_by_mdd(
 
     total_inverse_mdd = 0.0
 
-    # 1) Calculate inverse MDD
     for item in items:
         raw_mdd = getattr(item, mdd_attr, None)
 
         if raw_mdd is None:
-            raise ValueError(f"{getattr(item, 'name', item)} has no attribute '{mdd_attr}'")
+            raise ValueError(
+                f"{getattr(item, 'name', getattr(item, 'ticker', item))} "
+                f"has no attribute '{mdd_attr}'"
+            )
 
         mdd = abs(raw_mdd)
         if mdd <= 0:
             raise ValueError(
-                f"{getattr(item, 'name', item)} has invalid {mdd_attr}={raw_mdd}. "
-                "MDD must be non-zero."
+                f"{getattr(item, 'name', getattr(item, 'ticker', item))} "
+                f"has invalid {mdd_attr}={raw_mdd}. MDD must be non-zero."
             )
 
         inverse_mdd = 1 / mdd
@@ -55,13 +54,11 @@ def apply_erc_by_mdd(
     if total_inverse_mdd <= 0:
         raise ValueError("Total inverse MDD must be greater than 0.")
 
-    # 2) Calculate target weights
     for item in items:
         inverse_mdd = getattr(item, inverse_attr)
         target_weight = inverse_mdd / total_inverse_mdd
         setattr(item, target_attr, target_weight)
 
-    # 3) Calculate portfolio MDD
     portfolio_mdd = 0.0
     for item in items:
         mdd = abs(getattr(item, mdd_attr))
@@ -71,40 +68,62 @@ def apply_erc_by_mdd(
     return portfolio_mdd
 
 
-def apply_asset_class_erc(assets, class_name: str) -> float:
+def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
     """
-    Apply ERC to assets within one asset class.
+    Apply ERC to assets within one class, then write the resulting
+    weighted class MDD back to the matching RiskClass.class_mdd.
 
     Writes:
         asset.mdd_inverse
         asset.target_in_class
+        risk_class.class_mdd
 
     Returns:
-        float: weighted MDD of that asset class
+        float: weighted MDD of the class
     """
     class_assets = [a for a in assets if a.asset_class == class_name]
 
     if not class_assets:
         raise ValueError(f"No assets found in asset_class='{class_name}'")
 
-    return apply_erc_by_mdd(
+    class_mdd = apply_erc_by_mdd(
         items=class_assets,
         mdd_attr="mdd",
         inverse_attr="mdd_inverse",
         target_attr="target_in_class",
     )
 
+    matched = False
+    for rc in risk_classes:
+        if rc.name == class_name:
+            rc.class_mdd = class_mdd
+            matched = True
+            break
+
+    if not matched:
+        raise ValueError(f"No RiskClass found with name='{class_name}'")
+
+    return class_mdd
+
+
+def apply_all_asset_class_erc(assets, risk_classes) -> None:
+    """
+    Run ERC for every class defined in risk_classes.
+    """
+    for rc in risk_classes:
+        apply_asset_class_erc(assets, risk_classes, rc.name)
+
 
 def apply_risk_class_erc(risk_classes) -> float:
     """
-    Apply ERC to portfolio classes.
+    Apply ERC across portfolio classes using dynamically computed class_mdd.
 
     Writes:
         risk_class.class_mdd_inverse
         risk_class.class_target_weight
 
     Returns:
-        float: weighted MDD of the investment portfolio classes
+        float: weighted MDD across classes
     """
     return apply_erc_by_mdd(
         items=risk_classes,
@@ -116,19 +135,17 @@ def apply_risk_class_erc(risk_classes) -> float:
 
 def apply_final_asset_targets(assets, risk_classes) -> None:
     """
-    Combine class target weight and within-class target weight.
-
-    Final formula:
+    Final portfolio target per asset:
         asset.target = class_target_weight × target_in_class
-
-    Writes:
-        asset.target
     """
     class_map = {rc.name: rc.class_target_weight for rc in risk_classes}
 
     for asset in assets:
         if asset.asset_class not in class_map:
-            raise ValueError(f"Unknown asset_class='{asset.asset_class}' for asset '{asset.ticker}'")
+            raise ValueError(
+                f"Unknown asset_class='{asset.asset_class}' "
+                f"for asset '{asset.ticker}'"
+            )
 
         class_weight = class_map[asset.asset_class]
         if class_weight is None:
@@ -140,7 +157,7 @@ def apply_final_asset_targets(assets, risk_classes) -> None:
         if asset.target_in_class is None:
             raise ValueError(
                 f"Asset '{asset.ticker}' has no target_in_class. "
-                f"Run apply_asset_class_erc() for class '{asset.asset_class}' first."
+                f"Run asset ERC first for class '{asset.asset_class}'."
             )
 
         asset.target = class_weight * asset.target_in_class
