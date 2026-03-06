@@ -111,6 +111,6 @@ with tab1:
     show_allocation_pie_chart(portfolio_combine_df, total_thb)
 with tab2:
     st.subheader("🎯 Target Allocation Pie Chart")
-    # show_target_allocation_pie_chart(portfolio_df)
+    show_target_allocation_pie_chart(portfolio_combine_df)
 
 
