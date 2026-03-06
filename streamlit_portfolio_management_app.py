@@ -10,7 +10,7 @@ from load_assets import load_assets_from_google_sheet
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
 from erc import (
-    apply_all_asset_class_erc,
+    apply_asset_class_erc
     apply_risk_class_erc,
     apply_final_asset_targets,
 )
