@@ -1,4 +1,4 @@
-#config.py
+# config.py
 from dataclasses import dataclass
 from typing import Optional
 
@@ -9,13 +9,16 @@ class RiskClass:
     class_mdd_inverse: Optional[float] = None
     class_target_weight: Optional[float] = None
 
-# Drift thresholds (decimals)
-THRESHOLD_DRIFT = 0.05
-THRESHOLD_DRIFT_RELATIVE = 0.50
+# ERC investment classes only
+ERC_CLASSES = ["Core", "Growth", "Speculative"]
 
-# Default class assumptions
+# Risk classes used in hierarchical ERC
 RISK_CLASSES = [
     RiskClass("Core"),
     RiskClass("Growth"),
     RiskClass("Speculative"),
 ]
+
+# Drift thresholds (decimals)
+THRESHOLD_DRIFT = 0.05
+THRESHOLD_DRIFT_RELATIVE = 0.50
