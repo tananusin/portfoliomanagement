@@ -50,7 +50,7 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
         "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "Yield": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
