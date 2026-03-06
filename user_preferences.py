@@ -64,7 +64,7 @@ def get_user_preferences() -> UserPreference:
     )
 
     # Assumption inputs
-    st.sidebar.markdown("### 📉 Assumption")
+    st.sidebar.markdown("### ⏳ Assumption")
     years_rebound = st.sidebar.number_input(
         "Years for Prices to Fully Rebound from MDD",
         value=3,
