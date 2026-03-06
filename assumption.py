@@ -17,8 +17,8 @@ def calculate_assumption(asset: AssetData, user_pref: UserPreference) -> None:
         asset.cagr = (1 + asset.rebound) ** (1 / years) - 1
 
     # Dividend Yield Offset
-    if asset.rebound is not None and asset.dividend_yield:
-        asset.dividend_yield_offset = asset.rebound/asset.dividend_yield
+    if user_pref.years_rebound is not None:
+        asset.dividend_yield_offset = asset.asset.mdd/user_pref.years_rebound
         
 
 def calculate_assumptions(assets: list[AssetData], user_pref: UserPreference) -> None:
