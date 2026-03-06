@@ -216,9 +216,8 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
     st.pyplot(fig)
 
 def show_risk_class_table(risk_classes):
-
     data = []
-
+    
     for rc in risk_classes:
         data.append({
             "Class": rc.name,
@@ -227,27 +226,14 @@ def show_risk_class_table(risk_classes):
             "Target Weight": rc.class_target_weight,
             "Risk Contribution": rc.class_mdd_contribution
         })
-
     df = pd.DataFrame(data)
-
+    
     # Format for display
     if "Class MDD" in df: df["Class MDD"] = df["Class MDD"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
-
-    if "Target Weight" in df:
-        df["Target Weight"] = df["Target Weight"].map(
-            lambda x: f"{x:.0%}" if pd.notnull(x) else ""
-        )
-
-    if "Risk Contribution" in df:
-        df["Risk Contribution"] = df["Risk Contribution"].map(
-            lambda x: f"{x:.0%}" if pd.notnull(x) else ""
-        )
-
-    if "Inverse MDD" in df:
-        df["Inverse MDD"] = df["Inverse MDD"].map(
-            lambda x: f"{x:.2f}" if pd.notnull(x) else ""
-        )
-
+    if "Target Weight" in df: df["Target Weight"] = df["Target Weight"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
+    if "Risk Contribution" in df: df["Risk Contribution"] = df["Risk Contribution"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
+    if "Inverse MDD" in df: df["Inverse MDD"] = df["Inverse MDD"].map(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
+    
     st.dataframe(df, use_container_width=True)
 
 
