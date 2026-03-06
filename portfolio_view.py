@@ -237,7 +237,6 @@ def show_risk_class_table(risk_classes):
     if "Inverse MDD" in df:
         df["Inverse MDD"] = df["Inverse MDD"].map(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
 
-    st.subheader("📊 Risk Class Allocation")
     st.dataframe(df, use_container_width=True)
 
 
