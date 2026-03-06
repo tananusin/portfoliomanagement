@@ -18,12 +18,16 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Class": asset.asset_class,
         "MDD": asset.mdd,
 
+        "Weight": asset.weight,
+        
         "Rebound": asset.rebound,
         "CAGR": asset.cagr,
         "Offset Yield": asset.dividend_yield_offset,
-        
-        "Weight": asset.weight,
+
+        "Inverse MDD": asset.mdd_inverse,
+        "Target in Class": asset.target_in_class,
         "Target": asset.target,
+        
         "%Drift": asset.drift_relative,
         "Position": asset.position_size,
         "52w high": asset.high_52w,
