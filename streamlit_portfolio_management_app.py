@@ -73,9 +73,9 @@ with tab5:
     st.subheader("💵 Yield Signal")
     # show_yield_signal_table(portfolio_df)
 with tab6:
-    st.subheader("💹 Market Data")
-    # st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
+    st.subheader("💹 Google Sheet Data")
     show_google_sheet_data_table(portfolio_df)
+    st.caption("ℹ️ Load from Google Sheet.")
 
 
 
