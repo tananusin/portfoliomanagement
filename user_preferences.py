@@ -13,6 +13,9 @@ class UserPreference:
 
     years_rebound: int = 3
     years_dividend: int = 5
+    
+    threshold_drift: float = 0.05
+    threshold_drift_relative: float = 0.50
 
 
 def convert_to_csv_url(sheet_url: str) -> str:
@@ -80,9 +83,30 @@ def get_user_preferences() -> UserPreference:
         step=1
     )
 
+    # Drift thresholds
+    st.sidebar.markdown("### ⚖️ Rebalancing Thresholds")
+    threshold_drift_pct = st.sidebar.number_input(
+        "Absolute Drift Threshold (%)",
+        value=5.0,
+        min_value=0.0,
+        max_value=100.0,
+        step=0.5,
+        help="Example: 5 means rebalance when weight differs from target by more than 5 percentage points."
+    )
+    threshold_drift_relative_pct = st.sidebar.number_input(
+        "Relative Drift Threshold (%)",
+        value=50.0,
+        min_value=0.0,
+        max_value=500.0,
+        step=5.0,
+        help="Example: 50 means rebalance when drift is more than 50% of target weight."
+    )
+    
     # Convert % to decimals
     investment_weight = investment_pct / 100
     gold_weight_reserve = gold_pct / 100
+    threshold_drift = threshold_drift_pct / 100
+    threshold_drift_relative = threshold_drift_relative_pct / 100
 
     prefs = UserPreference(
         sheet_url=sheet_url,
@@ -90,6 +114,8 @@ def get_user_preferences() -> UserPreference:
         gold_weight_reserve=gold_weight_reserve,
         years_rebound=int(years_rebound),
         years_dividend=int(years_dividend),
+        threshold_drift=threshold_drift,
+        threshold_drift_relative=threshold_drift_relative,
     )
 
     return prefs
