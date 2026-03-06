@@ -1,5 +1,6 @@
 # erc.py
 from typing import Any, Iterable
+from config import ERC_CLASSES
 
 
 def apply_erc_by_mdd(
@@ -19,7 +20,9 @@ def apply_erc_by_mdd(
 
     Notes:
         - MDD can be negative or positive; abs(MDD) is used.
-        - Mutates each item by writing inverse_attr and target_attr.
+        - Mutates each item by writing:
+            * inverse_attr
+            * target_attr
 
     Returns:
         float: weighted portfolio MDD
@@ -31,6 +34,7 @@ def apply_erc_by_mdd(
 
     total_inverse_mdd = 0.0
 
+    # 1) Calculate inverse MDD
     for item in items:
         raw_mdd = getattr(item, mdd_attr, None)
 
@@ -54,11 +58,13 @@ def apply_erc_by_mdd(
     if total_inverse_mdd <= 0:
         raise ValueError("Total inverse MDD must be greater than 0.")
 
+    # 2) Calculate target weights
     for item in items:
         inverse_mdd = getattr(item, inverse_attr)
         target_weight = inverse_mdd / total_inverse_mdd
         setattr(item, target_attr, target_weight)
 
+    # 3) Calculate weighted portfolio MDD
     portfolio_mdd = 0.0
     for item in items:
         mdd = abs(getattr(item, mdd_attr))
@@ -81,6 +87,11 @@ def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
     Returns:
         float: weighted MDD of the class
     """
+    if class_name not in ERC_CLASSES:
+        raise ValueError(
+            f"asset_class='{class_name}' is not in ERC_CLASSES={ERC_CLASSES}"
+        )
+
     class_assets = [a for a in assets if a.asset_class == class_name]
 
     if not class_assets:
@@ -108,10 +119,10 @@ def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
 
 def apply_all_asset_class_erc(assets, risk_classes) -> None:
     """
-    Run ERC for every class defined in risk_classes.
+    Run asset-level ERC for every ERC class.
     """
-    for rc in risk_classes:
-        apply_asset_class_erc(assets, risk_classes, rc.name)
+    for class_name in ERC_CLASSES:
+        apply_asset_class_erc(assets, risk_classes, class_name)
 
 
 def apply_risk_class_erc(risk_classes) -> float:
@@ -123,10 +134,15 @@ def apply_risk_class_erc(risk_classes) -> float:
         risk_class.class_target_weight
 
     Returns:
-        float: weighted MDD across classes
+        float: weighted MDD across ERC classes
     """
+    erc_risk_classes = [rc for rc in risk_classes if rc.name in ERC_CLASSES]
+
+    if not erc_risk_classes:
+        raise ValueError("No ERC risk classes found.")
+
     return apply_erc_by_mdd(
-        items=risk_classes,
+        items=erc_risk_classes,
         mdd_attr="class_mdd",
         inverse_attr="class_mdd_inverse",
         target_attr="class_target_weight",
@@ -135,19 +151,24 @@ def apply_risk_class_erc(risk_classes) -> float:
 
 def apply_final_asset_targets(assets, risk_classes) -> None:
     """
-    Final portfolio target per asset:
+    Final portfolio target per ERC asset:
         asset.target = class_target_weight × target_in_class
+
+    Non-ERC assets are skipped.
     """
-    class_map = {rc.name: rc.class_target_weight for rc in risk_classes}
+    class_map = {
+        rc.name: rc.class_target_weight
+        for rc in risk_classes
+        if rc.name in ERC_CLASSES
+    }
 
     for asset in assets:
-        if asset.asset_class not in class_map:
-            raise ValueError(
-                f"Unknown asset_class='{asset.asset_class}' "
-                f"for asset '{asset.ticker}'"
-            )
+        # Skip non-ERC classes like Cash / Bond / Gold / Reserve
+        if asset.asset_class not in ERC_CLASSES:
+            continue
 
-        class_weight = class_map[asset.asset_class]
+        class_weight = class_map.get(asset.asset_class)
+
         if class_weight is None:
             raise ValueError(
                 f"Risk class '{asset.asset_class}' has no class_target_weight. "
