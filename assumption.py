@@ -19,8 +19,7 @@ def calculate_assumption(asset: AssetData, user_pref: UserPreference) -> None:
     # Dividend Yield Offset
     if asset.rebound is not None and asset.dividend_yield:
         asset.dividend_yield_offset = asset.rebound/asset.dividend_yield
-
-
+        
 
 def calculate_assumptions(assets: list[AssetData], user_pref: UserPreference) -> None:
     """
