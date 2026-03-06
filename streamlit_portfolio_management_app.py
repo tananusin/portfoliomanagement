@@ -75,7 +75,7 @@ with tab5:
 with tab6:
     st.subheader("💹 Market Data")
     # st.caption("ℹ️ Fetchable data. When using live data mode, copy this data to your Google Sheet to update static data.")
-    # show_market_data_table(portfolio_df)
+    show_market_data_table(portfolio_df)
 
 
 
