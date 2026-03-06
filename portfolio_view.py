@@ -27,6 +27,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Inverse MDD": asset.mdd_inverse,
         "Target in Class": asset.target_in_class,
         "Target": asset.target,
+        "MDD Contribution": asset.mdd_contribution,
         
         "%Drift": asset.drift_relative,
         "Position": asset.position_size,
@@ -46,7 +47,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_debug_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "MDD", "Rebound", "CAGR", "Offset Yield", "Inverse MDD", "Target in Class", "Target"]
+    show_cols = ["Name", "Class", "MDD", "Rebound", "CAGR", "Offset Yield", "Inverse MDD", "Target in Class", "Target", "MDD Contribution"]
     format_dict = {
         "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Rebound": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
@@ -54,7 +55,8 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Offset Yield": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Inverse MDD": lambda x: f"{x:,.0f}" if x != 0.0 else "-",
         "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",        
+        "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
