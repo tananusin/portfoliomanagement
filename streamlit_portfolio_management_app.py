@@ -43,10 +43,13 @@ total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 calculate_assumptions(assets, user_pref)
 
-# # --- Assign Target Weight to Investment Portfolio
-apply_all_asset_class_erc(assets, RISK_CLASSES) # 1) Asset ERC inside each class
-portfolio_mdd = apply_risk_class_erc(RISK_CLASSES) # 2) Class ERC using dynamic class_mdd
-apply_final_asset_targets(assets, RISK_CLASSES) # 3) Final asset portfolio targets
+# # --- Assign Target Weight to Investment Portfolio                                                                        
+core_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Core")                    # Asset ERC inside each class
+growth_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Growth")
+speculative_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Speculative") 
+
+portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                                # Class ERC using dynamic class_mdd
+apply_final_asset_targets(assets, RISK_CLASSES)                                   # Final asset portfolio targets
 
 
 # # --- Assign Dynamic Target and Position ---
