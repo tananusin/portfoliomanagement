@@ -37,7 +37,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
-def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
+def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "MDD", "52w high", "52w low", "Years low", "PE", "PE p25", "PE p75", "Yield"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -109,6 +109,23 @@ def show_price_change_table(portfolio_df: pd.DataFrame):
         .applymap(highlight_condition, subset=["Price Change"])
     )
     st.dataframe(styled_df)
+
+def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
+    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "MDD", "52w high", "52w low", "Years low", "PE", "PE p25", "PE p75", "Yield"]
+    format_dict = {
+        "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "52w high": lambda x: f"{x:,.2f}" if x else "-",
+        "52w low": lambda x: f"{x:,.2f}" if x else "-",
+        "Years low": lambda x: f"{x:,.2f}" if x else "-",
+        "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "Yield": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
+    }
+    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_pe_signal_table(portfolio_df: pd.DataFrame):
     show_cols = ["Name", "Type","PE", "PE_p25", "PE_p75", "PE Signal"]
