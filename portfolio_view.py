@@ -37,7 +37,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
-def show_googlesheet_data_table(portfolio_df: pd.DataFrame):
+def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
     show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "MDD", "52w high", "52w low", "Years low", "PE", "PE p25", "PE p75", "Yield"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
