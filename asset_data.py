@@ -13,17 +13,17 @@ class AssetData:
     fx_rate: Optional[float] = None
     asset_class: Optional[str] = None
     mdd: Optional[float] = None
-
-    # Assumption calculated from MDD
-    rebound: Optional[float] = None 
-    cagr: Optional[float] = None
-    dividend_yield_offset: Optional[float] = None
     
     # Portfolio Value Variables
     value_local: Optional[float] = None
     value_thb: Optional[float] = None
     weight: Optional[float] = None
 
+    # Assumption Calculated from MDD
+    rebound: Optional[float] = None 
+    cagr: Optional[float] = None
+    dividend_yield_offset: Optional[float] = None
+    
     # Proportion
     mdd_inverse: Optional[float] = None
     target_in_class: Optional[float] = None
