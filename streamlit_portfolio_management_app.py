@@ -46,14 +46,14 @@ calculate_assumptions(assets, user_pref)
 # # --- Assign Target Weight to Investment Portfolio
 # 1) calculate asset weights inside each class
 apply_asset_class_erc(assets, "Core")
-apply_asset_class_erc(assets, "Growth")
-apply_asset_class_erc(assets, "Speculative")
+# apply_asset_class_erc(assets, "Growth")
+# apply_asset_class_erc(assets, "Speculative")
 
-# 2) calculate class weights in investment portfolio
-portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)
+# # 2) calculate class weights in investment portfolio
+# portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)
 
-# 3) calculate final asset target weights
-apply_final_asset_targets(assets, RISK_CLASSES)
+# # 3) calculate final asset target weights
+# apply_final_asset_targets(assets, RISK_CLASSES)
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
