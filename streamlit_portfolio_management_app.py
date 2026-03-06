@@ -98,8 +98,8 @@ with tab7:
     st.subheader("🐞 Debug Table")
     show_debug_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
-    st.write(f"Investment Portfolio MDD: **{investment_portfolio_mdd:.1%}**")
-    st.write(f"Portfolio MDD: **{portfolio_mdd:.1%}**")
+    st.write(f"Investment Portfolio MDD: **{investment_portfolio_mdd:.0%}**")
+    st.write(f"Portfolio MDD: **{portfolio_mdd:.0%}**")
 
 
 
