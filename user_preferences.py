@@ -87,18 +87,18 @@ def get_user_preferences() -> UserPreference:
     st.sidebar.markdown("### ⚖️ Rebalancing Thresholds")
     threshold_drift_pct = st.sidebar.number_input(
         "Absolute Drift Threshold (%)",
-        value=5.0,
-        min_value=0.0,
-        max_value=100.0,
-        step=0.5,
+        value=5,
+        min_value=1,
+        max_value=10,
+        step=1,
         help="Example: 5 means rebalance when weight differs from target by more than 5 percentage points."
     )
     threshold_drift_relative_pct = st.sidebar.number_input(
         "Relative Drift Threshold (%)",
-        value=50.0,
-        min_value=0.0,
-        max_value=500.0,
-        step=5.0,
+        value=50,
+        min_value=20,
+        max_value=200,
+        step=10,
         help="Example: 50 means rebalance when drift is more than 50% of target weight."
     )
     
