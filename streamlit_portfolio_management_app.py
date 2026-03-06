@@ -99,6 +99,7 @@ with tab6:
 with tab7:
     st.subheader("💵 Debug Table")
     show_debug_table(portfolio_df)
+    show_risk_class_table(RISK_CLASSES)
 
 
 
