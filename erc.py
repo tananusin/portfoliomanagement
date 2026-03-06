@@ -117,14 +117,6 @@ def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
     return class_mdd
 
 
-def apply_all_asset_class_erc(assets, risk_classes) -> None:
-    """
-    Run asset-level ERC for every ERC class.
-    """
-    for class_name in ERC_CLASSES:
-        apply_asset_class_erc(assets, risk_classes, class_name)
-
-
 def apply_risk_class_erc(risk_classes) -> float:
     """
     Apply ERC across portfolio classes using dynamically computed class_mdd.
