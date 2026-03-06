@@ -9,6 +9,11 @@ from user_preferences import UserPreference, get_user_preferences
 from load_assets import load_assets_from_google_sheet
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
+from erc import (
+    apply_asset_class_erc,
+    apply_risk_class_erc,
+    apply_final_asset_targets,
+)
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
@@ -37,6 +42,9 @@ assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
 assign_weights(assets, total_thb)
 calculate_assumptions(assets, user_pref)
+
+# # --- Assign Target Weight
+
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
