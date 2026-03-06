@@ -46,7 +46,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
     } for asset in assets])
 
 def show_debug_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "MDD", "Rebound", "CAGR", "Offset Yield"]
+    show_cols = ["Name", "MDD", "Rebound", "CAGR", "Offset Yield", "Inverse MDD", "Target in Class", "Target"]
     format_dict = {
         "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Rebound": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
