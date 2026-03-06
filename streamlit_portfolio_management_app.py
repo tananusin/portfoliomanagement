@@ -10,7 +10,7 @@ from load_assets import load_assets_from_google_sheet
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
 from erc import (
-    apply_asset_class_erc,
+    apply_all_asset_class_erc,
     apply_risk_class_erc,
     apply_final_asset_targets,
 )
@@ -44,16 +44,10 @@ assign_weights(assets, total_thb)
 calculate_assumptions(assets, user_pref)
 
 # # --- Assign Target Weight to Investment Portfolio
-# 1) calculate asset weights inside each class
-apply_asset_class_erc(assets, "Core")
-# apply_asset_class_erc(assets, "Growth")
-# apply_asset_class_erc(assets, "Speculative")
+apply_all_asset_class_erc(assets, RISK_CLASSES) # 1) Asset ERC inside each class
+portfolio_mdd = apply_risk_class_erc(RISK_CLASSES) # 2) Class ERC using dynamic class_mdd
+apply_final_asset_targets(assets, RISK_CLASSES) # 3) Final asset portfolio targets
 
-# # 2) calculate class weights in investment portfolio
-# portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)
-
-# # 3) calculate final asset target weights
-# apply_final_asset_targets(assets, RISK_CLASSES)
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
