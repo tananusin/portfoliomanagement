@@ -9,7 +9,7 @@ def calculate_assumption(asset: AssetData, user_pref: UserPreference) -> None:
 
     # Rebound
     if asset.mdd is not None:
-        asset.rebound = 1 / (1 - asset.mdd) - 1
+        asset.rebound = [1 / (1 - asset.mdd)] - 1
 
     # CAGR
     if asset.rebound is not None:
