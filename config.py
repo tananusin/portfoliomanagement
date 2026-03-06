@@ -5,7 +5,7 @@ from typing import Optional
 @dataclass
 class RiskClass:
     name: str
-    class_mdd: Optional[float] = None
+    class_mdd: float
     class_mdd_inverse: Optional[float] = None
     class_target_weight: Optional[float] = None
 
@@ -15,7 +15,7 @@ THRESHOLD_DRIFT_RELATIVE = 0.50
 
 # Default class assumptions
 RISK_CLASSES = [
-    RiskClass("Core"),
-    RiskClass("Growth"),
-    RiskClass("Speculative"),
+    RiskClass("Core", -0.25),
+    RiskClass("Growth", -0.50),
+    RiskClass("Speculative", -0.70,),
 ]
