@@ -222,22 +222,34 @@ def show_risk_class_table(risk_classes):
     for rc in risk_classes:
         data.append({
             "Class": rc.name,
-            "Assumed MDD": rc.class_mdd,
+            "Class MDD": rc.class_mdd,
             "Inverse MDD": rc.class_mdd_inverse,
-            "Target Weight": rc.class_target_weight
+            "Target Weight": rc.class_target_weight,
+            "Risk Contribution": rc.class_mdd_contribution
         })
 
     df = pd.DataFrame(data)
 
     # Format for display
-    if "Assumed MDD" in df:
-        df["Assumed MDD"] = df["Assumed MDD"].map(lambda x: f"{x:.0%}")
+    if "Class MDD" in df:
+        df["Class MDD"] = df["Class MDD"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
 
     if "Target Weight" in df:
-        df["Target Weight"] = df["Target Weight"].map(lambda x: f"{x:.1%}" if pd.notnull(x) else "")
+        df["Target Weight"] = df["Target Weight"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
+
+    if "Risk Contribution" in df:
+        df["Risk Contribution"] = df["Risk Contribution"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
 
     if "Inverse MDD" in df:
-        df["Inverse MDD"] = df["Inverse MDD"].map(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
+        df["Inverse MDD"] = df["Inverse MDD"].map(
+            lambda x: f"{x:.2f}" if pd.notnull(x) else ""
+        )
 
     st.dataframe(df, use_container_width=True)
 
