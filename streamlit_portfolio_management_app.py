@@ -97,7 +97,7 @@ with tab6:
     ℹ️ "PE p75" shows the PE ratio 75th percentile in the last {user_pref.years_rebound} years.
     """)
 with tab7:
-    st.subheader("💵 Debug Table")
+    st.subheader("🐞 Debug Table")
     show_debug_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
 
