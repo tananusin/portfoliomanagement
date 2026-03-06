@@ -50,20 +50,20 @@ def get_user_preferences() -> UserPreference:
     # Investment allocation slider (user-friendly % input, returned as decimals)
     st.sidebar.markdown("### 🧑‍💼 Investment Mode: Risk-Off/On")
     investment_pct = st.sidebar.slider(
-        label="Set Investment Portion (%)",
+        label="Set Investment Portfolio (%)",
         min_value=25,
         max_value=75,
         value=50,
         step=1,
-        help="Investment portion includes core, growth, and speculative assets."
+        help="Investment portfolio includes core, growth, and speculative assets."
     )
     gold_pct = st.sidebar.slider(
-        label="Set Gold (%) of Reserve Portion",
+        label="Set Gold (%) of Reserve Portfolio",
         min_value=0,
         max_value=50,
         value=20,
         step=1,
-        help="Reserve portion includes cash, bond, and gold."
+        help="Reserve portfolio includes cash, bond, and gold."
     )
 
     # Assumption inputs
