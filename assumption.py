@@ -8,8 +8,8 @@ def calculate_assumption(asset: AssetData, user_pref: UserPreference) -> None:
     """Calculate assumption metrics for a single asset"""
 
     # Rebound
-    if asset.price and asset.fair_price:
-        asset.rebound = asset.fair_price / asset.price - 1
+    if asset.mdd is not None:
+        asset.rebound = 1 / (1 - asset.mdd) - 1
 
     # CAGR
     if asset.rebound is not None:
