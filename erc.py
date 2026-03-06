@@ -124,21 +124,26 @@ def apply_risk_class_erc(risk_classes) -> float:
     Writes:
         risk_class.class_mdd_inverse
         risk_class.class_target_weight
-
-    Returns:
-        float: weighted MDD across ERC classes
+        risk_class.class_mdd_contribution
     """
+
     erc_risk_classes = [rc for rc in risk_classes if rc.name in ERC_CLASSES]
 
     if not erc_risk_classes:
         raise ValueError("No ERC risk classes found.")
 
-    return apply_erc_by_mdd(
+    portfolio_mdd = apply_erc_by_mdd(
         items=erc_risk_classes,
         mdd_attr="class_mdd",
         inverse_attr="class_mdd_inverse",
         target_attr="class_target_weight",
     )
+
+    # --- calculate class risk contribution
+    for rc in erc_risk_classes:
+        rc.class_mdd_contribution = rc.class_target_weight * abs(rc.class_mdd)
+
+    return portfolio_mdd
 
 
 def apply_final_asset_targets(assets, risk_classes) -> None:
