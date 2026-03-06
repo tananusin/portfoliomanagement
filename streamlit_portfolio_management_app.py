@@ -54,9 +54,7 @@ calculate_assumptions(assets, user_pref)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-show_debug_table(portfolio_df)
-
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "🚦 Signals", "📉 Price Signal",  "💹 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📋 Portfolio", "🚦 Signals", "📉 Price Signal",  "💹 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data"], , "🐞 Debug"])
 with tab1:
     st.subheader("📋 Portfolio Report")
     show_portfolio_table(portfolio_df)
@@ -76,13 +74,14 @@ with tab5:
 with tab6:
     st.subheader("📄 Google Sheet Data")
     show_google_sheet_data_table(portfolio_df)
-    st.caption(
-        f"""
+    st.caption(f"""
     ℹ️ "Years low" shows the lowest market price in the last {user_pref.years_rebound} years.  
     ℹ️ "PE p25" shows the PE ratio 25th percentile in the last {user_pref.years_rebound} years.  
     ℹ️ "PE p75" shows the PE ratio 75th percentile in the last {user_pref.years_rebound} years.
-    """
-    )
+    """)
+with tab5:
+    st.subheader("💵 Debug Table")
+    show_debug_table(portfolio_df)
 
 
 
