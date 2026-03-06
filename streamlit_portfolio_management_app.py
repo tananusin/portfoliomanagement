@@ -48,7 +48,8 @@ core_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Core")                  
 growth_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Growth")
 speculative_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Speculative") 
 
-portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                                # Class ERC using dynamic class_mdd
+investment_portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                     # Class ERC using dynamic class_mdd
+portfolio_mdd = user_pref.investment_weight * investment_portfolio_mdd
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)      # Final asset portfolio targets
 
 
@@ -97,7 +98,8 @@ with tab7:
     st.subheader("🐞 Debug Table")
     show_debug_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
-    st.write(f"Investment Portfolio MDD: **{portfolio_mdd:.1%}**")
+    st.write(f"Investment Portfolio MDD: **{investment_portfolio_mdd:.1%}**")
+    st.write(f"Portfolio MDD: **{portfolio_mdd:.1%}**")
 
 
 
