@@ -52,6 +52,9 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Rebound": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
         "CAGR": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",        
         "Offset Yield": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
+        "Inverse MDD": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
+        "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",        
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
