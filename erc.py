@@ -146,11 +146,11 @@ def apply_risk_class_erc(risk_classes) -> float:
     return portfolio_mdd
 
 
-def apply_final_asset_targets(assets, risk_classes) -> None:
+def apply_final_asset_targets(assets, risk_classes, investment_weight) -> None:
     """
     Final portfolio target per ERC asset:
 
-        asset.target = class_target_weight × target_in_class
+        asset.target = investment_weight × class_target_weight × target_in_class
         asset.mdd_contribution = target × MDD
 
     Non-ERC assets are skipped.
@@ -183,7 +183,7 @@ def apply_final_asset_targets(assets, risk_classes) -> None:
             )
 
         # Final portfolio weight
-        asset.target = class_weight * asset.target_in_class
+        asset.target = investment_weight * class_weight * asset.target_in_class
 
         # Risk contribution
         if asset.mdd is None:
