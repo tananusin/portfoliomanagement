@@ -54,6 +54,7 @@ calculate_assumptions(assets, user_pref)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
+show_debug_table(portfolio_df)
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Portfolio", "🚦 Signals", "📉 Price Signal",  "💹 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data"])
 with tab1:
