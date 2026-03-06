@@ -49,7 +49,7 @@ growth_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Growth")
 speculative_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Speculative") 
 
 portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                                # Class ERC using dynamic class_mdd
-apply_final_asset_targets(assets, RISK_CLASSES)                                   # Final asset portfolio targets
+apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)      # Final asset portfolio targets
 
 
 # # --- Assign Dynamic Target and Position ---
