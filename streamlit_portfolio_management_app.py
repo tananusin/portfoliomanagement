@@ -61,19 +61,19 @@ with tab1:
     show_portfolio_table(portfolio_df)
     st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 with tab2:
-    st.subheader("📶 Portfolio Signals")
+    st.subheader("📊 Portfolio Signals")
     # show_summary_signal_table(portfolio_df)
 with tab3:
     st.subheader("📉 Price Changes")
     # show_price_change_table(portfolio_df)
 with tab4:
-    st.subheader("🧮 PE Signal")
+    st.subheader("💹 PE Signal")
     # show_pe_signal_table(portfolio_df)
 with tab5:
     st.subheader("💵 Yield Signal")
     # show_yield_signal_table(portfolio_df)
 with tab6:
-    st.subheader("💹 Google Sheet Data")
+    st.subheader("📄 Google Sheet Data")
     show_google_sheet_data_table(portfolio_df)
     st.caption(
         f"""
