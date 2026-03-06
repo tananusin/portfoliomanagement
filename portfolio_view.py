@@ -213,4 +213,31 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
     )
     st.pyplot(fig)
 
+def show_risk_class_table(risk_classes):
+
+    data = []
+
+    for rc in risk_classes:
+        data.append({
+            "Class": rc.name,
+            "Assumed MDD": rc.class_mdd,
+            "Inverse MDD": rc.class_mdd_inverse,
+            "Target Weight": rc.class_target_weight
+        })
+
+    df = pd.DataFrame(data)
+
+    # Format for display
+    if "Assumed MDD" in df:
+        df["Assumed MDD"] = df["Assumed MDD"].map(lambda x: f"{x:.0%}")
+
+    if "Target Weight" in df:
+        df["Target Weight"] = df["Target Weight"].map(lambda x: f"{x:.1%}" if pd.notnull(x) else "")
+
+    if "Inverse MDD" in df:
+        df["Inverse MDD"] = df["Inverse MDD"].map(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
+
+    st.subheader("📊 Risk Class Allocation")
+    st.dataframe(df, use_container_width=True)
+
 
