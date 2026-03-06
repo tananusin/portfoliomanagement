@@ -8,6 +8,7 @@ class RiskClass:
     class_mdd: Optional[float] = None
     class_mdd_inverse: Optional[float] = None
     class_target_weight: Optional[float] = None
+    class_mdd_contribution: Optional[float] = None
 
 # ERC investment classes only
 ERC_CLASSES = ["Core", "Growth", "Speculative"]
