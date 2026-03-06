@@ -42,7 +42,7 @@ def show_market_data_table(portfolio_df: pd.DataFrame):
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "MDD": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "52w_high": lambda x: f"{x:,.2f}" if x else "-",
         "52w_low": lambda x: f"{x:,.2f}" if x else "-",
