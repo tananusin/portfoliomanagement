@@ -75,7 +75,7 @@ with tab5:
 with tab6:
     st.subheader("💹 Google Sheet Data")
     show_google_sheet_data_table(portfolio_df)
-    st.caption("ℹ️ Load from Google Sheet.")
+    st.caption(f'ℹ️ "Years low" shows the lowest market price in the last {user_pref.years_rebound} years.')
 
 
 
