@@ -144,10 +144,13 @@ def apply_risk_class_erc(risk_classes) -> float:
 def apply_final_asset_targets(assets, risk_classes) -> None:
     """
     Final portfolio target per ERC asset:
+
         asset.target = class_target_weight × target_in_class
+        asset.mdd_contribution = target × MDD
 
     Non-ERC assets are skipped.
     """
+
     class_map = {
         rc.name: rc.class_target_weight
         for rc in risk_classes
@@ -155,7 +158,8 @@ def apply_final_asset_targets(assets, risk_classes) -> None:
     }
 
     for asset in assets:
-        # Skip non-ERC classes like Cash / Bond / Gold / Reserve
+
+        # Skip non-ERC classes (Cash / Bond / Gold / Reserve)
         if asset.asset_class not in ERC_CLASSES:
             continue
 
@@ -173,4 +177,11 @@ def apply_final_asset_targets(assets, risk_classes) -> None:
                 f"Run asset ERC first for class '{asset.asset_class}'."
             )
 
+        # Final portfolio weight
         asset.target = class_weight * asset.target_in_class
+
+        # Risk contribution
+        if asset.mdd is None:
+            raise ValueError(f"Asset '{asset.ticker}' has no MDD value.")
+
+        asset.mdd_contribution = asset.target * abs(asset.mdd)
