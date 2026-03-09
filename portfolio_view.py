@@ -45,6 +45,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "PE p25": asset.pe_p25,
         "PE p75": asset.pe_p75,
         "PE Signal": asset.pe_signal,
+        
         "Yield": asset.dividend_yield,
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
