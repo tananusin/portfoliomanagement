@@ -66,10 +66,8 @@ gold_weight = reserve_weight * user_pref.gold_weight_reserve
 bond_weight_total = reserve_weight - cash_weight - gold_weight
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)
 
-currencies, currency_map = build_currency_portfolio(
-    assets=assets,
-    bond_weight_total=bond_weight_total,
-)
+currencies, currency_map = build_currency_portfolio(assets=assets, bond_weight_total=bond_weight_total,)
+assign_reserve_asset_targets(assets, currencies, gold_weight)
 
 
 # # --- Assign Dynamic Target and Position ---
