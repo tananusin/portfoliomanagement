@@ -3,7 +3,7 @@ from typing import List
 from asset_data import AssetData
 
 
-def assign_price_signal(assets: List[AssetData]) -> List[AssetData]:
+def assign_price_signals(assets: List[AssetData]) -> List[AssetData]:
     """
     Generate price signals based on:
     - drawdown from 52w high
