@@ -14,6 +14,8 @@ from erc_risk_budgeting import (
     apply_risk_class_erc,
     apply_final_asset_targets,
 )
+from currency_allocation import build_currency_portfolio
+
 from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
