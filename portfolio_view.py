@@ -83,6 +83,28 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     )
     st.dataframe(styled_df)
 
+def show_position_table(portfolio_df: pd.DataFrame):
+    show_cols = ["Name", "Class", "Weight", "Target", "Position", "Price Signal", "PE Signal", "Yield Signal"]
+    format_dict = {
+        "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+    }
+    # Color Green and Red Format
+    def highlight_condition(val):
+        if str(val).lower() in ("oversize", "overbought", "overvalue"):
+            return "color: red;"
+        elif str(val).lower() in ("undersize", "oversold", "undervalue", "sufficient"):
+            return "color: green;"
+        return ""
+
+    styled_df = (
+        portfolio_df[show_cols]
+        .style
+        .format(format_dict)
+        .applymap(highlight_condition, subset=["Position", "Price Signal", "PE Signal", "Yield Signal"])
+    )
+    st.dataframe(styled_df)
+
 def show_price_signal_table(portfolio_df: pd.DataFrame):
     show_cols = ["Name", "Class", "assumed MDD", "52w drop", "52w gain", "Years gain", "Price Signal"]
     format_dict = {
