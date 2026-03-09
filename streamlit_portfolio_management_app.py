@@ -65,9 +65,10 @@ apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)
 currencies, currency_map = build_currency_portfolio(assets=assets, bond_weight_total=bond_weight_total,)
 assign_reserve_asset_targets(assets, currencies, gold_weight)
 
-# # --- Assign 
+# # --- Assign Signals
 assign_position_sizes(assets, user_pref)
 assign_price_changes(assets)
+assign_pe_signals(assets)
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
