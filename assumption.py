@@ -18,7 +18,7 @@ def calculate_assumption(asset: AssetData, user_pref: UserPreference) -> None:
 
     # Dividend Yield Offset
     if user_pref.years_dividend is not None:
-        asset.dividend_yield_offset = -asset.mdd/user_pref.years_dividend
+        asset.dividend_yield_offset = asset.mdd/user_pref.years_dividend
         
 
 def calculate_assumptions(assets: list[AssetData], user_pref: UserPreference) -> None:
