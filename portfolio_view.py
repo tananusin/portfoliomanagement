@@ -130,11 +130,11 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_yield_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
+    show_cols = ["Name", "Class", "drop_1y", "Yield", "Offset Yield", "Yield Signal"]
     format_dict = {
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
-        "yield_offset": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
+        "Offset Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
