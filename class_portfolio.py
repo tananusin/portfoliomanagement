@@ -1,4 +1,4 @@
-# class.py
+# class_portfolio.py
 from dataclasses import dataclass
 from typing import Optional
 
