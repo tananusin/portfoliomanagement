@@ -10,6 +10,7 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
         "Drift", "%Drift", "Position", 
         "52w drop", "52w gain", "Years gain", "Price Signal",
+        "PE Signal", 
     ]
 
     format_dict = {
