@@ -19,7 +19,7 @@ from yield_signal import assign_yield_signals
 
 from portfolio_view import (
     get_portfolio_df,
-    show_portfolio_table, show_summary_signal_table, show_price_change_table, show_pe_signal_table, show_yield_signal_table,
+    show_portfolio_table, show_summary_signal_table, show_price_signal_table, show_pe_signal_table, show_yield_signal_table,
     show_google_sheet_data_table,
     show_allocation_pie_chart, show_target_allocation_pie_chart,
 )
@@ -97,7 +97,7 @@ with tab2:
     show_summary_signal_table(portfolio_df)
 with tab3:
     st.subheader("📉 Price Signal")
-    show_price_change_table(portfolio_df)
+    show_price_signal_table(portfolio_df)
 with tab4:
     st.subheader("💹 PE Signal")
     # show_pe_signal_table(portfolio_df)
