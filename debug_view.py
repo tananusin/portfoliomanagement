@@ -20,6 +20,8 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "Drift": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "%Drift": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",      
     }
 
     st.dataframe(
