@@ -34,3 +34,41 @@ def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: flo
         ccy.currency_bond_weight = bond_weight_total * ccy.currency_cash_ratio
 
     return currencies, currency_map
+
+def assign_reserve_asset_targets(
+    assets: list[AssetData],
+    currencies,
+    gold_weight: float,
+):
+    """
+    Assign target weights for Cash, Bond, and Gold assets.
+
+    Cash and Bond targets are assigned per currency.
+    Gold target is assigned globally.
+    """
+
+    # Build currency lookup
+    currency_map = {c.name: c for c in currencies}
+
+    # Count number of gold assets
+    gold_assets = [a for a in assets if a.asset_class == "Gold"]
+    n_gold = len(gold_assets)
+
+    for asset in assets:
+
+        # CASH
+        if asset.asset_class == "Cash":
+            ccy = currency_map.get(asset.currency.upper())
+            if ccy:
+                asset.target = ccy.currency_cash_weight
+
+        # BOND
+        elif asset.asset_class == "Bond":
+            ccy = currency_map.get(asset.currency.upper())
+            if ccy:
+                asset.target = ccy.currency_bond_weight
+
+        # GOLD
+        elif asset.asset_class == "Gold":
+            if n_gold > 0:
+                asset.target = gold_weight / n_gold
