@@ -45,11 +45,6 @@ def apply_erc_by_mdd(
             )
 
         mdd = abs(raw_mdd)
-        if mdd <= 0:
-            raise ValueError(
-                f"{getattr(item, 'name', getattr(item, 'ticker', item))} "
-                f"has invalid {mdd_attr}={raw_mdd}. MDD must be non-zero."
-            )
 
         inverse_mdd = 1 / mdd
         setattr(item, inverse_attr, inverse_mdd)
