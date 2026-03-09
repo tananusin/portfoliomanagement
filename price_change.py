@@ -1,57 +1,58 @@
 # price_change.py
 from typing import List
 from asset_data import AssetData
-from user_preferences import UserPreference
 
-def assign_price_changes(assets: List[AssetData], prefs: UserPreference) -> List[AssetData]:
+
+def assign_price_changes(assets: List[AssetData]) -> List[AssetData]:
     """
-    Classifies each asset as Overpriced, Underpriced, or Neutral based on price behavior vs user assumptions.
+    Generate price signals based on:
+    - drawdown from 52w high
+    - rebound from 52w low
+    - rebound from multi-year low
     """
+
     for asset in assets:
-        if asset.asset_type is None:
+
+        # Only evaluate investment assets
+        if asset.asset_class not in {"Core", "Growth", "Speculative"}:
+            asset.price_signal = None
             continue
 
-        # Skip if essential 1Y data is missing or zero
         if (
-            asset.price is None or asset.price == 0 or
-            asset.high_52w is None or asset.high_52w == 0 or
-            asset.low_52w is None or asset.low_52w == 0
+            asset.price is None
+            or asset.high_52w is None
+            or asset.low_52w is None
+            or asset.mdd is None
+            or asset.cagr is None
+            or asset.rebound is None
         ):
-            asset.price_change = None
+            asset.price_signal = None
             continue
 
-        # --- Calculate Drop and Gain Rates ---
-        asset.drop_1y = (asset.price - asset.high_52w) / asset.high_52w
-        asset.gain_1y = (asset.price - asset.low_52w) / asset.low_52w
+        # --- Calculate price moves ---
+        asset.drop_52w = (asset.price - asset.high_52w) / asset.high_52w
+        asset.gain_52w = (asset.price - asset.low_52w) / asset.low_52w
 
-        if asset.low_3y is not None and asset.low_3y != 0:
-            asset.gain_3y = (asset.price - asset.low_3y) / asset.low_3y
+        if asset.low_years:
+            asset.gain_years = (asset.price - asset.low_years) / asset.low_years
         else:
-            asset.gain_3y = None
+            asset.gain_years = None
 
-        # --- Lookup user MDD and CAGR ---
-        if asset.asset_type == "Speculative":
-            mdd = prefs.mdd_speculative_pct / 100
-            cagr = prefs.cagr_speculative_pct / 100
-        elif asset.asset_type == "Growth":
-            mdd = prefs.mdd_growth_pct / 100
-            cagr = prefs.cagr_growth_pct / 100
-        elif asset.asset_type == "Core":
-            mdd = prefs.mdd_core_pct / 100
-            cagr = prefs.cagr_core_pct / 100
-        else:
-            asset.price_change = None
-            continue
+        # --- Thresholds ---
+        mdd_threshold = -asset.mdd
+        rebound_threshold = asset.rebound
 
-        # --- Price Signal Logic ---
-        if asset.drop_1y < mdd:
-            asset.price_change = "oversold"
-        elif asset.gain_1y > cagr or (
-            asset.gain_3y is not None and asset.gain_3y > (1 + cagr) ** 3 - 1
+        # --- Signal classification ---
+        if asset.drop_52w <= mdd_threshold:
+            asset.price_signal = "oversold"
+
+        elif (
+            asset.gain_52w >= asset.cagr
+            or (asset.gain_years is not None and asset.gain_years >= rebound_threshold)
         ):
-            asset.price_change = "overbought"
+            asset.price_signal = "overbought"
+
         else:
-            asset.price_change = "-"
+            asset.price_signal = "-"
 
     return assets
-
