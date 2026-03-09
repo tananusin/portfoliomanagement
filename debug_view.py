@@ -9,8 +9,7 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Name", "Class", "Weight", "MDD", "Rebound", "CAGR", "Offset Yield", 
         "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
         "Drift", "%Drift", "Position", 
-        "52w drop", "52w gain", "Years gain", "Price Signal",
-        "PE Signal", 
+        "52w drop", "52w gain", "Years gain", "Price Signal", "PE Signal", "dividend_yield_signal", 
     ]
 
     format_dict = {
