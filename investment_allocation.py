@@ -45,7 +45,12 @@ def apply_erc_by_mdd(
             )
 
         mdd = abs(raw_mdd)
-
+        if mdd <= 0:
+            raise ValueError(
+                f"{item_name} has invalid {mdd_attr}={raw_mdd}. "
+                f"MDD must be greater than 0 for ERC."
+            )
+        
         inverse_mdd = 1 / mdd
         setattr(item, inverse_attr, inverse_mdd)
         total_inverse_mdd += inverse_mdd
