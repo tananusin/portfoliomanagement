@@ -94,7 +94,7 @@ with tab1:
     st.metric("💰 Total Portfolio Value (THB)", f"฿{total_thb:,.0f}")
 with tab2:
     st.subheader("🚦 Portfolio Signals")
-    # show_summary_signal_table(portfolio_df)
+    show_summary_signal_table(portfolio_df)
 with tab3:
     st.subheader("📉 Price Signal")
     # show_price_change_table(portfolio_df)
