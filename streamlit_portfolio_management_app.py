@@ -83,7 +83,7 @@ with tab1:
     st.subheader("🚦 Portfolio Signals")
     show_summary_signal_table(portfolio_df)
 with tab2:
-    st.subheader("🎯 Drift Signals")
+    st.subheader("🎯 Drift Signal")
     show_portfolio_table(portfolio_df)
 with tab3:
     st.subheader("📉 Price Signal")
