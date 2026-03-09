@@ -34,8 +34,8 @@ def assign_weights(assets: List[AssetData], total_value: float) -> float:
         else:
             asset.weight = 0.0
 
-        if asset.weight is not None and asset.assumed_mdd is not None:
-            portfolio_estimated_mdd += asset.weight * asset.assumed_mdd
+        if asset.weight is not None and asset.mdd is not None:
+            portfolio_estimated_mdd += asset.weight * asset.mdd
 
     return portfolio_estimated_mdd
 
