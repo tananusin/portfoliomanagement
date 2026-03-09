@@ -8,8 +8,6 @@ def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = [
         "Name", "Class", "Weight", "assumed MDD", "Rebound", "CAGR", "Offset Yield", 
         "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
-        "Drift", "%Drift", "Position", 
-        "52w drop", "52w gain", "Years gain", "Price Signal", "PE Signal", "Yield Signal", 
     ]
 
     format_dict = {
@@ -22,11 +20,6 @@ def show_debug_table(portfolio_df: pd.DataFrame):
         "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "Drift": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "%Drift": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "52w drop": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "52w gain": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",      
-        "Years gain": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",      
     }
 
     st.dataframe(
