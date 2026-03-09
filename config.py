@@ -19,7 +19,3 @@ RISK_CLASSES = [
     RiskClass("Growth"),
     RiskClass("Speculative"),
 ]
-
-# Drift thresholds (decimals)
-THRESHOLD_DRIFT = 0.05
-THRESHOLD_DRIFT_RELATIVE = 0.50
