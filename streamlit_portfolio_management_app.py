@@ -69,6 +69,7 @@ assign_reserve_asset_targets(assets, currencies, gold_weight)
 assign_position_sizes(assets, user_pref)
 assign_price_signals(assets)
 assign_pe_signals(assets)
+assign_yield_signals(assets)
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
