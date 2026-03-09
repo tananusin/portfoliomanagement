@@ -84,8 +84,9 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_price_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "52w drop", "52w gain", "Years gain", "Price Signal"]
+    show_cols = ["Name", "Class", "assumed MDD", "52w drop", "52w gain", "Years gain", "Price Signal"]
     format_dict = {
+        "assumed MDD": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "52w drop": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "52w gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Years gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
