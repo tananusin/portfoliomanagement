@@ -100,7 +100,7 @@ with tab3:
     show_price_signal_table(portfolio_df)
 with tab4:
     st.subheader("💹 PE Signal")
-    # show_pe_signal_table(portfolio_df)
+    show_pe_signal_table(portfolio_df)
 with tab5:
     st.subheader("💵 Yield Signal")
     # show_yield_signal_table(portfolio_df)
