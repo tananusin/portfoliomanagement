@@ -53,6 +53,18 @@ investment_portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                   
 portfolio_mdd = user_pref.investment_weight * investment_portfolio_mdd
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)      # Final asset portfolio targets
 
+# # --- Assign Target Weight to Reserve Portfolio     
+cash_weight = user_pref.investment_weight * investment_portfolio_mdd
+reserve_weight = 1 - user_pref.investment_weight
+gold_weight = reserve_weight * user_pref.gold_weight_reserve
+bond_weight_total = reserve_weight - cash_weight - gold_weight
+apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)
+
+currencies, currency_map = build_currency_portfolio(
+    assets=assets,
+    bond_weight_total=bond_weight_total,
+)
+
 
 # # --- Assign Dynamic Target and Position ---
 # assign_targets(assets, user_pref)
