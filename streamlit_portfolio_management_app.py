@@ -108,8 +108,7 @@ with tab7:
     show_debug_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
     show_currency_table(currencies)
-    st.write(f"Investment Portfolio MDD: **{investment_portfolio_mdd:.0%}**")
-    st.write(f"Portfolio MDD: **{portfolio_mdd:.0%}**")
+
 
 
 
@@ -124,5 +123,6 @@ with tab1:
 with tab2:
     st.subheader("🎯 Target Allocation Pie Chart")
     show_target_allocation_pie_chart(portfolio_combine_df)
+    st.write(f"Estimated Portfolio MDD: **{portfolio_mdd:.0%}**")
 
 
