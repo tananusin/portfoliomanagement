@@ -23,7 +23,7 @@ def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: flo
 
     total_cash_weight = 0.0
     for ccy in currencies:
-        ccy.currency_cash_weight = ccy.currency_investment_mdd
+        ccy.currency_cash_weight = abs(ccy.currency_investment_mdd)
         total_cash_weight += ccy.currency_cash_weight
 
     for ccy in currencies:
