@@ -27,7 +27,6 @@ from portfolio_view import (
     show_allocation_pie_chart,
     show_target_allocation_pie_chart,
 )
-
 from debug_view import show_debug_table, show_risk_class_table
 
 # --- Streamlit Page Config ---
