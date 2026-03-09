@@ -8,6 +8,7 @@ def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = [
         "Name", "Class", "MDD", "Rebound", "CAGR", "Offset Yield", 
         "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
+        "Drift", "%Drift", "Position", 
     ]
 
     format_dict = {
