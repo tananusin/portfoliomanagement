@@ -9,7 +9,7 @@ from user_preferences import UserPreference, get_user_preferences
 from load_assets import load_assets_from_google_sheet
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
-from erc_risk_budgeting import apply_asset_class_erc, apply_risk_class_erc, apply_final_asset_targets
+from investment_allocation import apply_asset_class_erc, apply_risk_class_erc, apply_final_asset_targets
 from currency_allocation import build_currency_portfolio, assign_reserve_asset_targets
 
 from portfolio_proportion import assign_targets
