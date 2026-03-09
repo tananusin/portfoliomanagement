@@ -14,6 +14,7 @@ from reserve_allocation import build_currency_portfolio, assign_reserve_asset_ta
 
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
+from pe_signal import assign_pe_signals
 from yield_signal import assign_yield_signals
 
 from portfolio_view import (
