@@ -78,7 +78,7 @@ assign_yield_signals(assets)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["🚦 Signals", "🎯 Position", "📉 Price Signal",  "💹 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data", "🐞 Debug"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["🚦 Signals", "🎯 Position", "💹 Price Signal",  "📜 PE Signal", "💵 Yield Signal", "📄 Google Sheet Data", "🐞 Debug"])
 with tab1:
     st.subheader("🚦 Portfolio Signals")
     show_summary_signal_table(portfolio_df)
@@ -86,10 +86,10 @@ with tab2:
     st.subheader("🎯 Position")
     show_position_table(portfolio_df)
 with tab3:
-    st.subheader("📉 Price Signal")
+    st.subheader("💹 Price Signal")
     show_price_signal_table(portfolio_df)
 with tab4:
-    st.subheader("💹 PE Signal")
+    st.subheader("📜 PE Signal")
     show_pe_signal_table(portfolio_df)
 with tab5:
     st.subheader("💵 Yield Signal")
