@@ -1,6 +1,6 @@
 # erc.py
 from typing import Any, Iterable
-from config import ERC_CLASSES
+from class_portfolio import ERC_CLASSES
 
 
 def apply_erc_by_mdd(
