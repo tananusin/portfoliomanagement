@@ -163,9 +163,9 @@ def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
         "52w high": lambda x: f"{x:,.2f}" if x else "-",
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
         "Years low": lambda x: f"{x:,.2f}" if x else "-",
-        "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p25": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p75": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
         "Yield": lambda x: f"{x * 100:.2f}%" if x not in [None, 0.0] else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
