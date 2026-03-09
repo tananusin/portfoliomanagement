@@ -84,11 +84,11 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_price_change_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Type", "drop_1y", "gain_1y", "gain_3y", "Price Change"]
+    show_cols = ["Name", "Class", "52w drop", "52w gain", "Years gain", "Price Change"]
     format_dict = {
-        "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "gain_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "gain_3y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "52w drop": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "52w gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Years gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
@@ -107,7 +107,7 @@ def show_price_change_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_pe_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Type","PE", "PE_p25", "PE_p75", "PE Signal"]
+    show_cols = ["Name", "Class","PE", "PE_p25", "PE_p75", "PE Signal"]
     format_dict = {
         "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
@@ -130,7 +130,7 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_yield_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Type", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
+    show_cols = ["Name", "Class", "drop_1y", "Yield", "yield_offset", "Yield Signal"]
     format_dict = {
         "drop_1y": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
