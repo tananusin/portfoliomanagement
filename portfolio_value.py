@@ -21,10 +21,23 @@ def calculate_portfolio_total(assets: List[AssetData]) -> float:
     return sum(asset.value_thb or 0 for asset in assets)
 
 
-def assign_weights(assets: List[AssetData], total_value: float):
+def assign_weights(assets: List[AssetData], total_value: float) -> float:
+    """
+    Assign actual portfolio weights and return estimated portfolio MDD
+    as the weighted sum of asset assumed_mdd.
+    """
+    portfolio_estimated_mdd = 0.0
+
     for asset in assets:
         if asset.value_thb is not None and total_value > 0:
             asset.weight = asset.value_thb / total_value
+        else:
+            asset.weight = 0.0
+
+        if asset.weight is not None and asset.assumed_mdd is not None:
+            portfolio_estimated_mdd += asset.weight * asset.assumed_mdd
+
+    return portfolio_estimated_mdd
 
 def combine_assets(assets: List[AssetData]) -> List[AssetData]:
     """
