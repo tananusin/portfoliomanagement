@@ -5,10 +5,7 @@ from asset_data import AssetData
 from currency_portfolio import Currency, build_currency_objects
 
 
-def build_currency_portfolio(
-    assets: Iterable[AssetData],
-    bond_weight_total: float,
-) -> tuple[list[Currency], dict[str, Currency]]:
+def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: float,) -> tuple[list[Currency], dict[str, Currency]]:
     currency_names = [asset.currency for asset in assets if asset.currency]
     currencies, currency_map = build_currency_objects(currency_names)
 
