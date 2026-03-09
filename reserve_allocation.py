@@ -1,4 +1,4 @@
-# currency_allocation.py
+# reserve_allocation.py
 
 from typing import Iterable
 from asset_data import AssetData
