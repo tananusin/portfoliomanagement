@@ -13,7 +13,7 @@ from investment_allocation import apply_asset_class_erc, apply_risk_class_erc, a
 from reserve_allocation import build_currency_portfolio, assign_reserve_asset_targets
 
 from position_size import assign_position_sizes
-from price_change import assign_price_changes
+from price_signal import assign_price_signal
 from pe_signal import assign_pe_signals
 from yield_signal import assign_yield_signals
 
@@ -67,7 +67,7 @@ assign_reserve_asset_targets(assets, currencies, gold_weight)
 
 # # --- Assign Signals
 assign_position_sizes(assets, user_pref)
-assign_price_changes(assets)
+assign_price_signal(assets)
 assign_pe_signals(assets)
 
 # # --- Assign Dynamic Target and Position ---
