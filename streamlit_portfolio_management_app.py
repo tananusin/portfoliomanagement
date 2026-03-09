@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 from asset_data import AssetData
-from config import RiskClass, RISK_CLASSES
+from class_portfolio import RiskClass, RISK_CLASSES
 from user_preferences import UserPreference, get_user_preferences
 
 from load_assets import load_assets_from_google_sheet
