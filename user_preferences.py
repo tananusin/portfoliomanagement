@@ -98,7 +98,7 @@ def get_user_preferences() -> UserPreference:
         value=50,
         min_value=20,
         max_value=200,
-        step=10,
+        step=5,
         help="Example: 50 means rebalance when drift is more than 50% of target weight."
     )
     
