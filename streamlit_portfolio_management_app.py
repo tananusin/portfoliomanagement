@@ -123,6 +123,6 @@ with tab1:
 with tab2:
     st.subheader("🎯 Target Allocation Pie Chart")
     show_target_allocation_pie_chart(portfolio_combine_df)
-    st.write(f"Estimated Portfolio MDD: **{portfolio_mdd:.0%}**")
+    st.write(f"Estimated Target Portfolio MDD: **{portfolio_mdd:.0%}**")
 
 
