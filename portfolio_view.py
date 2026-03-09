@@ -79,7 +79,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["Position", "Price Change", "PE Signal", "Yield Signal"])
+        .applymap(highlight_condition, subset=["Position", "Price Signal", "PE Signal", "Yield Signal"])
     )
     st.dataframe(styled_df)
 
