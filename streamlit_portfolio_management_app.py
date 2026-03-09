@@ -12,10 +12,10 @@ from assumption import calculate_assumptions
 from investment_allocation import apply_asset_class_erc, apply_risk_class_erc, apply_final_asset_targets
 from reserve_allocation import build_currency_portfolio, assign_reserve_asset_targets
 
-from portfolio_proportion import assign_targets
 from position_size import assign_position_sizes
 from price_change import assign_price_changes
 from yield_signal import assign_yield_signals
+
 from portfolio_view import (
     get_portfolio_df,
     show_portfolio_table,
