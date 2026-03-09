@@ -27,7 +27,7 @@ from portfolio_view import (
     show_allocation_pie_chart,
     show_target_allocation_pie_chart,
 )
-from debug_view import show_debug_table, show_risk_class_table
+from debug_view import show_debug_table, show_risk_class_table, show_currency_table
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Management", layout="centered")
@@ -117,6 +117,7 @@ with tab7:
     st.subheader("🐞 Debug Table")
     show_debug_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
+    show_currency_table(currencies)
     st.write(f"Investment Portfolio MDD: **{investment_portfolio_mdd:.0%}**")
     st.write(f"Portfolio MDD: **{portfolio_mdd:.0%}**")
 
