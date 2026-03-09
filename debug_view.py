@@ -6,12 +6,11 @@ import streamlit as st
 
 def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = [
-        "Name", "Class", "Weight", "assumed MDD", "Rebound", "CAGR", "Offset Yield", 
+        "Name", "Class", "assumed MDD", "Rebound", "CAGR", "Offset Yield", 
         "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
     ]
 
     format_dict = {
-        "Weight": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "assumed MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Rebound": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "CAGR": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
