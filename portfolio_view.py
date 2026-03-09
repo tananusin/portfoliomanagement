@@ -29,8 +29,10 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Target": asset.target,
         "MDD Contribution": asset.mdd_contribution,
         
+        "Drift": asset.drift,
         "%Drift": asset.drift_relative,
         "Position": asset.position_size,
+    
         "52w high": asset.high_52w,
         "52w low": asset.low_52w,
         "Years low": asset.low_years,
