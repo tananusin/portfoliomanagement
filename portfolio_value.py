@@ -16,23 +16,35 @@ def summarize_assets(assets: List[AssetData]) -> List[AssetData]:
         calculate_asset_value(asset)
     return assets
 
+
+def calculate_portfolio_total(assets: List[AssetData]) -> float:
+    return sum(asset.value_thb or 0 for asset in assets)
+
+
+def assign_weights(assets: List[AssetData], total_value: float):
+    for asset in assets:
+        if asset.value_thb is not None and total_value > 0:
+            asset.weight = asset.value_thb / total_value
+
 def combine_assets(assets: List[AssetData]) -> List[AssetData]:
     """
-    Combine bonds and cash into summary positions. Recalculate values if needed.
+    Combine bonds and cash into summary positions.
+    Preserve both actual value and target allocation.
     """
-    # Ensure all value fields are populated
     for asset in assets:
         calculate_asset_value(asset)
-        
-    # Categorize
+
     bond_assets = [a for a in assets if a.asset_class == "Bond"]
     cash_assets = [a for a in assets if a.asset_class == "Cash"]
     other_assets = [a for a in assets if a.asset_class not in {"Cash", "Bond"}]
 
     def _summarize_group(assets_to_sum, name, asset_class):
         total_value_thb = sum(a.value_thb or 0 for a in assets_to_sum)
-        if total_value_thb == 0:
+        total_target = sum(a.target or 0 for a in assets_to_sum)
+
+        if total_value_thb == 0 and total_target == 0:
             return None
+
         return AssetData(
             name=name,
             symbol=name.upper().replace(" ", "_"),
@@ -43,9 +55,11 @@ def combine_assets(assets: List[AssetData]) -> List[AssetData]:
             fx_rate=1,
             value_local=total_value_thb,
             value_thb=total_value_thb,
+            target=total_target,
         )
 
     summarized = []
+
     total_bond = _summarize_group(bond_assets, "Total Bond", "Bond")
     total_cash = _summarize_group(cash_assets, "Total Cash", "Cash")
 
@@ -55,12 +69,3 @@ def combine_assets(assets: List[AssetData]) -> List[AssetData]:
         summarized.append(total_cash)
 
     return other_assets + summarized
-
-def calculate_portfolio_total(assets: List[AssetData]) -> float:
-    return sum(asset.value_thb or 0 for asset in assets)
-
-
-def assign_weights(assets: List[AssetData], total_value: float):
-    for asset in assets:
-        if asset.value_thb is not None and total_value > 0:
-            asset.weight = asset.value_thb / total_value
