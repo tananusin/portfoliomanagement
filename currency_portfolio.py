@@ -18,5 +18,7 @@ class Currency:
     currency_bond_weight: Optional[float] = None
 
 
-def build_currency_map(currency_names: list[str]) -> dict[str, Currency]:
-    return {name: Currency(name=name) for name in currency_names}
+def build_currency_objects(currency_names: list[str]):
+    currencies = [Currency(name=n) for n in currency_names]
+    currency_map = {c.name: c for c in currencies}
+    return currencies, currency_map
