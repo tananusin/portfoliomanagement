@@ -97,7 +97,7 @@ with tab2:
     show_summary_signal_table(portfolio_df)
 with tab3:
     st.subheader("📉 Price Signal")
-    # show_price_change_table(portfolio_df)
+    show_price_change_table(portfolio_df)
 with tab4:
     st.subheader("💹 PE Signal")
     # show_pe_signal_table(portfolio_df)
