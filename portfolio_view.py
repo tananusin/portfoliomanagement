@@ -46,20 +46,6 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Yield Signal": asset.dividend_yield_signal,
     } for asset in assets])
 
-def show_debug_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "MDD", "Rebound", "CAGR", "Offset Yield", "Inverse MDD", "Target in Class", "Target", "MDD Contribution"]
-    format_dict = {
-        "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "Rebound": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "CAGR": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",        
-        "Offset Yield": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "Inverse MDD": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-        "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
-    }
-    st.dataframe(portfolio_df[show_cols].style.format(format_dict))
-
 def show_portfolio_table(portfolio_df: pd.DataFrame):
     show_cols = ["Name", "Currency", "Shares", "Price", "Fx", "Value (THB)", "Weight"]
     format_dict = {
@@ -214,26 +200,4 @@ def show_target_allocation_pie_chart(portfolio_df: pd.DataFrame):
         ax=ax
     )
     st.pyplot(fig)
-
-def show_risk_class_table(risk_classes):
-    data = []
-    
-    for rc in risk_classes:
-        data.append({
-            "Class": rc.name,
-            "Class MDD": rc.class_mdd,
-            "Inverse MDD": rc.class_mdd_inverse,
-            "Target Weight": rc.class_target_weight,
-            "Risk Contribution": rc.class_mdd_contribution
-        })
-    df = pd.DataFrame(data)
-    
-    # Format for display
-    if "Class MDD" in df: df["Class MDD"] = df["Class MDD"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
-    if "Target Weight" in df: df["Target Weight"] = df["Target Weight"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
-    if "Risk Contribution" in df: df["Risk Contribution"] = df["Risk Contribution"].map(lambda x: f"{x:.0%}" if pd.notnull(x) else "")
-    if "Inverse MDD" in df: df["Inverse MDD"] = df["Inverse MDD"].map(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
-    
-    st.dataframe(df, use_container_width=True)
-
 
