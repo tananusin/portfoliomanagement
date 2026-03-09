@@ -1,4 +1,4 @@
-# erc.py
+# erc_risk_budgeting.py
 from typing import Any, Iterable
 from class_portfolio import ERC_CLASSES
 
