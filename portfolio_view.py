@@ -16,7 +16,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Fx": asset.fx_rate,
         "Value (THB)": asset.value_thb,
         "Class": asset.asset_class,
-        "MDD": asset.mdd,
+        "assumed MDD": asset.mdd,
 
         "Weight": asset.weight,
         
@@ -153,11 +153,11 @@ def show_yield_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "MDD", "52w high", "52w low", "Years low", "PE", "PE p25", "PE p75", "Yield"]
+    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "assumed MDD", "52w high", "52w low", "Years low", "PE", "PE p25", "PE p75", "Yield"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
-        "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "assumed MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Fx": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "52w high": lambda x: f"{x:,.2f}" if x else "-",
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
