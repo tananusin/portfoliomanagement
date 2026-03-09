@@ -39,7 +39,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
 
     # Validate columns
     required_cols = {
-        "name", "symbol", "currency", "shares", "price", "fx", "class", "mdd",
+        "name", "symbol", "currency", "shares", "price", "fx", "class", "assumed mdd",
         "52w high", "52w low", "years low", "pe", "pe p25", "pe p75", "yield"
     }
 
@@ -59,7 +59,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             price=parse_float(row["price"]),
             fx_rate=parse_float(row["fx"]),
             asset_class=row["class"],
-            mdd=parse_percent(row["mdd"]),
+            mdd=parse_percent(row["assumed mdd"]),
             high_52w=parse_float(row["52w high"]),
             low_52w=parse_float(row["52w low"]),
             low_years=parse_float(row["years low"]),
