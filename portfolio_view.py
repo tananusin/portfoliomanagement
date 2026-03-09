@@ -62,7 +62,7 @@ def show_portfolio_table(portfolio_df: pd.DataFrame):
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
 def show_summary_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Type", "Weight", "Target", "Position", "Price Change", "PE Signal", "Yield Signal"]
+    show_cols = ["Name", "Class", "Weight", "Target", "Position", "Price Signal", "PE Signal", "Yield Signal"]
     format_dict = {
         "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
