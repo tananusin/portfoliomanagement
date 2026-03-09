@@ -103,7 +103,7 @@ with tab4:
     show_pe_signal_table(portfolio_df)
 with tab5:
     st.subheader("💵 Yield Signal")
-    # show_yield_signal_table(portfolio_df)
+    show_yield_signal_table(portfolio_df)
 with tab6:
     st.subheader("📄 Google Sheet Data")
     show_google_sheet_data_table(portfolio_df)
