@@ -6,16 +6,8 @@ import streamlit as st
 
 def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = [
-        "Name",
-        "Class",
-        "MDD",
-        "Rebound",
-        "CAGR",
-        "Offset Yield",
-        "Inverse MDD",
-        "Target in Class",
-        "Target",
-        "MDD Contribution",
+        "Name", "Class", "MDD", "Rebound", "CAGR", "Offset Yield", 
+        "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
     ]
 
     format_dict = {
@@ -64,6 +56,44 @@ def show_risk_class_table(risk_classes):
     if "Inverse MDD" in df:
         df["Inverse MDD"] = df["Inverse MDD"].map(
             lambda x: f"{x:.2f}" if pd.notnull(x) else ""
+        )
+
+    st.dataframe(df, use_container_width=True)
+
+def show_currency_table(currencies):
+    data = []
+
+    for ccy in currencies:
+        data.append({
+            "Currency": ccy.name,
+            "Investment Weight": ccy.currency_investment_weight,
+            "Investment MDD": ccy.currency_investment_mdd,
+            "Cash Weight": ccy.currency_cash_weight,
+            "Cash Ratio": ccy.currency_cash_ratio,
+            "Bond Weight": ccy.currency_bond_weight,
+        })
+
+    df = pd.DataFrame(data)
+
+    if "Investment Weight" in df:
+        df["Investment Weight"] = df["Investment Weight"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
+    if "Investment MDD" in df:
+        df["Investment MDD"] = df["Investment MDD"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
+    if "Cash Weight" in df:
+        df["Cash Weight"] = df["Cash Weight"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
+    if "Cash Ratio" in df:
+        df["Cash Ratio"] = df["Cash Ratio"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
+        )
+    if "Bond Weight" in df:
+        df["Bond Weight"] = df["Bond Weight"].map(
+            lambda x: f"{x:.1%}" if pd.notnull(x) else ""
         )
 
     st.dataframe(df, use_container_width=True)
