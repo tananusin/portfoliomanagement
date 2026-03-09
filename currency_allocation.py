@@ -15,7 +15,7 @@ def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: flo
 
         currency_name = asset.currency.upper()
         target = asset.target or 0.0
-        mdd = asset.mdd or 0.0
+        mdd = abs(asset.mdd) or 0.0
 
         ccy = currency_map[currency_name]
         ccy.currency_investment_weight += target
