@@ -43,7 +43,7 @@ except Exception:
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
 total_thb = calculate_portfolio_total(assets)
-assign_weights(assets, total_thb)
+current_portfolio_mdd= assign_weights(assets, total_thb)
 calculate_assumptions(assets, user_pref)
 
 # # --- Assign Target Weight to Investment Portfolio                                                                        
@@ -52,7 +52,7 @@ growth_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Growth")
 speculative_mdd = apply_asset_class_erc(assets, RISK_CLASSES, "Speculative") 
 
 investment_portfolio_mdd = apply_risk_class_erc(RISK_CLASSES)                     # Class ERC using dynamic class_mdd
-portfolio_mdd = user_pref.investment_weight * investment_portfolio_mdd
+target_portfolio_mdd = user_pref.investment_weight * investment_portfolio_mdd
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)      # Final asset portfolio targets
 
 
@@ -120,9 +120,10 @@ tab1, tab2 = st.tabs(["📊 Actual", "🎯 Target"])
 with tab1:
     st.subheader("📊 Actual Allocation Pie Chart")
     show_allocation_pie_chart(portfolio_combine_df, total_thb)
+    st.write(f"Estimated Target Portfolio MDD: **{current_portfolio_mdd:.0%}**")
 with tab2:
     st.subheader("🎯 Target Allocation Pie Chart")
     show_target_allocation_pie_chart(portfolio_combine_df)
-    st.write(f"Estimated Target Portfolio MDD: **{portfolio_mdd:.0%}**")
+    st.write(f"Estimated Target Portfolio MDD: **{target_portfolio_mdd:.0%}**")
 
 
