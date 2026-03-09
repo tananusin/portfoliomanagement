@@ -20,9 +20,6 @@ def build_currency_portfolio(
         target = asset.target or 0.0
         mdd = asset.mdd or 0.0
 
-        if currency_name not in currency_map:
-            continue
-
         ccy = currency_map[currency_name]
         ccy.currency_investment_weight += target
         ccy.currency_investment_mdd += target * mdd
