@@ -107,11 +107,11 @@ def show_price_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_pe_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class","PE", "PE_p25", "PE_p75", "PE Signal"]
+    show_cols = ["Name", "Class","PE", "PE p25", "PE p75", "PE Signal"]
     format_dict = {
         "PE": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE_p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
-        "PE_p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p25": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "PE p75": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
