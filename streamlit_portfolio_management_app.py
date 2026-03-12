@@ -6,7 +6,7 @@ from asset_data import AssetData
 from class_portfolio import RiskClass, RISK_CLASSES
 from user_preferences import UserPreference, get_user_preferences
 
-from load_assets import load_assets_from_google_sheet
+from load_assets import load_assets_from_google_sheet, ensure_reserve_assets_per_currency
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
 from investment_allocation import apply_asset_class_erc, apply_risk_class_erc, apply_final_asset_targets
@@ -38,6 +38,7 @@ try:
 except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
+    assets = ensure_reserve_assets_per_currency(assets)
 
 
 # --- Portfolio Calculations ---
