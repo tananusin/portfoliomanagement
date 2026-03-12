@@ -84,13 +84,13 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
 
     currencies = {a.currency for a in assets if a.currency}
 
-    existing_pairs = {(a.currency.strip().upper(), a.asset_class.strip().title()) for a in assets}
+    existing_pairs = {(a.currency, a.asset_class) for a in assets}
 
     fx_map = {a.currency: a.fx_rate for a in assets if a.currency and a.fx_rate > 0}
 
     added_assets = []
 
-    # Bond & Cash for each currency
+    # Bond & Cash per currency
     for currency in currencies:
 
         fx_rate = fx_map.get(currency, 1.0)
@@ -101,8 +101,8 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
 
                 added_assets.append(
                     AssetData(
-                        name=reserve,
-                        symbol=reserve,
+                        name=f"{reserve} {currency}",
+                        symbol="",
                         currency=currency,
                         shares=0.0,
                         price=0.0,
@@ -126,8 +126,8 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
 
         added_assets.append(
             AssetData(
-                name="Gold",
-                symbol="GC=F",
+                name="Gold USD",
+                symbol="",
                 currency="USD",
                 shares=0.0,
                 price=0.0,
@@ -147,7 +147,7 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
     if added_assets:
         st.caption(
             "ℹ️ Auto-added reserve assets: "
-            + ", ".join(f"{a.currency} {a.asset_class}" for a in added_assets)
+            + ", ".join(a.name for a in added_assets)
         )
 
     return assets + added_assets
