@@ -38,8 +38,8 @@ try:
 except Exception:
     st.error("❌ Failed to load data from the provided Google Sheet. Using default sheet instead.")
     assets = load_assets_from_google_sheet(st.secrets["google_sheet"]["url"])
-    assets = ensure_reserve_assets_per_currency(assets)
-
+    
+assets = ensure_reserve_assets_per_currency(assets)
 
 # --- Portfolio Calculations ---
 assets = summarize_assets(assets)
