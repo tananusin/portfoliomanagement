@@ -72,3 +72,82 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
     ]
 
     return assets
+
+
+def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetData]:
+    """
+    Ensure every currency has Bond and Cash.
+    Ensure Gold exists only in USD.
+    """
+
+    per_currency_reserves = {"Bond", "Cash"}
+
+    currencies = {a.currency for a in assets if a.currency}
+
+    existing_pairs = {(a.currency, a.asset_class) for a in assets}
+
+    fx_map = {a.currency: a.fx_rate for a in assets if a.currency and a.fx_rate > 0}
+
+    added_assets = []
+
+    # Bond & Cash for each currency
+    for currency in currencies:
+
+        fx_rate = fx_map.get(currency, 1.0)
+
+        for reserve in per_currency_reserves:
+
+            if (currency, reserve) not in existing_pairs:
+
+                added_assets.append(
+                    AssetData(
+                        name=reserve,
+                        symbol=reserve,
+                        currency=currency,
+                        shares=0.0,
+                        price=0.0,
+                        fx_rate=fx_rate,
+                        asset_class=reserve,
+                        mdd=0.0,
+                        high_52w=0.0,
+                        low_52w=0.0,
+                        low_years=0.0,
+                        pe_ratio=0.0,
+                        pe_p25=0.0,
+                        pe_p75=0.0,
+                        dividend_yield=0.0,
+                    )
+                )
+
+    # Gold only in USD
+    usd_fx = fx_map.get("USD", 1.0)
+
+    if ("USD", "Gold") not in existing_pairs:
+
+        added_assets.append(
+            AssetData(
+                name="Gold",
+                symbol="GC=F",
+                currency="USD",
+                shares=0.0,
+                price=0.0,
+                fx_rate=usd_fx,
+                asset_class="Gold",
+                mdd=0.0,
+                high_52w=0.0,
+                low_52w=0.0,
+                low_years=0.0,
+                pe_ratio=0.0,
+                pe_p25=0.0,
+                pe_p75=0.0,
+                dividend_yield=0.0,
+            )
+        )
+
+    if added_assets:
+        st.caption(
+            "ℹ️ Auto-added reserve assets: "
+            + ", ".join(f"{a.currency} {a.asset_class}" for a in added_assets)
+        )
+
+    return assets + added_assets
