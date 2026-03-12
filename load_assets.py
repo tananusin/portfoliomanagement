@@ -102,7 +102,7 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
                 added_assets.append(
                     AssetData(
                         name=f"{reserve} {currency}",
-                        symbol=reserve,
+                        symbol=reserve.upper(),
                         currency=currency,
                         shares=0.0,
                         price=0.0,
