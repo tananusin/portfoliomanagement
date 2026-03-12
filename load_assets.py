@@ -84,7 +84,7 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
 
     currencies = {a.currency for a in assets if a.currency}
 
-    existing_pairs = {(a.currency, a.asset_class) for a in assets}
+    existing_pairs = {(a.currency.strip().upper(), a.asset_class.strip().title()) for a in assets}
 
     fx_map = {a.currency: a.fx_rate for a in assets if a.currency and a.fx_rate > 0}
 
