@@ -23,7 +23,7 @@ from portfolio_view import (
     show_google_sheet_data_table,
     show_allocation_pie_chart, show_target_allocation_pie_chart,
 )
-from debug_view import show_risk_asset_table, show_risk_class_table, show_currency_table
+from risk_contribution_view import show_risk_asset_table, show_risk_class_table, show_currency_table
 
 # --- Streamlit Page Config ---
 st.set_page_config(page_title="Portfolio Management", layout="centered")
