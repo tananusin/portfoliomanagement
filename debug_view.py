@@ -44,7 +44,7 @@ def show_risk_class_table(risk_classes):
         df["Target Weight"] = df["Target Weight"].map(
             lambda x: f"{x:.0%}" if pd.notnull(x) else ""
         )
-    if "Risk Contribution" in df:
+    if "MDD Contribution" in df:
         df["MDD Contribution"] = df["MDD Contribution"].map(
             lambda x: f"{x:.0%}" if pd.notnull(x) else ""
         )
