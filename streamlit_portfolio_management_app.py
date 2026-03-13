@@ -91,7 +91,7 @@ with tab3:
     show_price_signal_table(portfolio_df)
     st.caption(f"""
     ℹ️ Calmar ratio = annualized return over the past {user_pref.years_rebound} years divided by the assumed MDD.
-    ℹ️ Don't use Calmar ratio when asset's price crashes  
+    ℹ️ Don't use Calmar ratio when asset's price crashes.  
     """)
 with tab4:
     st.subheader("📜 PE Signal")
