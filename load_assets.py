@@ -1,4 +1,6 @@
 # load_assets.py
+import pandas as pd
+import streamlit as st
 from asset_data import AssetData
 
 
