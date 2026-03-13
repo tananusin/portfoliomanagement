@@ -43,6 +43,7 @@ class AssetData:
     gain_52w: Optional[float] = None
     gain_years: Optional[float] = None
     price_signal: Optional[str] = None
+    calmar_ratio: Optional[str] = None
 
     # P/E Signal
     pe_ratio: Optional[float] = None                    # Trailing P/E ratio
