@@ -84,7 +84,3 @@ def assign_price_signals(assets: List[AssetData], years_rebound: int) -> List[As
             asset.price_signal = "-"
 
     return assets
-        else:
-            asset.price_signal = "-"
-
-    return assets
