@@ -90,6 +90,11 @@ with tab3:
     st.subheader("💹 Price Signal")
     show_price_signal_table(portfolio_df)
     st.caption(f"""
+    ℹ️ "Years low" shows the lowest market price in the last {user_pref.years_rebound} years.  
+    ℹ️ "PE p25" shows the PE ratio 25th percentile in the last {user_pref.years_rebound} years.  
+    ℹ️ "PE p75" shows the PE ratio 75th percentile in the last {user_pref.years_rebound} years.
+    """)
+    st.caption(f"""
     ℹ️ Calmar ratio = annualized return over the past {user_pref.years_rebound} years divided by the assumed MDD.
     ℹ️ Don't use Calmar ratio when asset's price crashes  
     """)
