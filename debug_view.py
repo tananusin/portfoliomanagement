@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 
-def show_debug_table(portfolio_df: pd.DataFrame):
+def show_risk_asset_table(portfolio_df: pd.DataFrame):
     show_cols = [
         "Name", "Class", "MDD", "Target in Class", "Target", "MDD Contribution",
     ]
