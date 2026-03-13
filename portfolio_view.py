@@ -40,6 +40,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "52w drop": asset.drop_52w,
         "52w gain": asset.gain_52w,
         "Years gain": asset.gain_years,
+        "Calmar ratio": asset.calmar_ratio,
         "Price Signal": asset.price_signal,
         
         "PE": asset.pe_ratio,
@@ -109,11 +110,12 @@ def show_position_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_price_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "assumed MDD", "52w drop", "52w gain", "Years gain", "Price Signal"]
+    show_cols = ["Name", "Class", "assumed MDD", "52w drop", "52w gain", "Years gain", "Calmar ratio", "Price Signal"]
     format_dict = {
         "assumed MDD": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "52w drop": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "52w gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "Calmar ratio": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
         "Years gain": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
     }
     # Color Green and Red Format
