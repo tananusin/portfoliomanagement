@@ -5,10 +5,13 @@ import streamlit as st
 
 
 def show_debug_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "MDD", "Target in Class", "Target", "MDD Contribution",]
+    show_cols = [
+        "Name", "Class", "MDD", "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
+    ]
 
     format_dict = {
         "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "Inverse MDD": lambda x: f"{x:,.2f}" if x not in [None, 0.0] else "-",
         "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
@@ -41,9 +44,9 @@ def show_risk_class_table(risk_classes):
         df["Target Weight"] = df["Target Weight"].map(
             lambda x: f"{x:.0%}" if pd.notnull(x) else ""
         )
-    if "Inverse MDD" in df:
-        df["Inverse MDD"] = df["Inverse MDD"].map(
-            lambda x: f"{x:.2f}" if pd.notnull(x) else ""
+    if "Risk Contribution" in df:
+        df["Risk Contribution"] = df["Risk Contribution"].map(
+            lambda x: f"{x:.0%}" if pd.notnull(x) else ""
         )
 
     st.dataframe(df, use_container_width=True)
