@@ -6,7 +6,7 @@ import streamlit as st
 
 def show_debug_table(portfolio_df: pd.DataFrame):
     show_cols = [
-        "Name", "MDD", "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
+        "Name", "Class", "MDD", "Inverse MDD", "Target in Class", "Target", "MDD Contribution",
     ]
 
     format_dict = {
