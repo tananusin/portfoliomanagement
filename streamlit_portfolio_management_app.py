@@ -79,7 +79,7 @@ assign_yield_signals(assets)
 portfolio_df = get_portfolio_df(assets)
 
 # --- Display Tables ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["🚦 Signals", "🎯 Position", "💹 Price Signal",  "📜 PE Signal", "💵 Yield Signal", "📄 Google Sheet", "🐞 Debug"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["🚦 Signals", "🎯 Position", "💹 Price Signal",  "📜 PE Signal", "💵 Yield Signal", "📄 Google Sheet", "📉 Risk"])
 with tab1:
     st.subheader("🚦 Portfolio Signals")
     show_summary_signal_table(portfolio_df)
@@ -108,7 +108,7 @@ with tab6:
     ℹ️ "PE p75" shows the PE ratio 75th percentile in the last {user_pref.years_rebound} years.
     """)
 with tab7:
-    st.subheader("🐞 Debug Table")
+    st.subheader("📉 Risk Contribution")
     show_risk_asset_table(portfolio_df)
     show_risk_class_table(RISK_CLASSES)
     show_currency_table(currencies)
