@@ -1,5 +1,4 @@
-# debug_view.py
-
+# risk_contribution_view.py
 import pandas as pd
 import streamlit as st
 
