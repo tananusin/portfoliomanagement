@@ -40,7 +40,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
     # Validate columns
     required_cols = {
         "name", "symbol", "currency", "shares", "price", "fx", "class", "assumed mdd",
-        "52w high", "52w low", "years low", "eps", "pe p25", "pe p75", "dps"
+        "52w high", "52w low", "years low", "eps", "dps", "pe p25", "pe p75"
     }
 
     missing = required_cols - set(df.columns)
@@ -64,9 +64,9 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             low_52w=parse_float(row["52w low"]),
             low_years=parse_float(row["years low"]),
             eps=parse_float(row["eps"]),
+            dps=parse_float(row["dps"]),
             pe_p25=parse_float(row["pe p25"]),
             pe_p75=parse_float(row["pe p75"]),
-            dps=parse_float(row["dps"]),
         )
         for _, row in df.iterrows()
     ]
@@ -113,9 +113,10 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
                         low_52w=0.0,
                         low_years=0.0,
                         eps=0.0,
+                        dps=0.0,
                         pe_p25=0.0,
                         pe_p75=0.0,
-                        dps=0.0,
+
                     )
                 )
 
@@ -138,9 +139,9 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
                 low_52w=0.0,
                 low_years=0.0,
                 eps=0.0,
+                dps=0.0,
                 pe_p25=0.0,
                 pe_p75=0.0,
-                dps=0.0,
             )
         )
 
