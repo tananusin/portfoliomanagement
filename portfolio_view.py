@@ -184,7 +184,7 @@ def show_yield_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "assumed MDD", "52w high", "52w low", "Years low", "EPS", "PE p25", "PE p75", "DPS"]
+    show_cols = ["Name", "Symbol", "Currency", "Shares", "Price", "Fx", "Class", "assumed MDD", "52w high", "52w low", "Years low", "EPS", "DPS", "PE p25", "PE p75"]
     format_dict = {
         "Shares": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
         "Price": lambda x: f"{x:,.2f}" if x != 0.0 else "-",
@@ -194,9 +194,9 @@ def show_google_sheet_data_table(portfolio_df: pd.DataFrame):
         "52w low": lambda x: f"{x:,.2f}" if x else "-",
         "Years low": lambda x: f"{x:,.2f}" if x else "-",
         "EPS": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
+        "DPS": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE p25": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
         "PE p75": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
-        "DPS": lambda x: f"{x:,.2f}" if pd.notnull(x) and x != 0.0 else "-",
     }
     st.dataframe(portfolio_df[show_cols].style.format(format_dict))
 
