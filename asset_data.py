@@ -14,7 +14,7 @@ class AssetData:
     asset_class: Optional[str] = None
     mdd: Optional[float] = None
     eps: Optional[float] = None                         # Trailing EPS
-    dividend_yield: Optional[float] = None              # Trailing dividend yield
+    dps: Optional[float] = None                         # Trailing DPS
     
     # Portfolio Value Variables
     value_local: Optional[float] = None
@@ -54,4 +54,5 @@ class AssetData:
     pe_signal: Optional[str] = None
 
     # Dividend Yield Signal
+    dividend_yield: Optional[float] = None              # Trailing dividend yield
     dividend_yield_signal: Optional[str] = None
