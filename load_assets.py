@@ -66,7 +66,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             eps=parse_float(row["eps"]),
             pe_p25=parse_float(row["pe p25"]),
             pe_p75=parse_float(row["pe p75"]),
-            dps=parse_float(row["pe p75"]),
+            dps=parse_float(row["dps"]),
         )
         for _, row in df.iterrows()
     ]
