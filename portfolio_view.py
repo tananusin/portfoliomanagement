@@ -18,8 +18,8 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         "Class": asset.asset_class,
         "assumed MDD": asset.mdd,
         "MDD": asset.mdd,            #for debug table
-        "EPS": asset.EPS,            
-        "DPS": asset.DPS,            
+        "EPS": asset.eps,            
+        "DPS": asset.dps,            
 
         "Weight": asset.weight,
         
