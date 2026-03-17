@@ -40,7 +40,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
     # Validate columns
     required_cols = {
         "name", "symbol", "currency", "shares", "price", "fx", "class", "assumed mdd",
-        "52w high", "52w low", "years low", "pe", "pe p25", "pe p75", "yield"
+        "52w high", "52w low", "years low", "eps", "pe p25", "pe p75", "yield"
     }
 
     missing = required_cols - set(df.columns)
@@ -63,7 +63,7 @@ def load_assets_from_google_sheet(sheet_url: str) -> list[AssetData]:
             high_52w=parse_float(row["52w high"]),
             low_52w=parse_float(row["52w low"]),
             low_years=parse_float(row["years low"]),
-            pe_ratio=parse_float(row["pe"]),
+            eps=parse_float(row["eps"]),
             pe_p25=parse_float(row["pe p25"]),
             pe_p75=parse_float(row["pe p75"]),
             dividend_yield=parse_percent(row["yield"]),
@@ -112,7 +112,7 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
                         high_52w=0.0,
                         low_52w=0.0,
                         low_years=0.0,
-                        pe_ratio=0.0,
+                        eps=0.0,
                         pe_p25=0.0,
                         pe_p75=0.0,
                         dividend_yield=0.0,
@@ -137,7 +137,7 @@ def ensure_reserve_assets_per_currency(assets: list[AssetData]) -> list[AssetDat
                 high_52w=0.0,
                 low_52w=0.0,
                 low_years=0.0,
-                pe_ratio=0.0,
+                eps=0.0,
                 pe_p25=0.0,
                 pe_p75=0.0,
                 dividend_yield=0.0,
