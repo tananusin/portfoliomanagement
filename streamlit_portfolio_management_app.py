@@ -10,7 +10,7 @@ from load_assets import load_assets_from_google_sheet, ensure_reserve_assets_per
 from portfolio_value import summarize_assets, combine_assets, calculate_portfolio_total, assign_weights
 from assumption import calculate_assumptions
 from investment_allocation import apply_asset_class_erc, apply_risk_class_erc, apply_final_asset_targets
-from reserve_allocation import build_currency_portfolio, assign_reserve_asset_targets
+from reserve_allocation import calculate_reserve_weights, build_currency_portfolio, assign_reserve_asset_targets
 
 from position_size import assign_position_sizes
 from price_signal import assign_price_signals
@@ -59,14 +59,7 @@ apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)    
 
 # # --- Assign Target Weight to Reserve Portfolio
 cash_weight = user_pref.investment_weight * investment_portfolio_mdd
-reserve_weight = 1 - user_pref.investment_weight
-gold_weight = reserve_weight * user_pref.gold_weight_reserve
-bond_weight_total = reserve_weight - cash_weight - gold_weight
-
-# If reserve is not enough, reduce gold first
-if bond_weight_total < 0:
-    gold_weight = gold_weight + bond_weight_total
-    bond_weight_total = 0.0
+bond_weight_total, gold_weight = calculate_reserve_weights(cash_weight=cash_weight, user_pref=user_pref,)
 
 # If gold also becomes negative, reserve is insufficient
 if gold_weight < 0:
