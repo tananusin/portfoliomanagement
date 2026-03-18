@@ -29,12 +29,6 @@ def calculate_reserve_weights(cash_weight: float, user_pref,) -> tuple[float, fl
         gold_weight += bond_weight_total
         bond_weight_total = 0.0
 
-    # If still negative → impossible allocation
-    if gold_weight < 0:
-        raise ValueError(
-            "Reserve allocation is insufficient. Please decrease investment weight."
-        )
-
     return bond_weight_total, gold_weight
 
 def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: float,) -> tuple[list[Currency], dict[str, Currency]]:
