@@ -76,7 +76,7 @@ def apply_erc_by_mdd(
 
 def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
     """
-    Apply ERC to assets within one class, then write the resulting
+    Apply ERC to assets within one asset class, then write the resulting
     weighted class MDD back to the matching RiskClass.class_mdd.
 
     Writes:
@@ -94,8 +94,13 @@ def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
 
     class_assets = [a for a in assets if a.asset_class == class_name]
 
+    # If class is missing, treat as empty instead of crashing
     if not class_assets:
-        raise ValueError(f"No assets found in asset_class='{class_name}'")
+        for rc in risk_classes:
+            if rc.name == class_name:
+                rc.class_mdd = 0.0
+                break
+        return 0.0
 
     class_mdd = apply_erc_by_mdd(
         items=class_assets,
@@ -104,15 +109,10 @@ def apply_asset_class_erc(assets, risk_classes, class_name: str) -> float:
         target_attr="target_in_class",
     )
 
-    matched = False
     for rc in risk_classes:
         if rc.name == class_name:
             rc.class_mdd = class_mdd
-            matched = True
             break
-
-    if not matched:
-        raise ValueError(f"No RiskClass found with name='{class_name}'")
 
     return class_mdd
 
