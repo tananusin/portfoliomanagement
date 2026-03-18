@@ -4,6 +4,38 @@ from typing import Iterable
 from asset_data import AssetData
 from currency_portfolio import Currency, build_currency_objects
 
+def calculate_reserve_weights(cash_weight: float, user_pref,) -> tuple[float, float]:
+    """
+    Calculate bond and gold weights within reserve allocation.
+
+    Logic:
+        reserve_weight     = 1 - investment_weight
+        gold_weight        = reserve_weight * gold_weight_reserve
+        bond_weight_total  = reserve_weight - cash - gold
+
+        If bond < 0 → reduce gold first
+        If gold < 0 → insufficient reserve → raise error
+
+    Returns:
+        (bond_weight_total, gold_weight)
+    """
+
+    reserve_weight = 1 - user_pref.investment_weight
+    gold_weight = reserve_weight * user_pref.gold_weight_reserve
+    bond_weight_total = reserve_weight - cash_weight - gold_weight
+
+    # Reduce gold first if reserve insufficient
+    if bond_weight_total < 0:
+        gold_weight += bond_weight_total
+        bond_weight_total = 0.0
+
+    # If still negative → impossible allocation
+    if gold_weight < 0:
+        raise ValueError(
+            "Reserve allocation is insufficient. Please decrease investment weight."
+        )
+
+    return bond_weight_total, gold_weight
 
 def build_currency_portfolio(assets: Iterable[AssetData], bond_weight_total: float,) -> tuple[list[Currency], dict[str, Currency]]:
     currency_names = [asset.currency for asset in assets if asset.currency]
