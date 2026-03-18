@@ -57,11 +57,22 @@ target_portfolio_mdd = user_pref.investment_weight * investment_portfolio_mdd
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)      # Final asset portfolio targets
 
 
-# # --- Assign Target Weight to Reserve Portfolio     
+# # --- Assign Target Weight to Reserve Portfolio
 cash_weight = user_pref.investment_weight * investment_portfolio_mdd
 reserve_weight = 1 - user_pref.investment_weight
 gold_weight = reserve_weight * user_pref.gold_weight_reserve
 bond_weight_total = reserve_weight - cash_weight - gold_weight
+
+# If reserve is not enough, reduce gold first
+if bond_weight_total < 0:
+    gold_weight = gold_weight + bond_weight_total
+    bond_weight_total = 0.0
+
+# If gold also becomes negative, reserve is insufficient
+if gold_weight < 0:
+    st.error("❌ Not sufficient cash. Please decrease investment weight.")
+    st.stop()
+    
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)
 
 currencies, currency_map = build_currency_portfolio(assets=assets, bond_weight_total=bond_weight_total,)
