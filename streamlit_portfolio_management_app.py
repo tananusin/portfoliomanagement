@@ -70,7 +70,7 @@ if bond_weight_total < 0:
 
 # If gold also becomes negative, reserve is insufficient
 if gold_weight < 0:
-    st.error("❌ Not sufficient cash. Please decrease investment weight.")
+    st.error("❌ NReserve allocation is insufficient. Please decrease investment weight.")
     st.stop()
     
 apply_final_asset_targets(assets, RISK_CLASSES, user_pref.investment_weight)
