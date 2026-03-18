@@ -4,7 +4,7 @@ from class_portfolio import ERC_CLASSES
 
 
 def apply_erc_by_mdd(
-    items: Iterable[Any],
+    items,
     mdd_attr: str,
     inverse_attr: str,
     target_attr: str,
@@ -19,7 +19,8 @@ def apply_erc_by_mdd(
         Portfolio MDD     = Σ(Target Weight × assumed MDD)
 
     Notes:
-        - MDD can be negative or positive; abs(MDD) is used.
+        - abs(MDD) is used.
+        - If MDD <= 0, inverse MDD is set to 0.
         - Mutates each item by writing:
             * inverse_attr
             * target_attr
@@ -30,45 +31,47 @@ def apply_erc_by_mdd(
     items = list(items)
 
     if not items:
-        raise ValueError("No items provided for ERC calculation.")
+        return 0.0
 
     total_inverse_mdd = 0.0
 
     # 1) Calculate inverse MDD
     for item in items:
         raw_mdd = getattr(item, mdd_attr, None)
+        item_name = getattr(item, "name", getattr(item, "ticker", str(item)))
 
         if raw_mdd is None:
-            raise ValueError(
-                f"{getattr(item, 'name', getattr(item, 'ticker', item))} "
-                f"has no attribute '{mdd_attr}'"
-            )
+            setattr(item, inverse_attr, 0.0)
+            continue
 
         mdd = abs(raw_mdd)
+
         if mdd <= 0:
-            raise ValueError(
-                f"{item_name} has invalid {mdd_attr}={raw_mdd}. "
-                f"MDD must be greater than 0 for ERC."
-            )
-        
+            setattr(item, inverse_attr, 0.0)
+            continue
+
         inverse_mdd = 1 / mdd
         setattr(item, inverse_attr, inverse_mdd)
         total_inverse_mdd += inverse_mdd
 
+    # If all MDD are zero/invalid, assign zero target weights
     if total_inverse_mdd <= 0:
-        raise ValueError("Total inverse MDD must be greater than 0.")
+        for item in items:
+            setattr(item, target_attr, 0.0)
+        return 0.0
 
     # 2) Calculate target weights
     for item in items:
-        inverse_mdd = getattr(item, inverse_attr)
+        inverse_mdd = getattr(item, inverse_attr, 0.0)
         target_weight = inverse_mdd / total_inverse_mdd
         setattr(item, target_attr, target_weight)
 
     # 3) Calculate weighted portfolio MDD
     portfolio_mdd = 0.0
     for item in items:
-        mdd = abs(getattr(item, mdd_attr))
-        target_weight = getattr(item, target_attr)
+        raw_mdd = getattr(item, mdd_attr, 0.0) or 0.0
+        mdd = abs(raw_mdd)
+        target_weight = getattr(item, target_attr, 0.0)
         portfolio_mdd += target_weight * mdd
 
     return portfolio_mdd
