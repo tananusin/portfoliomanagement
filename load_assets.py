@@ -5,10 +5,10 @@ from asset_data import AssetData
 
 
 def parse_percent(value) -> float:
-    """Converts percent from string with '%' to float (e.g., '5%' -> 0.05)."""
+    """Converts percent from string (supports %, commas) to float."""
     try:
         if isinstance(value, str):
-            v = value.strip()
+            v = value.strip().replace(",", "")
             if v.endswith("%"):
                 return float(v[:-1].strip()) / 100.0
             return float(v)
@@ -18,8 +18,10 @@ def parse_percent(value) -> float:
 
 
 def parse_float(value) -> float:
-    """Safely convert to float; return 0.0 for NaN/None/bad values."""
+    """Safely convert to float; supports commas."""
     try:
+        if isinstance(value, str):
+            value = value.strip().replace(",", "")
         return float(value) if pd.notna(value) else 0.0
     except (ValueError, TypeError):
         return 0.0
