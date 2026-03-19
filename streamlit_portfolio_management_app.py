@@ -63,7 +63,7 @@ bond_weight_total, gold_weight = calculate_reserve_weights(cash_weight=cash_weig
 
 # If gold also becomes negative, reserve is insufficient
 if gold_weight < 0:
-    st.error("❌ Reserve allocation is insufficient. Please lower "Investment Portfolio (%)" setting.")
+    st.error("❌ Reserve allocation is insufficient. Please lower Investment Portfolio (%) setting.")
     st.stop()
     
 currencies, currency_map = build_currency_portfolio(assets=assets, bond_weight_total=bond_weight_total,)
