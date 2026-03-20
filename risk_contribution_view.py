@@ -5,7 +5,7 @@ import streamlit as st
 
 def show_risk_asset_table(portfolio_df: pd.DataFrame):
     show_cols = [
-        "Name", "Class", "assumed MDD", "Target in Class", "Target", "MDD Contribution",
+        "Name", "Currency", "Class", "assumed MDD", "Target in Class", "Target", "MDD Contribution",
     ]
 
     format_dict = {
