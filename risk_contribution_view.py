@@ -5,11 +5,11 @@ import streamlit as st
 
 def show_risk_asset_table(portfolio_df: pd.DataFrame):
     show_cols = [
-        "Name", "Class", "MDD", "Target in Class", "Target", "MDD Contribution",
+        "Name", "Class", "assumed MDD", "Target in Class", "Target", "MDD Contribution",
     ]
 
     format_dict = {
-        "MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
+        "assumed MDD": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Target in Class": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "Target": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
         "MDD Contribution": lambda x: f"{x * 100:.0f}%" if x not in [None, 0.0] else "-",
