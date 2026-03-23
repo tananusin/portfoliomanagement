@@ -89,13 +89,12 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_position_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "Weight", "Target", "Drift", "%Drift", "Position", "Value (THB)", "Drift Amount (THB)"]
+    show_cols = ["Name", "Class", "Weight", "Target", "Drift", "%Drift", "Position", "Drift Amount (THB)"]
     format_dict = {
         "Weight": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "%Drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "Value (THB)": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
         "Drift Amount (THB)": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
     }
     # Color Green and Red Format
