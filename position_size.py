@@ -4,7 +4,7 @@ from user_preferences import UserPreference
 from typing import List
 
 
-def set_position_size(asset: AssetData, user_pref: UserPreference) -> None:
+def set_position_size(asset: AssetData, user_pref: UserPreference, total_thb: float) -> None:
     """
     Calculate drift, drift_relative and classify position size.
     """
@@ -16,6 +16,7 @@ def set_position_size(asset: AssetData, user_pref: UserPreference) -> None:
     if asset.weight is None or asset.target is None:
         asset.drift = None
         asset.drift_relative = None
+        asset.drift_amount = None
         asset.position_size = "-"
         return
 
@@ -23,12 +24,14 @@ def set_position_size(asset: AssetData, user_pref: UserPreference) -> None:
     if asset.target == 0:
         asset.drift = asset.weight
         asset.drift_relative = None
+        asset.drift_amount = asset.drift * total_thb
         asset.position_size = "oversize"
         return
 
     # Calculate drift
     asset.drift = asset.weight - asset.target
     asset.drift_relative = asset.drift / asset.target
+    asset.drift_amount = asset.drift * total_thb
 
     # Position classification
     if asset.drift < -drift_threshold or asset.drift_relative < -drift_relative_threshold:
@@ -43,13 +46,14 @@ def set_position_size(asset: AssetData, user_pref: UserPreference) -> None:
 
 def assign_position_sizes(
     assets: List[AssetData],
-    user_pref: UserPreference
+    user_pref: UserPreference,
+    total_thb: float
 ) -> List[AssetData]:
     """
     Apply position size classification to all assets.
     """
 
     for asset in assets:
-        set_position_size(asset, user_pref)
+        set_position_size(asset, user_pref, total_thb)
 
     return assets
