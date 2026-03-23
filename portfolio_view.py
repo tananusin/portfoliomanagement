@@ -34,7 +34,7 @@ def get_portfolio_df(assets: List[AssetData]) -> pd.DataFrame:
         
         "Drift": asset.drift,
         "%Drift": asset.drift_relative,
-        "Amount": asset.drift_amount,
+        "Drift Amount (THB)": asset.drift_amount,
         "Position": asset.position_size,
     
         "52w high": asset.high_52w,
@@ -95,7 +95,7 @@ def show_position_table(portfolio_df: pd.DataFrame):
         "Target": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "%Drift": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
-        "Amount": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
+        "Drift Amount (THB)": lambda x: f"{x:,.0f}" if pd.notnull(x) and x != 0.0 else "-",
     }
     # Color Green and Red Format
     def highlight_condition(val):
