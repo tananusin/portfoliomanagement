@@ -71,7 +71,7 @@ assign_reserve_asset_targets(assets, currencies, gold_weight)
 
 
 # # --- Assign Signals
-assign_position_sizes(assets, user_pref)
+assign_position_sizes(assets, user_pref, total_thb)
 assign_price_signals(assets, user_pref.years_rebound)
 assign_pe_signals(assets)
 assign_yield_signals(assets)
