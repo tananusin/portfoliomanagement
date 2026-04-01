@@ -84,7 +84,7 @@ def show_summary_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["Position", "Price Signal", "PE Signal", "Yield Signal"])
+        .map(highlight_condition, subset=["Position", "Price Signal", "PE Signal", "Yield Signal"])
     )
     st.dataframe(styled_df)
 
@@ -109,7 +109,7 @@ def show_position_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["Position"])
+        .map(highlight_condition, subset=["Position"])
     )
     st.dataframe(styled_df)
 
@@ -134,7 +134,7 @@ def show_price_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["Price Signal"])
+        .map(highlight_condition, subset=["Price Signal"])
     )
     st.dataframe(styled_df)
 
@@ -157,7 +157,7 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["PE Signal"])
+        .map(highlight_condition, subset=["PE Signal"])
     )
     st.dataframe(styled_df)
 
@@ -181,7 +181,7 @@ def show_yield_signal_table(portfolio_df: pd.DataFrame):
         portfolio_df[show_cols]
         .style
         .format(format_dict)
-        .applymap(highlight_condition, subset=["Yield Signal"])
+        .map(highlight_condition, subset=["Yield Signal"])
     )
     st.dataframe(styled_df)
 
