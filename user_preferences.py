@@ -114,8 +114,9 @@ def get_user_preferences() -> UserPreference:
     assumed_mdd = assumed_mdd_pct / 100
     assumed_rebound = 1 / (1 - assumed_mdd) - 1
     assumed_cagr = (1 + assumed_rebound) ** (1 / years_rebound) - 1
-    st.sidebar.metric("Assumed Rebound Rate", f"{assumed_rebound:.1%}")
-    st.sidebar.metric(f"Required CAGR ({int(years_rebound)}Y)", f"{assumed_cagr:.1%}")
+    st.sidebar.markdown(
+    f"""**Assumed Rebound Rate:** {assumed_rebound:.1%}  
+    **Required CAGR ({int(years_rebound)}Y):** {assumed_cagr:.1%}""")
     
     # Convert % to decimals
     investment_weight = investment_pct / 100
