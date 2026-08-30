@@ -109,7 +109,7 @@ def get_user_preferences() -> UserPreference:
         value=50,
         min_value=1,
         max_value=99,
-        step=1,
+        step=5,
     )
     assumed_mdd = assumed_mdd_pct / 100
     assumed_rebound = 1 / (1 - assumed_mdd) - 1
