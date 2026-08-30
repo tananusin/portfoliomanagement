@@ -101,6 +101,21 @@ def get_user_preferences() -> UserPreference:
         step=5,
         help="Example: 50 means rebalance when drift is more than 50% of target weight."
     )
+
+    # Price Signal Threshold
+    st.sidebar.markdown("### 📈 Price Signal")
+    assumed_mdd_pct = st.sidebar.number_input(
+        "Assumed MDD (%)",
+        value=50,
+        min_value=1,
+        max_value=99,
+        step=1,
+    )
+    assumed_mdd = assumed_mdd_pct / 100
+    assumed_rebound = 1 / (1 - assumed_mdd) - 1
+    assumed_cagr = (1 + assumed_rebound) ** (1 / years_rebound) - 1
+    st.sidebar.caption(f"Assumed Rebound Rate: {assumed_rebound:.1%}")
+    st.sidebar.caption(f"Required CAGR over {int(years_rebound)} years: {assumed_cagr:.1%}")
     
     # Convert % to decimals
     investment_weight = investment_pct / 100
@@ -117,5 +132,5 @@ def get_user_preferences() -> UserPreference:
         threshold_drift=threshold_drift,
         threshold_drift_relative=threshold_drift_relative,
     )
-
+    
     return prefs
