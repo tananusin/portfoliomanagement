@@ -103,7 +103,7 @@ def get_user_preferences() -> UserPreference:
     )
 
     # Price Signal Threshold
-    st.sidebar.markdown("### 📈 Price Signal")
+    st.sidebar.markdown("### 📈 Price Rebound Calculator")
     assumed_mdd_pct = st.sidebar.number_input(
         "Assumed MDD (%)",
         value=50,
@@ -114,9 +114,8 @@ def get_user_preferences() -> UserPreference:
     assumed_mdd = assumed_mdd_pct / 100
     assumed_rebound = 1 / (1 - assumed_mdd) - 1
     assumed_cagr = (1 + assumed_rebound) ** (1 / years_rebound) - 1
-    st.sidebar.markdown(
-    f"""**Assumed Rebound Rate:** {assumed_rebound:.1%}  
-    **Required CAGR ({int(years_rebound)}Y):** {assumed_cagr:.1%}""")
+    st.sidebar.caption(f"Assumed Rebound Rate: {assumed_rebound:.1%}")
+    st.sidebar.caption(f"Required CAGR over {int(years_rebound)} years: {assumed_cagr:.1%}")
     
     # Convert % to decimals
     investment_weight = investment_pct / 100
