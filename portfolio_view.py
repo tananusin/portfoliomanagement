@@ -162,10 +162,10 @@ def show_pe_signal_table(portfolio_df: pd.DataFrame):
     st.dataframe(styled_df)
 
 def show_yield_signal_table(portfolio_df: pd.DataFrame):
-    show_cols = ["Name", "Class", "assumed MDD", "52w drop", "Offset Yield", "Yield", "Yield Signal"]
+    show_cols = ["Name", "Class", "52w drop", "assumed MDD", "Offset Yield", "Yield", "Yield Signal"]
     format_dict = {
-        "assumed MDD": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "52w drop": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
+        "assumed MDD": lambda x: f"{x * 100:.1f}%" if x not in (None, 0.0) else "-",
         "Offset Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
         "Yield": lambda x: f"{x * 100:.1f}%" if x not in [None, 0.0] else "-",
     }
